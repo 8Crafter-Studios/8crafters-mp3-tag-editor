@@ -1,0 +1,457 @@
+<html dir="ltr" lang="en" id="html" style="font-family: MINECRAFTFONT" style="font-family: MINECRAFTFONT"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="keywords" content="mp3, id3, audio, tag, edit, write, editor, demo, online">
+  <meta name="theme-color" content="#2b594c">
+  <meta name="msapplication-TileColor" content="#2b594c">
+ 
+  <link href="/LICENSE.txt" rel="license">
+  <link href="/site.webmanifest" rel="manifest">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/assets/css/default.css?v=51c2580e417a51b089de53d38f58f5010a81028c" rel="stylesheet">
+   
+  <link href="/assets/css/editor.css?v=51c2580e417a51b089de53d38f58f5010a81028c" rel="stylesheet">
+   
+ 
+  <script src="/assets/js/jquery/jquery.min.js"></script>
+  <script src="/assets/js/default.js"></script>
+   
+  <script src="/assets/js/mp3tag.js/mp3tag.min.js?v=51c2580e417a51b089de53d38f58f5010a81028c"></script>
+   
+  <script src="/assets/js/editor.js?v=51c2580e417a51b089de53d38f58f5010a81028c"></script>
+   
+ 
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v3.10.0">
+<meta property="og:title" content="Editor">
+<meta name="author" content="Adriane Justine Tan">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Edit your audio files easily with this mp3tagger!">
+<meta property="og:description" content="Edit your audio files easily with this mp3tagger!">
+<link rel="canonical" href="http://mp3tag.js.org/editor/">
+<meta property="og:url" content="http://mp3tag.js.org/editor/">
+<meta property="og:site_name" content="mp3tag.js">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Editor">
+<meta name="google-site-verification" content="pygHTY6j2sle4JJ1YmSCYlf8nxIxnq4u9bHe48Mc9do">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Adriane Justine Tan"},"dateModified":"2024-05-30T09:26:00+00:00","description":"Edit your audio files easily with this mp3tagger!","headline":"Editor","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/favicon.ico"},"name":"Adriane Justine Tan"},"url":"http://mp3tag.js.org/editor/"}</script>
+<!-- End Jekyll SEO tag -->
+ 
+ 
+  <title>8Crafter's MP3 Tag Editor</title>
+   <style>
+           @font-face {
+            font-family: 'MINECRAFTFONT'; 
+            src: url('/assets/fonts/Mojangles.ttf');
+           }
+           .form-control {
+             font-family: MINECRAFTFONT;
+           }
+           #html {
+            background-image: linear-gradient(hsl(197, 90%, 7%), hsl(197, 90%, 9%));
+            color: #FFFFFF;
+           }
+           .button {
+            background-color: #87ceeb;
+           }
+   </style>
+</head>
+ 
+<body>
+  <header class="Header d-block d-md-flex">
+    <div class="Header-item my-2 my-md-0">
+<h1 style="height: 32px; vertical-align: middle; display: inline-block; margin-top: 0px; margin-bottom: 10px"><a href="https://sites.google.com/view/8craftermods/home"><image src="/assets/images/logo.png" style="width: 32px; vertical-align: text-top; margin: 0px;"></a> 
+            <a href="https://sites.google.com/8craftermods/home" style="color: inherit; text-decoration-line: inherit; height: 32px; vertical-align: middle; display: inline-block; margin-left: -10px; margin-top: -14px;">8Crafter</a>
+        </h1>
+    </div>
+ 
+     
+<div class="Header-item my-2 my-md-0">
+  <a href="/" class="Header-link" aria-label="Home">Home</a>
+</div>
+ <!--
+<div class="Header-item my-2 my-md-0">
+<a href="/docs/" class="Header-link" aria-label="Documentations">Documentations</a>
+</div>
+ 
+<div class="Header-item Header-item--full my-2 my-md-0">
+  <a href="/downloads/" class="Header-link" aria-label="Downloads">Downloads</a>
+</div>
+ -->
+ 
+ 
+
+ 
+    <!--<div class="Header-item my-2 my-md-0">
+      <a href="https://github.com/eidoriantan/mp3tag.js/releases/download/v3.11.1/mp3tag.js-3.11.1.zip" class="btn btn-primary" role="button" download="">
+        <svg height="20" class="octicon octicon-download 'mr-2'" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path></svg>
+        <span>Download v3.11.1</span>
+      </a>
+    </div>-->
+  </header>
+   
+ 
+   
+  <div class="toaster-container" aria-live="polite" aria-atomic="true">
+    <div id="toaster" class="toaster"></div>
+  </div>
+   
+ 
+  <main>
+    <div class="editor d-sm-flex flex-items-stretch">
+  <form id="edit-form" action="/editor/" method="get" class="col-12 col-sm-5 col-md-3 p-5">
+    <img onclick="window.open(this.src)" id="cover-preview" src="/assets/images/blank.png" style="image-rendering: pixelated;" alt="Album Cover Preview" width="120" height="120" class="d-block box-shadow border mx-auto my-3">
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="cover">Album Cover</label>
+        <br>
+        <span id="cover-art-debug">No Debug Info</span>
+      </div>
+      <div class="form-group-body">
+        <input type="file" id="cover" name="cover" accept="image/jpeg,image/png" hidden="true" class="form-control" disabled="">
+        <label for="cover" class="btn" id="cover-file-select-button" disabled="">
+            <button disabled="true" class="button button" id="a-button" style="font-family: MINECRAFTFONT"  onclick="cover.click()">
+                Choose File
+            </button>
+          <span id="cover-filename">Select cover art</span>
+        </label>
+      </div>
+      <p id="cover-validation" class="d-none note"></p>
+      <button disabled="true" class="button button" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px;">
+        Clear Cover Art
+      </button>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="title">Title</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="title" name="title" value="" style="font-family: MINECRAFTFONT" placeholder="Fade Into You" class="form-control" disabled="">
+      </div>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="artist">Artist</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="artist" name="artist" value="" placeholder="Mazzy Star" class="form-control" disabled="">
+      </div>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="album">Album</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="album" name="album" value="" placeholder="So Tonight That I Might See" class="form-control" disabled="">
+      </div>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="track">Track</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="track" name="track" value="" placeholder="1/3" pattern="[0-9]+(\/[0-9]+)?" class="form-control" disabled="" aria-describedby="track-validation">
+      </div>
+      <p id="track-validation" class="note error"></p>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="disk">Disk</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="disk" name="disk" value="" placeholder="1/3" pattern="[0-9]+(\/[0-9]+)?" class="form-control" disabled="" aria-describedby="disk-validation">
+      </div>
+      <p id="disk-validation" class="note error"></p>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="genre">Genre</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="genre" name="genre" value="" placeholder="Rock" class="form-control" disabled="">
+      </div>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="year">Year</label>
+      </div>
+      <div class="form-group-body">
+        <input type="number" id="year" name="year" value="" placeholder="1993" min="1000" max="9999" class="form-control" disabled="" aria-describedby="year-validation">
+      </div>
+      <p id="year-validation" class="note error"></p>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="composer">Composer</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="composer" name="composer" value="" placeholder="Hope Sandoval; David Roback" class="form-control" disabled="">
+      </div>
+    </div>
+ 
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="lyrics">Lyrics</label>
+      </div>
+      <div class="form-group-body">
+        <textarea id="lyrics" name="lyrics" placeholder="Lyrics" rows="5" class="form-control" disabled=""></textarea>
+      </div>
+    </div>
+    <button onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'">Show/Hide Advanced Options</button>
+    <div id="advanced_section" hidden>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="play_count">Play Count</label>
+        </div>
+        <div class="form-group-body">
+          <input type="number" inputmode="numeric" step="1" min="0" id="play_count" name="play_count" value="" pattern="/\d*/" placeholder="69" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Original Album</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origartist">Original Artist</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origartist" name="origartist" value="" placeholder="Abtmelody" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origfilename">Original File Name</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origfilename" name="origfilename" value="" placeholder="my_song.mp3" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Original Lyricist</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Original Year</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Podcast Category</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Podcast Description</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Podcast ID</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Podcast Keywords</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Publisher</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Release Time</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Set Subtitle</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Subtitle</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Title</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Title Sort</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">NET Radio Owner</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">NET Radio Station</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Musician Credits</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Mood</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Mix Artist</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Media Type</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="origalbum">Lyricist</label>
+        </div>
+        <div class="form-group-body">
+          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+        </div>
+      </div>
+    </div>
+ 
+    <footer class="form-actions">
+      <button type="submit" class="btn btn-primary" disabled="">
+        <img width="16" height="16" src="/assets/images/storageIconColor.png" style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
+        <span style="font-family: MINECRAFTFONT; vertical-align: middle">Save</span>
+      </button>
+      <a id="download" class="btn disabled" style="color: initial; text-decoration-line: inherit;" role="button">
+      <button class="btn" onclick="download.click()" style="color: inherit; text-decoration-line: inherit;">
+        <img width="16" height="16" src="/assets/images/download.png" style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
+        <span style="font-family: MINECRAFTFONT; vertical-align: middle; color: inherit; text-decoration-line: inherit;">Download</span>
+      </button>
+      </a>
+    </footer>
+  </form>
+ 
+  <div id="list-wrapper" class="col-12 col-sm-7 col-md-9">
+    <div id="blankslate" class="blankslate col-6 mx-auto mt-7">
+        <img width="16" height="16" src="/assets/images/upload.png" style="image-rendering: pixelated;" aria-hidden="true"></img>
+      <h3 class="mb-3">No audio imported</h3>
+      <p class="lead">
+        This editor doesn't use any data or internet connections and works
+        offline. Everything is done through your browser.
+      </p>
+    </div>
+ 
+    <div class="d-none Box Box--blue rounded-0">
+      <div class="Box-header">
+        <h4 class="h4">Name</h4>
+      </div>
+ 
+      <div id="audio-list" class="d-contents">
+      </div>
+    </div>
+ 
+    <div class="text-center mx-auto my-2">
+      <input type="file" hidden="true" id="file-audios" accept="audio/mpeg" class="d-none" multiple="">
+      <label for="file-audios" class="btn">
+        <img width="16" height="16" src="/assets/images/upload.png" style="image-rendering: pixelated;" aria-hidden="true"></img>
+        <span>Import audio file</span>
+      </label>
+    </div>
+  </div>
+</div>
+ 
+<template id="audio-item-template">
+  <div class="Box-row Box-row--hover-blue cur-pointer" data-audio="">
+    <span data-temp="filename"></span>
+  </div>
+</template>
+ 
+  </main>
+ 
+   
+  <template id="toast-template">
+    <div class="Toast anim-scale-in" role="alert" aria-live="assertive" aria-atomic="true">
+      <span class="Toast-icon"></span>
+      <span class="Toast-content"></span>
+    </div>
+  </template>
+</body></html>d

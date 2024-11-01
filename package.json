@@ -1,0 +1,21 @@
+{
+    "name": "htmlRender",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.16.4"
+    },
+    "tasks": {
+        "run-index": {
+            "name": "Run index",
+            "command": "node index.js"
+        }
+    }
+}

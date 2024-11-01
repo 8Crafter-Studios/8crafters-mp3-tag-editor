@@ -1,0 +1,81 @@
+---
+layout: documentations
+title: Usage
+description: JavaScript library documentations page. How to use the library
+keywords: mp3, id3, audio, tag, edit, write, documentations, docs, usage
+active: usage
+last_modified_at: 2020-11-11T23:30:00+08:00
+---
+<h5 class="f3-light my-2">Simple Usage</h5>
+{% capture simple %}
+```javascript
+
+const buffer = null // Replace this with the mp3 file's buffer
+const verbose = true // Logs all processes using `console.log`
+const mp3tag = new MP3Tag(buffer, verbose)
+
+// Read the tags from the buffer
+mp3tag.read()
+
+// Handle error if there's any
+if (mp3tag.error !== '') throw new Error(mp3tag.error)
+
+console.log(mp3tag.tags)
+
+// Please see `Tags and Frames`
+mp3tag.tags.title = 'New Title'
+mp3tag.tags.artist = 'New Artist'
+mp3tag.tags.album = 'New Album'
+
+mp3tag.save() // Saves the new changes
+
+```
+{% endcapture %}
+{{ simple | markdownify }}
+
+<h5 class="f3-light my-2">Advanced Usage</h5>
+{% capture advanced %}
+```javascript
+
+const MP3Tag = require('mp3tag.js')
+const fs = require('fs')
+
+const buffer = fs.readFileSync('/path/to/mp3')
+const verbose = true // Logs all processes using `console.log`
+const mp3tag = new MP3Tag(buffer, verbose)
+
+// Read the tags from the buffer
+mp3tag.read({
+  id3v1: false // Ignore ID3v1 tags when reading
+})
+
+// Handle error if there's any
+if (mp3tag.error !== '') throw new Error(mp3tag.error)
+
+console.log(mp3tag.tags)
+mp3tag.tags.title = 'New Title'
+mp3tag.tags.artist = 'New Artist'
+mp3tag.tags.album = 'New Album'
+
+// Access ID3v2 Tags
+// Comment Tag. See more ID3v2 tags at id3.org
+mp3tag.tags.v2.COMM = [{
+  language: 'eng',
+  descriptor: '',
+  text: 'Comment tag'
+}]
+
+mp3tag.save({
+  strict: true, // Strict mode, validates all inputs against the standards. See id3.org
+  // ID3v2 Options
+  id3v2: { padding: 4096 }
+})
+
+```
+{% endcapture %}
+{{ advanced | markdownify }}
+
+<div class="flash my-2">
+  You can browse more examples at the
+  <a href="{{ site.github.repository_url }}/tree/master/examples">GitHub Repository</a>
+</div>
