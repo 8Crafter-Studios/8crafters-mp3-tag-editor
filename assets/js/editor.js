@@ -117,12 +117,12 @@ function importFiles (files) {
       toast(message, TOAST_WARNING)
     }
   }
-}
+}/*
 
 function toast(str, pre = "Toast: "){console.log(pre+str)}
 const TOAST_INFO = "Toast Info: "
 const TOAST_DANGER = "Toast Danger: "
-const TOAST_SUCCESS = "Toast Success: "
+const TOAST_SUCCESS = "Toast Success: "*/
 
 async function audioView (event) {
   console.log(4)
