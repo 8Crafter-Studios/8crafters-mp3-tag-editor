@@ -777,7 +777,7 @@ pre {
   background-image: linear-gradient(-180deg, #f0f3f6 0%, #e6ebf1 90%);
   background-position: -.5em;
   border-color: rgba(27, 31, 35, 0.35)*/
-  border-image: url('/assets/images/lighthover.png') 1 1 1 1 fill / 1px 1px 1px 1px;
+  border-image: url('/assets/images/button_borderless_lighthover.png') 1 1 1 1 fill / 1px 1px 1px 1px;
 }
 
 .btn:active:enabled,
@@ -1372,7 +1372,11 @@ label {
 }
 
 .form-control::placeholder {
-  color: #FFFFFF;
+  color: white;
+}
+
+.form-control:enabled:hover::placeholder {
+  opacity: 1 !important;
 }
 
 .form-control.focus,
@@ -2431,7 +2435,7 @@ p.explain .minibutton {
   }
 
   .col-md-3 {
-    width: 25%
+    width: 50%
   }
 
   .col-md-4 {
