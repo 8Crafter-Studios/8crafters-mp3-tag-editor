@@ -111,7 +111,7 @@
         <span id="cover-art-debug">No Debug Info</span>
       </div>
       <div class="form-group-body">
-        <input type="file" id="cover" name="cover" accept="image/jpeg,image/png" hidden="true" class="form-control" disabled="">
+        <input type="file" id="cover" name="cover" accept="image/jpeg,image/png" hidden="true" class="form-control" disabled="" form="">
         <label for="cover" class="" id="cover-file-select-button" disabled="">
             <input type="button" value="Choose File" disabled="true" class="btn" id="a-button" style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="cover.click()">
           <span id="cover-filename">Select cover art</span>
@@ -119,7 +119,8 @@
       </div>
       <p id="cover-validation" class="d-none note"></p>
       <br>
-      <input type="button" value="Clear Cover Art" disabled="true" class="btn" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px;">
+      <input type="button" value="Clear Cover Art" disabled="true" class="btn" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px; display: inline;">
+      <button type="button" disabled="true" class="btn no-remove-disabled" id="apply_selected_image" style="font-family: MINECRAFTFONT; margin-top: 5px; display: inline;">Apply Selected Image</button>
     </div>
  
     <div class="form-group">
@@ -127,7 +128,7 @@
         <label for="title">Title</label>
       </div>
       <div class="form-group-body">
-        <input type="text" id="title" name="title" value="" style="font-family: MINECRAFTFONT" placeholder="Fade Into You" class="form-control" disabled="">
+        <input type="text" id="title" name="title" value="" style="font-family: MINECRAFTFONT" placeholder="Fade Into You" class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
       </div>
     </div>
  
@@ -136,7 +137,7 @@
         <label for="artist">Artist</label>
       </div>
       <div class="form-group-body">
-        <input type="text" id="artist" name="artist" value="" placeholder="Mazzy Star" class="form-control" disabled="">
+        <input type="text" id="artist" name="artist" value="" placeholder="Mazzy Star" class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
       </div>
     </div>
  
@@ -145,7 +146,7 @@
         <label for="album">Album</label>
       </div>
       <div class="form-group-body">
-        <input type="text" id="album" name="album" value="" placeholder="So Tonight That I Might See" class="form-control" disabled="">
+        <input type="text" id="album" name="album" value="" placeholder="So Tonight That I Might See" class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
       </div>
     </div>
  
@@ -196,6 +197,24 @@
         <input type="text" id="composer" name="composer" value="" placeholder="Hope Sandoval; David Roback" class="form-control" disabled="">
       </div>
     </div>
+    
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="remixer">Remixer</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="remixer" name="remixer" value="" placeholder="Protostar" class="form-control v2 v2-2 v2-3 v2-4" disabled="">
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="conductor">Conductor</label>
+      </div>
+      <div class="form-group-body">
+        <input type="text" id="conductor" name="conductor" value="" placeholder="Conductor's Name" class="form-control v2 v2-2 v2-3 v2-4" disabled="">
+      </div>
+    </div>
  
     <div class="form-group">
       <div class="form-group-header">
@@ -205,15 +224,39 @@
         <textarea id="lyrics" name="lyrics" placeholder="Lyrics" rows="5" class="form-control" disabled=""></textarea>
       </div>
     </div>
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="comment">Comment</label>
+      </div>
+      <div class="form-group-body">
+        <textarea id="comment" name="comment" placeholder="Comment" rows="5" class="form-control" disabled=""></textarea>
+      </div>
+    </div>
     <input type="button" disabled onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'" class="btn" value="Show/Hide Advanced Options">
     <br>
     <div id="advanced_section" hidden>
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="tpe2">Band/Orchestra/Accompaniment</label>
+      </div>
+      <div class="form-group-body">
+        <textarea id="tpe2" name="tpe2" placeholder="Additional information about the performers in the recording." rows="5" class="form-control" disabled=""></textarea>
+      </div>
+    </div>
       <div class="form-group">
         <div class="form-group-header">
           <label for="play_count">Play Count</label>
         </div>
         <div class="form-group-body">
           <input type="number" inputmode="numeric" step="1" min="0" id="play_count" name="play_count" value="" pattern="/\d*/" placeholder="69" class="form-control" disabled="">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="wwwaudiosource">Audio Source</label>
+        </div>
+        <div class="form-group-body">
+          <input type="string" id="wwwaudiosource" name="play_count" value="" placeholder="https://www.example.com/my_album" class="form-control" disabled="">
         </div>
       </div>
       <div class="form-group">
@@ -290,18 +333,18 @@
       </div>
       <div class="form-group">
         <div class="form-group-header">
-          <label for="origalbum">Publisher</label>
+          <label for="publisher">Publisher</label>
         </div>
         <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+          <input type="text" id="publisher" name="publisher" value="" placeholder="Mojang Studios" class="form-control" disabled="">
         </div>
       </div>
       <div class="form-group">
         <div class="form-group-header">
-          <label for="origalbum">Release Time</label>
+          <label for="releasetime">Release Time</label>
         </div>
         <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
+           <input type="text" id="releasetime" name="releasetime" value="" placeholder="TO-DO" class="form-control" disabled="">
         </div>
       </div>
       <div class="form-group">
@@ -392,6 +435,34 @@
           <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
         </div>
       </div>
+      <div class="form-group">
+<label for="tvet">Tag Version Override:</label>
+
+<select name="tver" id="tver" form="" class="btn">
+  <optgroup label="v1">
+  <option value="1">v1</option>
+  </optgroup>
+  <optgroup label="v2">
+  <option value="2.2">v2.2</option>
+  <option value="2.3">v2.3</option>
+  <option value="2.4" selected>v2.4 (Recommended)</option>
+  </optgroup>
+</select>
+<label for="inc1">Include v1 Tag Data: </label>
+<input type="checkbox" checked id="inc1"></input>
+<label for="incu">Include Unsupported Tag Data: </label>
+<input type="checkbox" id="incu"></input>
+        <p id="v1Debug">v1Details: N/A</p>
+        <p id="v2Debug">v2Details: N/A</p>
+      </div>
+<label for="allapply">What To Apply To All Files:</label>
+<select name="allapply" id="allapply" form="" class="btn" style="margin-right: 10px;" multiple>
+  <option value="cover">Cover</option>
+  <option value="title">Title</option>
+  <option value="artist">Artist</option>
+  <option value="album">Album</option>
+</select>
+      <input type="button" value="Apply Selected To All Files" disabled="true" class="btn" id="applysel" style="font-family: MINECRAFTFONT; display: inline;">
     </div>
  
     <footer class="form-actions">

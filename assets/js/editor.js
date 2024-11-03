@@ -17,6 +17,7 @@ function loadFile(file){
 };
 
 $(document).ready(function () {
+    console.log(1)
   blankImage = $('#cover-preview').attr('src')
   $('#list-wrapper').on('dragenter', function (event) {
     event.preventDefault()
@@ -44,17 +45,29 @@ $(document).ready(function () {
     $('#cover-art-debug').text("No Debug Info")
   })
 
+  $('#apply_selected_image').click(()=>{
+    const files = $('#cover').prop('files')
+    if (files.length === 0) {
+      $('#apply_selected_image').attr('disabled', "");
+      return false;
+    };
+
+    $('#cover').change()
+  })
   $('#file-audios').on('change', function () {
-     console.log(1.1)
     const files = $(this).prop('files')
     importFiles(files)
     $(this).val('')
     console.log(1)
   })
 
-  $('#cover').on('change', async function () {
+  $('#cover').on('change', async function () {try{
     const files = $(this).prop('files')
-    if (files.length === 0) return false
+    if (files.length === 0) {
+      $('#apply_selected_image').attr('disabled', "");
+      return false;
+    };
+    $('#apply_selected_image').attr('disabled', null);
 
     const file = files[0]
     const buffer = await loadFile(file)
@@ -63,7 +76,7 @@ $(document).ready(function () {
     $('#cover-filename').text(file.name)
     const url = imageURL(imageBytes, file.type)
     $('#cover-preview').attr('src', url)
-$('#cover-art-debug').text("Format: "+imageType)
+$('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toString(), e.stack)}
   })
 
   $('#edit-form').submit(function (event) {
@@ -79,7 +92,7 @@ $('#cover-art-debug').text("Format: "+imageType)
     })
   })
 
-  $('#track, #year').on('input', function (event) {
+  $('#track, #year, #disk').on('input', function (event) {
     const validity = $(this).prop('validity')
     const note = $(this).parent().parent().children('.note')
 
@@ -91,9 +104,11 @@ $('#cover-art-debug').text("Format: "+imageType)
       $(note).parent().addClass('position-relative errored')
     }
   })
+    console.log(1)
 })
 
 function importFiles (files) {
+  console.log(1)
   $('#blankslate').remove()
   $('#audio-list').parent().removeClass('d-none')
 
@@ -106,10 +121,7 @@ function importFiles (files) {
       $(audioItem).find('[data-temp=\'filename\']').text(files[i].name)
       $(audioItem).find('[data-temp]').removeAttr('data-temp')
       let a = $(audioItem).find('[data-audio]')
-      console.log(a)
-      console.log(audioItem)
       a.click(audioView)
-      console.log(2)
 
       $('#audio-list').append(audioItem)
     } else {
@@ -125,7 +137,6 @@ const TOAST_DANGER = "Toast Danger: "
 const TOAST_SUCCESS = "Toast Success: "*/
 
 async function audioView (event) {
-  console.log(4)
   event.stopPropagation()
   resetForm()
 
@@ -133,24 +144,30 @@ async function audioView (event) {
   const audioItem = $(this)
   const file = importedFiles[currentIndex]
 
-  $('#edit-form [disabled]').attr('disabled', null)
+  $('#edit-form [disabled]:not(.no-remove-disabled, #apply_selected_image)').attr('disabled', null)
   $('#edit-form .disabled').removeClass('disabled')
   $('#cover-file-select-button [disabled]').attr('disabled', null)
   $('#cover-file-select-button .disabled').removeClass('disabled')
+  if($('#cover').prop('files').length>0){
+    $('#apply_selected_image').attr('disabled', null)
+  }else{
+    $('#apply_selected_image').attr('disabled', "")
+  }
   $(audioItem).addClass('flash')
-  console.log(6)
 try{TOAST_INFO; TOAST_DANGER; TOAST_SUCCESS}catch(e){console.error(e.toString(), e.stack)}
   try{toast('Reading file and tags. Please wait...', TOAST_INFO)}catch(e){console.error(e.toString(), e.stack)}
-  console.log(7)
   try{
     mp3tag = new MP3Tag(await loadFile(file))
-    mp3tag.read()
+    mp3tag.read({
+      id3v1: true,
+      id3v2: true,
+      unsupported: true
+    })
    }catch(e){console.error(e.toString(), e.stack)}
-  console.log(5)
 
   if (mp3tag.error === '') {
     displayDetails()
-    toast('Details was displayed', TOAST_SUCCESS)
+    toast('Details were displayed', TOAST_SUCCESS)
   } else {console.log(mp3tag.error); toast(mp3tag.error, TOAST_DANGER)}
 }
 
@@ -194,10 +211,21 @@ function displayDetails () {
       $('#lyrics').val(tags.v2.USLT[0].text)
     }
 
-    if (tags.v2.PCNT) $('#play_count').val(tags.v2.PCNT)
+    if (tags.v2.PCNT??tags.v2.CNT) $('#play_count').val(tags.v2.PCNT??tags.v2.CNT)
     if (tags.v2.TPOS) $('#disk').val(tags.v2.TPOS)
     if (tags.v2.TRCK) $('#track').val(tags.v2.TRCK)
     if (tags.v2.TOAL) $('#origalbum').val(tags.v2.TOAL)
+    if (tags.v2.TOPE) $('#origartist').val(tags.v2.TOPE)
+    if (tags.v2.TOFN) $('#origfilename').val(tags.v2.TOFN)
+    if (tags.v2.TOLY) $('#origlyricist').val(tags.v2.TOLY)
+    try{
+    if (tags.v2.TORY) $('#origyear').val(tags.v2.TORY)
+    if (tags.v2.TDOR) $('#origyear').val(tags.v2.TDOR)}catch(e){console.error(e.toString(), e.stack)}
+    if (tags.v2.TPUB) $('#publisher').val(tags.v2.TPUB)
+    if (tags.v2.WOAS) $('#wwwaudiosource').val(tags.v2.WOAS)
+    try{$('#v1Debug').text("v1 Details: "+(JSON.stringify(tags.v1Details)??"N/A"))
+    $('#v2Debug').text("v2 Details: "+(JSON.stringify(tags.v2Details)??"N/A"))}catch(e){console.error(e.toString(), e.stack)}
+
   }
 }
 
@@ -205,7 +233,16 @@ async function writeData () {
   toast('Writing the tags to file', TOAST_INFO)
   writeDetails()
 
-  mp3tag.save()
+  mp3tag.save({
+    id3v1: {
+      include: $('#inc1').prop('checked')/*$('#tver').prop('selectedIndex') === 0*/
+    },
+    id3v2: {
+      include: $('#tver').prop('selectedIndex') !== 0,
+      version: [undefined, 2, 3, 4][$('#tver').prop('selectedIndex')],
+      unsupported: $('#incu').prop('checked')
+    }
+  })
   if (mp3tag.error === '') {
     const file = importedFiles[currentIndex]
     const modifiedFile = new File([mp3tag.buffer], file.name, {
@@ -213,29 +250,121 @@ async function writeData () {
     })
 
     importedFiles[currentIndex] = modifiedFile
-    toast('MP3 was modified and ready to download', TOAST_SUCCESS)
+    toast('MP3 was modified and is ready to download', TOAST_SUCCESS)
   } else toast(mp3tag.error, TOAST_DANGER)
 }
 
 async function writeDetails () {
+  if($('#tver').prop('selectedIndex') !== 0){
+    mp3tag.tags.v2Details.version=[[2, 2, 3, 4][$('#tver').prop('selectedIndex')], 0]
+  }
   mp3tag.tags.v1 = mp3tag.tags.v1 || {}
   mp3tag.tags.v2 = mp3tag.tags.v2 || {}
 
-  mp3tag.tags.title = $('#title').val()
-  mp3tag.tags.artist = $('#artist').val()
-  mp3tag.tags.album = $('#album').val()
-  mp3tag.tags.year = $('#year').val()
-  mp3tag.tags.track = $('#track').val()
-  mp3tag.tags.genre = $('#genre').val()
+if($('#tver').prop('selectedIndex') === 0){
+  mp3tag.tags.v1.title = $('#title').val()
+  mp3tag.tags.v1.artist = $('#artist').val()
+  mp3tag.tags.v1.album = $('#album').val()
+  mp3tag.tags.v1.year = $('#year').val()
+  mp3tag.tags.v1.track = $('#track').val()
+  mp3tag.tags.v1.genre = $('#genre').val()
+  mp3tag.tags.v1.comment = $('#comment').val()
+}else if($('#tver').prop('selectedIndex') === 1){
+  mp3tag.tags.v2.TT2 = $('#title').val()
+  mp3tag.tags.v2.TP1 = $('#artist').val()
+  mp3tag.tags.v2.TAL = $('#album').val()
+  mp3tag.tags.v2.TYE = $('#year').val()
+  mp3tag.tags.v2.TRK = $('#track').val()
+  mp3tag.tags.v2.TCO = $('#genre').val()
+  mp3tag.tags.v2.TCM = $('#composer').val()
+  mp3tag.tags.v2.TPA = $('#disk').val()
+  mp3tag.tags.v2.TPB = $('#publisher').val()
+  mp3tag.tags.v2.TOT = $('#origalbum').val()
+  mp3tag.tags.v2.TOA = $('#origartist').val()
+  mp3tag.tags.v2.TOF = $('#origfilename').val()
+  mp3tag.tags.v2.TOL = $('#origlyricist').val()
+  try{mp3tag.tags.v2.TOR = $('#origyear').val()}catch(e){console.error(e.toString(), e.stack)}
+  mp3tag.tags.v2.WAS = $('#wwwaudiosource').val()
+  const comment = $('#comment').val()
+  if (comment !== '') {
+    mp3tag.tags.v2.COM = [{
+      language: 'eng',
+      descriptor: '',
+      text: comment
+    }]
+  }else{
+    delete mp3tag.tags.v2.COM;
+  }
+  if($('#play_count').val()===""){
+    delete mp3tag.tags.v2.CNT
+  }else{
+    mp3tag.tags.v2.CNT = $('#play_count').val()
+  }
+  const lyrics = $('#lyrics').val()
+  if (lyrics !== '') {
+    mp3tag.tags.v2.ULT = [{
+      language: 'eng',
+      descriptor: '',
+      text: lyrics
+    }]
+  }else{
+    delete mp3tag.tags.v2.ULT;
+  }
+  mp3tag.tags.v2.TP4 = $('#remixer').val()
+  mp3tag.tags.v2.TP2 = $('#tpe2').val()
+  mp3tag.tags.v2.TP3 = $('#conductor').val()
+  if (imageBytes === "-1") {
+    mp3tag.tags.v2.PIC = []
+  } else if (imageBytes !== null) {
+    mp3tag.tags.v2.PIC = [{
+      format: imageType,
+      type: 3,
+      description: '',
+      data: imageBytes
+    }]
+  }
+}else if($('#tver').prop('selectedIndex') === 2){
+  mp3tag.tags.v2.TIT2 = $('#title').val()
+  mp3tag.tags.v2.TPE1 = $('#artist').val()
+  mp3tag.tags.v2.TALB = $('#album').val()
+  mp3tag.tags.v2.TYER = $('#year').val()
+  mp3tag.tags.v2.TRCK = $('#track').val()
+  mp3tag.tags.v2.TCON = $('#genre').val()
   mp3tag.tags.v2.TCOM = $('#composer').val()
   mp3tag.tags.v2.TPOS = $('#disk').val()
+  mp3tag.tags.v2.TPUB = $('#publisher').val()
   mp3tag.tags.v2.TOAL = $('#origalbum').val()
+  mp3tag.tags.v2.TOPE = $('#origartist').val()
+  mp3tag.tags.v2.TOFN = $('#origfilename').val()
+  mp3tag.tags.v2.TOLY = $('#origlyricist').val()
+  try{mp3tag.tags.v2.TORY = $('#origyear').val()}catch(e){console.error(e.toString(), e.stack)}
+  mp3tag.tags.v2.WOAS = $('#wwwaudiosource').val()
   if($('#play_count').val()===""){
     delete mp3tag.tags.v2.PCNT
   }else{
     mp3tag.tags.v2.PCNT = $('#play_count').val()
   }
-
+  const lyrics = $('#lyrics').val()
+  if (lyrics !== '') {
+    mp3tag.tags.v2.USLT = [{
+      language: 'eng',
+      descriptor: '',
+      text: lyrics
+    }]
+  }
+  const comment = $('#comment').val()
+  if (comment !== '') {
+    mp3tag.tags.v2.COMM = [{
+      language: 'eng',
+      descriptor: '',
+      text: comment
+    }]
+  }else{
+    delete mp3tag.tags.v2.COMM;
+  }
+  mp3tag.tags.v2.TPE4 = $('#remixer').val()
+  mp3tag.tags.v2.TPE2 = $('#tpe2').val()
+  mp3tag.tags.v2.TPE3 = $('#conductor').val()
   if (imageBytes === "-1") {
     mp3tag.tags.v2.APIC = []
   } else if (imageBytes !== null) {
@@ -246,7 +375,27 @@ async function writeDetails () {
       data: imageBytes
     }]
   }
-
+}else if($('#tver').prop('selectedIndex') === 3){
+  mp3tag.tags.v2.TIT2 = $('#title').val()
+  mp3tag.tags.v2.TPE1 = $('#artist').val()
+  mp3tag.tags.v2.TALB = $('#album').val()
+  mp3tag.tags.v2.TYER = $('#year').val()
+  mp3tag.tags.v2.TRCK = $('#track').val()
+  mp3tag.tags.v2.TCON = $('#genre').val()
+  mp3tag.tags.v2.TCOM = $('#composer').val()
+  mp3tag.tags.v2.TPOS = $('#disk').val()
+  mp3tag.tags.v2.TPUB = $('#publisher').val()
+  mp3tag.tags.v2.TOAL = $('#origalbum').val()
+  mp3tag.tags.v2.TOPE = $('#origartist').val()
+  mp3tag.tags.v2.TOFN = $('#origfilename').val()
+  mp3tag.tags.v2.TOLY = $('#origlyricist').val()
+  try{mp3tag.tags.v2.TDOR = $('#origyear').val()}catch(e){console.error(e.toString(), e.stack)}
+  mp3tag.tags.v2.WOAS = $('#wwwaudiosource').val()
+  if($('#play_count').val()===""){
+    delete mp3tag.tags.v2.PCNT
+  }else{
+    mp3tag.tags.v2.PCNT = $('#play_count').val()
+  }
   const lyrics = $('#lyrics').val()
   if (lyrics !== '') {
     mp3tag.tags.v2.USLT = [{
@@ -255,6 +404,88 @@ async function writeDetails () {
       text: lyrics
     }]
   }
+  const comment = $('#comment').val()
+  if (comment !== '') {
+    mp3tag.tags.v2.COMM = [{
+      language: 'eng',
+      descriptor: '',
+      text: comment
+    }]
+  }else{
+    delete mp3tag.tags.v2.COMM;
+  }
+  mp3tag.tags.v2.TPE4 = $('#remixer').val()
+  mp3tag.tags.v2.TPE2 = $('#tpe2').val()
+  mp3tag.tags.v2.TPE3 = $('#conductor').val()
+  mp3tag.tags.v2.TDRL = $('#releasetime').val()
+  if (imageBytes === "-1") {
+    mp3tag.tags.v2.APIC = []
+  } else if (imageBytes !== null) {
+    mp3tag.tags.v2.APIC = [{
+      format: imageType,
+      type: 3,
+      description: '',
+      data: imageBytes
+    }]
+  }
+}else{
+  mp3tag.tags.title = $('#title').val()
+  mp3tag.tags.artist = $('#artist').val()
+  mp3tag.tags.album = $('#album').val()
+  mp3tag.tags.year = $('#year').val()
+  mp3tag.tags.track = $('#track').val()
+  mp3tag.tags.genre = $('#genre').val()
+  mp3tag.tags.v2.TCOM = $('#composer').val()
+  mp3tag.tags.v2.TPOS = $('#disk').val()
+  mp3tag.tags.v2.TPUB = $('#publisher').val()
+  mp3tag.tags.v2.TOAL = $('#origalbum').val()
+  mp3tag.tags.v2.TOPE = $('#origartist').val()
+  mp3tag.tags.v2.TOFN = $('#origfilename').val()
+  mp3tag.tags.v2.TOLY = $('#origlyricist').val()
+  try{mp3tag.tags.v2.TORY = $('#origyear').val()}catch(e){console.error(e.toString(), e.stack)}
+  try{mp3tag.tags.v2.TDOR = $('#origyear').val()}catch(e){console.error(e.toString(), e.stack)}
+  mp3tag.tags.v2.WOAS = $('#wwwaudiosource').val()
+  if($('#play_count').val()===""){
+    delete mp3tag.tags.v2.PCNT
+  }else{
+    mp3tag.tags.v2.PCNT = $('#play_count').val()
+  }
+  const lyrics = $('#lyrics').val()
+  if (lyrics !== '') {
+    mp3tag.tags.v2.USLT = [{
+      language: 'eng',
+      descriptor: '',
+      text: lyrics
+    }]
+  }
+  const comment = $('#comment').val()
+  if (comment !== '') {
+    mp3tag.tags.v2.COMM = [{
+      language: 'eng',
+      descriptor: '',
+      text: comment
+    }]
+  }else{
+    delete mp3tag.tags.v2.COMM;
+  }
+  mp3tag.tags.v2.TPE4 = $('#remixer').val()
+  mp3tag.tags.v2.TPE2 = $('#tpe2').val()
+  mp3tag.tags.v2.TPE3 = $('#conductor').val()
+  if (imageBytes === "-1") {
+    mp3tag.tags.v2.APIC = []
+  } else if (imageBytes !== null) {
+    mp3tag.tags.v2.APIC = [{
+      format: imageType,
+      type: 3,
+      description: '',
+      data: imageBytes
+    }]
+  }
+}
+  console.log(mp3tag.tags.v1.comment)
+  if(typeof mp3tag.tags.v1.comment !== "string"){
+    mp3tag.tags.v1.comment=mp3tag.tags.comment??"";
+  };
 }
 
 function resetForm () {
@@ -263,7 +494,7 @@ function resetForm () {
   imageBytes = null
 
   $('#edit-form').trigger('reset')
-  $('#edit-form').find('input, textarea, select, button').attr('disabled', true)
+  $('#edit-form').find('input, textarea, select, button').not('.no-change-disabled').attr('disabled', true)
   $('#a-button').attr('disabled', true)
   $('#edit-form .form-group').removeClass('position-relative errored')
   $('#download').attr({ href: null, download: null })

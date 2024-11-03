@@ -22,6 +22,6 @@ router.get('/editor',function(req,res){
   app.use(express.static(__dirname + '/'));
 // });
 app.use('/', router);
-app.listen(3000);
+app.listen(8212);
  
-console.log('Running at Port 3000');
+console.log('Running at Port 8212');
