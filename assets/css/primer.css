@@ -18,9 +18,10 @@
 
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 html {
-  font-family: sans-serif;
+  font-family: MINECRAFTFONT;
   -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
 }
 
 body {
@@ -736,6 +737,10 @@ pre {
   }
 }
 
+.mcdropdownoption {
+  position: relative;
+}
+
 .mcradio {
   position: absolute;
   opacity: 0;
@@ -743,13 +748,24 @@ pre {
 }
 
 .mcradiocheckbox {
-  position: absolute;
-  top: 0;
+  position: relative;/*
+  top: 0;*/
   left: 0;
-  height: 25px;
-  width: 25px;
+  height: 16px;
+  width: 16px;
+  margin-top: 2.25px;
+  margin-bottom: 2.75px;
+  margin-left: 2px;
   background-image: url('/assets/images/radio/radio_off.png');
-}
+  background-repeat: no-repeat;/*
+  background-attachment: fixed;*/
+  background-position: center;
+  background-size: cover;
+  image-rendering: pixelated;
+  border: 0px;
+  display: inline-block;
+  vertical-align: bottom;
+}/*
 
 .mcdropdownoption .mcradiocheckbox:after {
   top: 9px;
@@ -758,15 +774,12 @@ pre {
   height: 8px;
   border-radius: 50%;
   background: white;
-};
+};*/
 
-.mcradiocheckbox {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-image: url('/assets/images/radio/radio_off.png');
+.nsel {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .btn {

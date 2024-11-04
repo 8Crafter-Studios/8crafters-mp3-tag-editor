@@ -18,6 +18,7 @@ function loadFile(file){
 
 $(document).ready(function () {
     console.log(1)
+  $('button, input, textarea, [onclick]').on('touchstart', ()=>{})
   blankImage = $('#cover-preview').attr('src')
   $('#list-wrapper').on('dragenter', function (event) {
     event.preventDefault()

@@ -113,14 +113,14 @@
       <div class="form-group-body">
         <input type="file" id="cover" name="cover" accept="image/jpeg,image/png" hidden="true" class="form-control" disabled="" form="">
         <label for="cover" class="" id="cover-file-select-button" disabled="">
-            <input type="button" value="Choose File" disabled="true" class="btn" id="a-button" style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="cover.click()">
+            <input type="button" value="Choose File" disabled="true" class="btn nsel" id="a-button" style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="cover.click()">
           <span id="cover-filename">Select cover art</span>
         </label>
       </div>
       <p id="cover-validation" class="d-none note"></p>
       <br>
-      <input type="button" value="Clear Cover Art" disabled="true" class="btn" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px; display: inline;">
-      <button type="button" disabled="true" class="btn no-remove-disabled" id="apply_selected_image" style="font-family: MINECRAFTFONT; margin-top: 5px; display: inline;">Apply Selected Image</button>
+      <input type="button" value="Clear Cover Art" disabled="true" class="btn nsel" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px; display: inline;">
+      <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image" style="font-family: MINECRAFTFONT; margin-top: 5px; display: inline;">Apply Selected Image</button>
     </div>
  
     <div class="form-group">
@@ -232,7 +232,7 @@
         <textarea id="comment" name="comment" placeholder="Comment" rows="5" class="form-control" disabled=""></textarea>
       </div>
     </div>
-    <input type="button" disabled onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'" class="btn" value="Show/Hide Advanced Options">
+    <input type="button" disabled onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'" class="btn nsel" value="Show/Hide Advanced Options" style="color: initial">
     <br>
     <div id="advanced_section" hidden>
     <div class="form-group">
@@ -462,11 +462,11 @@
   <option value="artist">Artist</option>
   <option value="album">Album</option>
 </select>
-      <input type="button" value="Apply Selected To All Files" disabled="true" class="btn" id="applysel" style="font-family: MINECRAFTFONT; display: inline;">
+      <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel" style="font-family: MINECRAFTFONT; display: inline;">
     </div>
  
     <footer class="form-actions">
-      <button type="submit" class="btn btn-primary" disabled="" style="display: inline; width: 50%; float: none;">
+      <button type="submit" class="btn btn-primary nsel" disabled="" ontouchstart="" style="display: inline; width: 50%; float: none;">
         <img width="16" height="16" src="/assets/images/storageIconColor.png" style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
         <span style="font-family: MINECRAFTFONT; vertical-align: middle; color: initial;">Save</span>
       </button><!--
@@ -475,29 +475,30 @@
       <object data="/assets/images/button_hovered_full.svg" type="image/svg+xml">
   <img src="/assets/images/button_hovered_full.svg" />
 </object>-->
-      <a id="download" disabled class="" style="color: initial; text-decoration-line: inherit; display: inline;" role="button">
-      <button id="download_button" type="button" class="btn" disabled style="width: 50%;">
+      <a id="download" disabled class="nsel" style="color: initial; text-decoration-line: inherit; display: inline;" ontouchstart="" role="button">
+      <button id="download_button" type="button" class="btn" disabled ontouchstart="" style="width: 50%;">
         <img width="16" height="16" src="/assets/images/download.png" style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
         <span style="font-family: MINECRAFTFONT; vertical-align: middle; color: initial; text-decoration-line: inherit;">Download</span>
       </button>
       </a>
     </footer>
   </form>
-  <div class="mcdropdown" style="display: inline-block">
-    <button id="dropdownbutton" class="btn" type="button" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+  <div class="mcdropdown nsel" style="display: inline-block">
+    <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
       <span style="color: initial;">Test Dropdown</span>
       <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
       <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" hidden>
     </button>
     <div id="dropdowncontents" hidden style="display: flex;">
       <div style="flex-grow: 1; width: 0;">
-        <div class="mcdropdownoption" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+        <div class="mcdropdownoption" ontouchstart="" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
           <input type="radio" id="opt1" name="testdropdown" value="OPT1" class="mcradio">
-          <span class="mcradiocheckbox"></span>
+          <div class="mcradiocheckbox"></div>
           <label for="opt1">Option 1</label>
         </div>
-        <div class="mcdropdownoption" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
-          <input type="radio" id="opt2" name="testdropdown" value="OPT2">
+        <div class="mcdropdownoption" ontouchstart="" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+          <input type="radio" id="opt2" name="testdropdown" value="OPT2" class="mcradio">
+          <div class="mcradiocheckbox"></div>
           <label for="opt2">Option 2</label>
         </div>
       </div>
@@ -526,7 +527,7 @@
     <div class="text-center mx-auto my-2" style="color: inherit;">
       <input type="file" hidden="true" id="file-audios" accept="audio/mpeg" class="d-none" multiple="">
       <label for="file-audios" style="color: inherit;">
-      <button type="button" class="btn" style="color: inherit;" onClick="$('#file-audios').click()">
+      <button type="button" class="btn nsel" style="color: inherit;" id="import_files_button" onClick="$('#file-audios').click()">
         <img width="16" height="16" src="/assets/images/upload.png" style="image-rendering: pixelated; filter: invert(100%);" aria-hidden="true"></img>
         <span style="color: initial;">Import audio file</span>
         </button>
