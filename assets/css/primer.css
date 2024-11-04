@@ -694,6 +694,81 @@ pre {
   content: none
 }
 
+.mcdropdown {
+  & > #dropdowncontents {
+    border-image: url('/assets/images/dropdown/dropdown_background.png') 2 2 2 2 fill / 2px 2px 2px 2px;
+    padding: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+    image-rendering: pixelated;
+    & > .mcdropdownoption:checked {
+      background-image: url('/assets/images/dropdown/dropDownSelectBG.png');
+    }
+    & > .mcdropdownoption:hover {
+      background-image: url('/assets/images/dropdown/dropDownHoverBG.png');
+    }
+    & > div:not(.mcdropdownoption) {
+      & > .mcdropdownoption:has(> input:checked):not(:hover) {
+        background-image: url('/assets/images/dropdown/dropDownSelectBG.png');
+        & > .mcradiocheckbox {
+          background-image: url('/assets/images/radio/radio_on.png');
+        };
+      }
+    }
+    & > div:not(.mcdropdownoption) > .mcdropdownoption:hover {
+        background-image: url('/assets/images/dropdown/dropDownHoverBG.png');
+    }
+    & > div:not(.mcdropdownoption) > .mcdropdownoption:hover:has(> input:checked) {
+        & > .mcradiocheckbox {
+          background-image: url('/assets/images/radio/radio_on_hover.png');
+        };
+    }
+    & > div:not(.mcdropdownoption) > .mcdropdownoption:hover:not(:has(> input:checked)) {
+        & > .mcradiocheckbox {
+          background-image: url('/assets/images/radio/radio_off_hover.png');
+        };
+    }
+  }
+  & > #dropdownbutton {
+    & > #cv, #cvsel {
+      right: 10px;
+    }
+  }
+}
+
+.mcradio {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.mcradiocheckbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-image: url('/assets/images/radio/radio_off.png');
+}
+
+.mcdropdownoption .mcradiocheckbox:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+};
+
+.mcradiocheckbox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-image: url('/assets/images/radio/radio_off.png');
+}
+
 .btn {
   position: relative;
   display: inline-block;
@@ -769,7 +844,7 @@ pre {
 .btn:focus:enabled,
 .btn.focus {/*
   box-shadow: 0 0 0 0.2em rgba(3, 102, 214, 0.3)*/
-  border-image: url('/assets/images/lighthover.png') 1 1 1 1 fill / 1px 1px 1px 1px;
+  border-image: url('/assets/images/button_borderless_lighthover.png') 1 1 1 1 fill / 1px 1px 1px 1px;
 }
 
 .btn:hover:enabled {/*
@@ -778,6 +853,15 @@ pre {
   background-position: -.5em;
   border-color: rgba(27, 31, 35, 0.35)*/
   border-image: url('/assets/images/button_borderless_lighthover.png') 1 1 1 1 fill / 1px 1px 1px 1px;
+}
+
+.btn:hover:enabled:not(.noinvert):not(.buttonhascoloredimages) {
+  & > :not(.preventinvert, #cv, #cvsel) {
+    filter: invert(100%);
+  }
+  & > :not(:not(#cv, #cvsel)):not(.preventinvert) {
+    filter: brightness(1000000%);
+  }
 }
 
 .btn:active:enabled,
@@ -789,7 +873,7 @@ pre {
   border-color: rgba(27, 31, 35, 0.35);
   box-shadow: inset 0 0.15em 0.3em rgba(27, 31, 35, 0.15)*/
   
-  border-image: url('/assets/images/lightpressednohover.png') 1 1 1 1 fill / 1px 1px 1px 1px;
+  border-image: url('/assets/images/button_borderless_lightpressednohover.png') 1 1 1 1 fill / 1px 1px 1px 1px;
 }
 
 .btn:active:hover:enabled,
@@ -801,7 +885,7 @@ pre {
   border-color: rgba(27, 31, 35, 0.35);
   box-shadow: inset 0 0.15em 0.3em rgba(27, 31, 35, 0.15)*/
   
-  border-image: url('/assets/images/lightpressed.png') 1 1 1 1 fill / 1px 1px 1px 1px;
+  border-image: url('/assets/images/button_borderless_lightpressed.png') 1 1 1 1 fill / 1px 1px 1px 1px;
 }
 
 .btn:disabled,

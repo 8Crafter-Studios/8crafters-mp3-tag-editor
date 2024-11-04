@@ -483,6 +483,26 @@
       </a>
     </footer>
   </form>
+  <div class="mcdropdown" style="display: inline-block">
+    <button id="dropdownbutton" class="btn" type="button" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+      <span style="color: initial;">Test Dropdown</span>
+      <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
+      <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" hidden>
+    </button>
+    <div id="dropdowncontents" hidden style="display: flex;">
+      <div style="flex-grow: 1; width: 0;">
+        <div class="mcdropdownoption" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+          <input type="radio" id="opt1" name="testdropdown" value="OPT1" class="mcradio">
+          <span class="mcradiocheckbox"></span>
+          <label for="opt1">Option 1</label>
+        </div>
+        <div class="mcdropdownoption" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+          <input type="radio" id="opt2" name="testdropdown" value="OPT2">
+          <label for="opt2">Option 2</label>
+        </div>
+      </div>
+    </div>
+  </div>
  
   <div id="list-wrapper" class="col-12 col-sm-7 col-md-9">
     <div id="blankslate" class="blankslate col-6 mx-auto mt-7">
