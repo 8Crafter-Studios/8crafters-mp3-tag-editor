@@ -1,4 +1,4 @@
-
+try{exec; console.log(globalThis.execute)}catch(e){console.error(e.toString(), e.stack)}
 const importedFiles = []
 let currentIndex = -1
 let blankImage = ''
@@ -170,7 +170,7 @@ try{TOAST_INFO; TOAST_DANGER; TOAST_SUCCESS}catch(e){console.error(e.toString(),
     displayDetails()
     toast('Details were displayed', TOAST_SUCCESS)
   } else {console.log(mp3tag.error); toast(mp3tag.error, TOAST_DANGER)}
-}
+}/*
 
 function _arrayBufferToBase64( buffer ) {
     var binary = '';
@@ -184,7 +184,7 @@ function _arrayBufferToBase64( buffer ) {
 
 function imageURL(data, type){
   try{const r = `data:${type};base64,${_arrayBufferToBase64(data)}`; console.log(r); return r;}catch(e){console.error(e.toString(), e.stack)}
-}
+}*/
 
 function displayDetails () {
   console.log(3)
@@ -230,6 +230,338 @@ function displayDetails () {
   }
 }
 
+const tagVersionMap = {
+  title: {
+    v1: "title",
+    v2_2: "TT2",
+    v2_3: "TIT2",
+    v2_4: "TIT2",
+    name3: "title",
+    name2: "Title",
+    name: "title",
+    frameSyntax: "default",
+  },
+  artist: {
+    v1: "artist",
+    v2_2: "TP1",
+    v2_3: "TPE1",
+    v2_4: "TPE1",
+    name3: "artist",
+    name2: "Artist",
+    name: "artist",
+    name3: "release time",
+    name2: "Release Time",
+    name: "releasetime",
+    frameSyntax: "default",
+  },
+  album: {
+    v1: "album",
+    v2_2: "TAL",
+    v2_3: "TALB",
+    v2_4: "TALB",
+    name3: "album",
+    name2: "Album",
+    name: "album",
+    frameSyntax: "default",
+  },
+  cover: {
+    v1: undefined,
+    v2_2: "PIC",
+    v2_3: "APIC",
+    v2_4: "APIC",
+    name3: "cover art",
+    name2: "Cover Art",
+    name: "cover",
+    frameSyntax: "APIC",
+  },
+  year: {
+    v1: "year",
+    v2_2: "TYE",
+    v2_3: "TYER",
+    v2_4: "TYER",
+    name3: "year",
+    name2: "Year",
+    name: "year",
+    frameSyntax: "year",
+  },
+  track: {
+    v1: "track",
+    v2_2: "TRK",
+    v2_3: "TRCK",
+    v2_4: "TRCK",
+    name3: "track number",
+    name2: "Track Number",
+    name: "track",
+    frameSyntax: "default",
+  },
+  genre: {
+    v1: "genre",
+    v2_2: "TCO",
+    v2_3: "TCON",
+    v2_4: "TCON",
+    name3: "genre",
+    name2: "Genre",
+    name: "genre",
+    frameSyntax: "genre",
+  },
+  composer: {
+    v1: undefined,
+    v2_2: "TCM",
+    v2_3: "TCOM",
+    v2_4: "TCOM",
+    name3: "composer",
+    name2: "Composer",
+    name: "composer",
+    frameSyntax: "default",
+  },
+  disk: {
+    v1: undefined,
+    v2_2: "TPA",
+    v2_3: "TPOS",
+    v2_4: "TPOS",
+    name3: "disk number",
+    name2: "Disk Number",
+    name: "disk",
+    frameSyntax: "fraction",
+  },
+  publisher: {
+    v1: undefined,
+    v2_2: "TPB",
+    v2_3: "TPUB",
+    v2_4: "TPUB",
+    name3: "publisher",
+    name2: "Publisher",
+    name: "publisher",
+    frameSyntax: "default",
+  },
+  comment: {
+    v1: "comment",
+    v2_2: "COM",
+    v2_3: "COMM",
+    v2_4: "COMM",
+    name3: "comment",
+    name2: "Comment",
+    name: "comment",
+    frameSyntax: "lang",
+  },
+  origalbum: {
+    v1: undefined,
+    v2_2: "TOT",
+    v2_3: "TOAL",
+    v2_4: "TOAL",
+    name3: "original album",
+    name2: "Original Album",
+    name: "origalbum",
+    frameSyntax: "default",
+  },
+  origartist: {
+    v1: undefined,
+    v2_2: "TOA",
+    v2_3: "TOPE",
+    v2_4: "TOPE",
+    name3: "original artist",
+    name2: "Original Artist",
+    name: "origartist",
+    frameSyntax: "default",
+  },
+  origfilename: {
+    v1: undefined,
+    v2_2: "TOF",
+    v2_3: "TOFN",
+    v2_4: "TOFN",
+    name3: "original file name",
+    name2: "Original File Name",
+    name: "origfilename",
+    frameSyntax: "default",
+  },
+  origlyricist: {
+    v1: undefined,
+    v2_2: "TOL",
+    v2_3: "TOLY",
+    v2_4: "TOLY",
+    name3: "original lyricist",
+    name2: "Original Lyricist",
+    name: "origlyricist",
+    frameSyntax: "default",
+  },
+  origyear: {
+    v1: undefined,
+    v2_2: "TOR",
+    v2_3: "TORY",
+    v2_4: "TDOR",
+    name3: "original year",
+    name2: "Original Year",
+    name: "origyear",
+    frameSyntax: "year",
+  },
+  wwwaudiosource: {
+    v1: undefined,
+    v2_2: "WAS",
+    v2_3: "WOAS",
+    v2_4: "WOAS",
+    name3: "audio source URL",
+    name2: "Audio Source URL",
+    name: "wwwaudiosource",
+    frameSyntax: "URL",
+  },
+  remixer: {
+    v1: undefined,
+    v2_2: "TP4",
+    v2_3: "TPE4",
+    v2_4: "TPE4",
+    name3: "remixer",
+    name2: "Remixer",
+    name: "remixer",
+    frameSyntax: "default",
+  },
+  tpe2: {
+    v1: undefined,
+    v2_2: "TP2",
+    v2_3: "TPE2",
+    v2_4: "TPE2",
+    name3: "release time",
+    name2: "Release Time",
+    name: "tpe2",
+    frameSyntax: "default",
+  },
+  conductor: {
+    v1: undefined,
+    v2_2: "TP3",
+    v2_3: "TPE3",
+    v2_4: "TPE3",
+    name3: "conductor",
+    name2: "Conductor",
+    name: "conductor",
+    frameSyntax: "default",
+  },
+  lyrics: {
+    v1: undefined,
+    v2_2: "ULT",
+    v2_3: "USLT",
+    v2_4: "USLT",
+    name3: "lyrics",
+    name2: "Lyrics",
+    name: "lyrics",
+    frameSyntax: "lang",
+  },
+  play_count: {
+    v1: undefined,
+    v2_2: "CNT",
+    v2_3: "PCNT",
+    v2_4: "PCNT",
+    name3: "play count",
+    name2: "Play Count",
+    name: "play_count",
+    frameSyntax: "number",
+  }, 
+  releasetime: {
+    v1: undefined,
+    v2_2: undefined,
+    v2_3: undefined,
+    v2_4: "TDRL",
+    name3: "release time",
+    name2: "Release Time",
+    name: "releasetime",
+    frameSyntax: "time",
+  },
+};
+
+async function writeOptionToAll (option) {
+  toast('Writing the '+option.name3+' to all files', TOAST_INFO)
+  let i = 0;
+  for await(let file of importedFiles){
+  try{
+    mp3tag = new MP3Tag(await loadFile(file))
+    mp3tag.read({
+      id3v1: true,
+      id3v2: true,
+      unsupported: true
+    })
+
+  mp3tag.tags.v1??={comment: ""}
+  mp3tag.tags.v2??={}
+  value = $('#'+option.name).val()
+  v2Value = value
+  if(!!option.v1){
+    mp3tag.tags.v1[option.v1] = value
+  }
+  if(!!option.v2_2){
+    mp3tag.tags.v2[option.v2_2] = v2Value
+  }
+  if(!!option.v2_3){
+    mp3tag.tags.v2[option.v2_3] = v2Value
+  }
+  if(!!option.v2_4){
+    mp3tag.tags.v2[option.v2_4] = v2Value
+  }
+  toast(`Wrote the ${option.name3} to ${file.name}[${i}]`, TOAST_INFOBULB)
+  console.log(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details)))
+  mp3tag.save(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details))?undefined:({
+    id3v1: {
+      include: $('#inc1').prop('checked')
+    },
+    id3v2: {
+      include: $('#tver').prop('selectedIndex') !== 0,
+      version: [undefined, 2, 3, 4][$('#tver').prop('selectedIndex')],
+      unsupported: $('#incu').prop('checked')
+    }
+  }))
+  if (mp3tag.error === '') {
+    const modifiedFile = new File([mp3tag.buffer], file.name, {
+      type: file.type
+    })
+
+    importedFiles[i] = modifiedFile
+    toast('MP3 was modified and is ready to download', TOAST_SUCCESS)
+  } else toast(mp3tag.error, TOAST_DANGER)
+    }catch(e){console.error(e.toString(), e.stack)}
+    i++;
+  }
+}
+
+
+async function writeTitleToAll () {
+  toast('Writing the title to all files', TOAST_INFO)
+  let i = 0;
+  for await(let file of importedFiles){
+  try{
+    mp3tag = new MP3Tag(await loadFile(file))
+    mp3tag.read({
+      id3v1: true,
+      id3v2: true,
+      unsupported: true
+    })
+
+  mp3tag.tags.v1??={comment: ""}
+  mp3tag.tags.v2??={}
+  mp3tag.tags.v1.title = $('#title').val()
+  mp3tag.tags.v2.TT2 = $('#title').val()
+  mp3tag.tags.v2.TIT2 = $('#title').val()
+  toast(`Wrote the title to ${file.name}[${i}]`, TOAST_INFOBULB)
+  console.log(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details)))
+  mp3tag.save(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details))?undefined:({
+    id3v1: {
+      include: $('#inc1').prop('checked')
+    },
+    id3v2: {
+      include: $('#tver').prop('selectedIndex') !== 0,
+      version: [undefined, 2, 3, 4][$('#tver').prop('selectedIndex')],
+      unsupported: $('#incu').prop('checked')
+    }
+  }))
+  if (mp3tag.error === '') {
+    const modifiedFile = new File([mp3tag.buffer], file.name, {
+      type: file.type
+    })
+
+    importedFiles[i] = modifiedFile
+    toast('MP3 was modified and is ready to download', TOAST_SUCCESS)
+  } else toast(mp3tag.error, TOAST_DANGER)
+    }catch(e){console.error(e.toString(), e.stack)}
+    i++;
+  }
+}
+
 async function writeData () {
   toast('Writing the tags to file', TOAST_INFO)
   writeDetails()
@@ -238,7 +570,7 @@ async function writeData () {
     id3v1: {
       include: $('#inc1').prop('checked')/*$('#tver').prop('selectedIndex') === 0*/
     },
-    id3v2: {
+      id3v2: {
       include: $('#tver').prop('selectedIndex') !== 0,
       version: [undefined, 2, 3, 4][$('#tver').prop('selectedIndex')],
       unsupported: $('#incu').prop('checked')
@@ -504,4 +836,8 @@ function resetForm () {
   $('#cover-preview').attr('style', "image-rendering: pixelated;")
   $('#cover-art-debug').text("No Debug Info")
   $('#audio-list').find('.flash').removeClass('flash')
+  try{
+    $('#v1Debug').text("v1 Details: N/A")
+    $('#v2Debug').text("v2 Details: N/A")
+  }catch(e){console.error(e.toString(), e.stack)}
 }

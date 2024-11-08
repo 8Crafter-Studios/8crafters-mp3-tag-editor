@@ -1,4 +1,4 @@
-<html dir="ltr" lang="en" id="html" style="font-family: MINECRAFTFONT" style="font-family: MINECRAFTFONT"><head>
+ <html dir="ltr" lang="en" id="html" style="font-family: MINECRAFTFONT" style="font-family: MINECRAFTFONT"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta name="keywords" content="mp3, id3, audio, tag, edit, write, editor, demo, online">
@@ -13,7 +13,10 @@
   <link href="/assets/css/editor.css?v=51c2580e417a51b089de53d38f58f5010a81028c" rel="stylesheet">
  
   <script src="/assets/js/jquery/jquery.min.js"></script>
-  <script src="/assets/js/default.js"></script>
+  <script src="/assets/js/default.js"></script><!--
+  <script src="/index.js"></script>-->
+  <script src="/assets/js/JSONB.js" type="module"></script>
+  <script src="/node_modules/express/index.js" type="module"></script>
    
   <script src="/assets/js/mp3tag.js/mp3tag.min.js?v=51c2580e417a51b089de53d38f58f5010a81028c"></script>
    
@@ -94,8 +97,8 @@
    
  
    
-  <div class="toaster-container" aria-live="polite" aria-atomic="true">
-    <div id="toaster" class="toaster"></div>
+  <div class="toaster-container" aria-live="polite" aria-atomic="true" style="margin: 0px; padding: 0px; display: flex; position: fixed; height:100%; overflow: scroll; flex-grow: 1; width 0; top: 0px; right: 0px; z-index: 9; scroll-margin: 20px;">
+    <div id="toaster" class="toaster" style="margin: 0px; padding: 0px; margin-bottom: 0px; margin-right: 0px; display: block; position: relative;"></div><div id="toast_scroll_box_padding" style="position: relative; display: block; z-index: 9; height: 100px;"><div style="position: relative; display: block; height: 100px;"></div></div>
   </div>
    
  
@@ -436,7 +439,7 @@
         </div>
       </div>
       <div class="form-group">
-<label for="tvet">Tag Version Override:</label>
+<label for="tver">Tag Version Override:</label>
 
 <select name="tver" id="tver" form="" class="btn">
   <optgroup label="v1">
@@ -483,7 +486,7 @@
       </a>
     </footer>
   </form>
-  <div class="mcdropdown nsel" style="display: inline-block">
+  <div class="mcdropdown nsel" id="testdropdown" style="display: inline-block">
     <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
       <span style="color: initial;">Test Dropdown</span>
       <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
@@ -500,6 +503,27 @@
           <input type="radio" id="opt2" name="testdropdown" value="OPT2" class="mcradio">
           <div class="mcradiocheckbox"></div>
           <label for="opt2">Option 2</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mcdropdown nsel" id="testmultiselectdropdown" style="display: inline-block">
+    <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+      <span style="color: initial;">Test Dropdown</span>
+      <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
+      <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" hidden>
+    </button>
+    <div id="dropdowncontents" hidden style="display: flex;">
+      <div style="flex-grow: 1; width: 0;">
+        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
+          <input type="checkbox" id="opt1" name="testmultiselectdropdown" value="OPT1" class="mctoggle">
+          <div class="mctogglecheckbox"></div>
+          <label>Option 1</label>
+        </div>
+        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
+          <input type="checkbox" id="opt2" name="testmultiselectdropdown" value="OPT2" class="mctoggle">
+          <div class="mctogglecheckbox"></div>
+          <label>Option 2</label>
         </div>
       </div>
     </div>
@@ -551,4 +575,4 @@
       <span class="Toast-content"></span>
     </div>
   </template>
-</body></html>
+</body></html -

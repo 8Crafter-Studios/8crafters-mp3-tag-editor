@@ -10,12 +10,13 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "express": "^4.16.4"
+        "express": "^4.16.4",
+        "typescript": "^5.6.3"
     },
     "tasks": {
         "run-index": {
-            "name": "Run index",
-            "command": "node index.js"
+            "name": "Run node update",
+            "command": "node update"
         }
     }
 }
