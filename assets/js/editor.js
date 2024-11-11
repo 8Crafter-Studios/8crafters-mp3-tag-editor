@@ -224,8 +224,11 @@ function displayDetails () {
     if (tags.v2.TDOR) $('#origyear').val(tags.v2.TDOR)}catch(e){console.error(e.toString(), e.stack)}
     if (tags.v2.TPUB) $('#publisher').val(tags.v2.TPUB)
     if (tags.v2.WOAS) $('#wwwaudiosource').val(tags.v2.WOAS)
-    try{$('#v1Debug').text("v1 Details: "+(JSON.stringify(tags.v1Details)??"N/A"))
-    $('#v2Debug').text("v2 Details: "+(JSON.stringify(tags.v2Details)??"N/A"))}catch(e){console.error(e.toString(), e.stack)}
+    try{
+      $('#v1Debug').text("v1 Details: "+(JSON.stringify(tags.v1Details)??"N/A"))
+      $('#v2Debug').text("v2 Details: "+(JSON.stringify(tags.v2Details)??"N/A"))
+      $('#year').val(tags.v2.TDRC??tags.v2.TYER??tags.v2.TYE??tags.v1?.year)
+    }catch(e){console.error(e.toString(), e.stack)}
 
   }
 }
@@ -278,7 +281,7 @@ const tagVersionMap = {
     v1: "year",
     v2_2: "TYE",
     v2_3: "TYER",
-    v2_4: "TYER",
+    v2_4: "TDRC",
     name3: "year",
     name2: "Year",
     name: "year",
@@ -481,6 +484,20 @@ async function writeOptionToAll (option) {
   mp3tag.tags.v1??={comment: ""}
   mp3tag.tags.v2??={}
   value = $('#'+option.name).val()
+  if(option.frameSyntax=="APIC"){
+    if (imageBytes === "-1") {
+      value = []
+    } else if (imageBytes !== null) {
+      value = [{
+        format: imageType,
+        type: 3,
+        description: '',
+        data: imageBytes
+      }]
+    }else{
+      value = []
+    }
+  }
   v2Value = value
   if(!!option.v1){
     mp3tag.tags.v1[option.v1] = value
@@ -712,7 +729,7 @@ if($('#tver').prop('selectedIndex') === 0){
   mp3tag.tags.v2.TIT2 = $('#title').val()
   mp3tag.tags.v2.TPE1 = $('#artist').val()
   mp3tag.tags.v2.TALB = $('#album').val()
-  mp3tag.tags.v2.TYER = $('#year').val()
+  mp3tag.tags.v2.TDRC = $('#year').val()
   mp3tag.tags.v2.TRCK = $('#track').val()
   mp3tag.tags.v2.TCON = $('#genre').val()
   mp3tag.tags.v2.TCOM = $('#composer').val()

@@ -459,12 +459,33 @@
         <p id="v2Debug">v2Details: N/A</p>
       </div>
 <label for="allapply">What To Apply To All Files:</label>
-<select name="allapply" id="allapply" form="" class="btn" style="margin-right: 10px;" multiple>
+<div class="mcdropdown nsel" id="allapply" style="display: inline-block">
+    <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+      <span style="color: initial;">Selected Options</span>
+      <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
+      <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" hidden>
+    </button>
+    <div id="dropdowncontents" hidden style="display: flex;">
+      <div style="flex-grow: 1; width: 0;">
+        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
+          <input type="checkbox" id="applyCoverToAll" class="mctoggle">
+          <div class="mctogglecheckbox"></div>
+          <label>Cover</label>
+        </div>
+        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
+          <input type="checkbox" id="applyTitleToAll" class="mctoggle">
+          <div class="mctogglecheckbox"></div>
+          <label>Title</label>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--<select name="allapply" id="allapply" form="" class="btn" style="margin-right: 10px;" multiple>
   <option value="cover">Cover</option>
   <option value="title">Title</option>
   <option value="artist">Artist</option>
   <option value="album">Album</option>
-</select>
+</select>-->
       <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel" style="font-family: MINECRAFTFONT; display: inline;">
     </div>
  
@@ -575,4 +596,4 @@
       <span class="Toast-content"></span>
     </div>
   </template>
-</body></html -
+</body></html -/R
