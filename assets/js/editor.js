@@ -92,6 +92,13 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
       download: file.name
     })
   })
+  const allApplyOptionsDiv = $('#allapply').find('#dropdowncontents').find('div')
+  Object.values(tagVersionMap).forEach(option=>allApplyOptionsDiv.append(`
+        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\\\'checkbox\\\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
+          <input type="checkbox" id="${option.allApplyEnabledId}" class="mctoggle" form="">
+          <div class="mctogglecheckbox"></div>
+          <label>${option.name2}</label>
+        </div>`))
 
   $('#track, #year, #disk').on('input', function (event) {
     const validity = $(this).prop('validity')
@@ -107,6 +114,15 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
   })
     console.log(1)
 })
+
+async function applySelectedOptionsToAll(){
+  const allApplyOptionsDiv = $('#allapply').find('#dropdowncontents').find('div')
+  for await(let option of Object.values(tagVersionMap)){
+    if(allApplyOptionsDiv.find('#'+option.allApplyEnabledId).prop('checked')==true){
+      await writeOptionToAll(option)                              
+    }
+  }
+}
 
 function importFiles (files) {
   console.log(1)
@@ -154,6 +170,8 @@ async function audioView (event) {
   }else{
     $('#apply_selected_image').attr('disabled', "")
   }
+  $('#edit-form').find('.mcdropdown').find('#dropdowncontents').find('*').attr('inert', null)
+  $('#edit-form').find('.mcdropdown').find('#dropdowncontents').find('*').removeClass('.disabled-toggle-checkbox')
   $(audioItem).addClass('flash')
 try{TOAST_INFO; TOAST_DANGER; TOAST_SUCCESS}catch(e){console.error(e.toString(), e.stack)}
   try{toast('Reading file and tags. Please wait...', TOAST_INFO)}catch(e){console.error(e.toString(), e.stack)}
@@ -205,6 +223,8 @@ function displayDetails () {
         style: null
       })
       $('#cover-art-debug').text(`Format: ${image.format??"null"}`)
+      imageBytes=image.data;
+      imageType=image.format; 
     }
 
     if (tags.v2.TCOM) $('#composer').val(tags.v2.TCOM)
@@ -234,6 +254,17 @@ function displayDetails () {
 }
 
 const tagVersionMap = {
+  cover: {
+    v1: undefined,
+    v2_2: "PIC",
+    v2_3: "APIC",
+    v2_4: "APIC",
+    name3: "cover art",
+    name2: "Cover Art",
+    name: "cover",
+    frameSyntax: "APIC",
+    allApplyEnabledId: "AAECover",
+  },
   title: {
     v1: "title",
     v2_2: "TT2",
@@ -243,6 +274,7 @@ const tagVersionMap = {
     name2: "Title",
     name: "title",
     frameSyntax: "default",
+    allApplyEnabledId: "AAETitle",
   },
   artist: {
     v1: "artist",
@@ -252,10 +284,8 @@ const tagVersionMap = {
     name3: "artist",
     name2: "Artist",
     name: "artist",
-    name3: "release time",
-    name2: "Release Time",
-    name: "releasetime",
     frameSyntax: "default",
+    allApplyEnabledId: "AAEArtist",
   },
   album: {
     v1: "album",
@@ -266,26 +296,7 @@ const tagVersionMap = {
     name2: "Album",
     name: "album",
     frameSyntax: "default",
-  },
-  cover: {
-    v1: undefined,
-    v2_2: "PIC",
-    v2_3: "APIC",
-    v2_4: "APIC",
-    name3: "cover art",
-    name2: "Cover Art",
-    name: "cover",
-    frameSyntax: "APIC",
-  },
-  year: {
-    v1: "year",
-    v2_2: "TYE",
-    v2_3: "TYER",
-    v2_4: "TDRC",
-    name3: "year",
-    name2: "Year",
-    name: "year",
-    frameSyntax: "year",
+    allApplyEnabledId: "AAEAlbum",
   },
   track: {
     v1: "track",
@@ -296,26 +307,7 @@ const tagVersionMap = {
     name2: "Track Number",
     name: "track",
     frameSyntax: "default",
-  },
-  genre: {
-    v1: "genre",
-    v2_2: "TCO",
-    v2_3: "TCON",
-    v2_4: "TCON",
-    name3: "genre",
-    name2: "Genre",
-    name: "genre",
-    frameSyntax: "genre",
-  },
-  composer: {
-    v1: undefined,
-    v2_2: "TCM",
-    v2_3: "TCOM",
-    v2_4: "TCOM",
-    name3: "composer",
-    name2: "Composer",
-    name: "composer",
-    frameSyntax: "default",
+    allApplyEnabledId: "AAETrack",
   },
   disk: {
     v1: undefined,
@@ -326,6 +318,40 @@ const tagVersionMap = {
     name2: "Disk Number",
     name: "disk",
     frameSyntax: "fraction",
+    allApplyEnabledId: "AAEDisk",
+  },
+  genre: {
+    v1: "genre",
+    v2_2: "TCO",
+    v2_3: "TCON",
+    v2_4: "TCON",
+    name3: "genre",
+    name2: "Genre",
+    name: "genre",
+    frameSyntax: "genre",
+    allApplyEnabledId: "AAEGenre",
+  },
+  year: {
+    v1: "year",
+    v2_2: "TYE",
+    v2_3: "TYER",
+    v2_4: "TDRC",
+    name3: "year",
+    name2: "Year",
+    name: "year",
+    frameSyntax: "year",
+    allApplyEnabledId: "AAEYear",
+  },
+  composer: {
+    v1: undefined,
+    v2_2: "TCM",
+    v2_3: "TCOM",
+    v2_4: "TCOM",
+    name3: "composer",
+    name2: "Composer",
+    name: "composer",
+    frameSyntax: "default",
+    allApplyEnabledId: "AAEComposer",
   },
   publisher: {
     v1: undefined,
@@ -336,6 +362,7 @@ const tagVersionMap = {
     name2: "Publisher",
     name: "publisher",
     frameSyntax: "default",
+    allApplyEnabledId: "AAEPublisher",
   },
   comment: {
     v1: "comment",
@@ -346,6 +373,7 @@ const tagVersionMap = {
     name2: "Comment",
     name: "comment",
     frameSyntax: "lang",
+    allApplyEnabledId: "AAEComment",
   },
   origalbum: {
     v1: undefined,
@@ -356,6 +384,7 @@ const tagVersionMap = {
     name2: "Original Album",
     name: "origalbum",
     frameSyntax: "default",
+    allApplyEnabledId: "AAEOrigAlbum",
   },
   origartist: {
     v1: undefined,
@@ -366,6 +395,7 @@ const tagVersionMap = {
     name2: "Original Artist",
     name: "origartist",
     frameSyntax: "default",
+    allApplyEnabledId: "AAEOrigArtist",
   },
   origfilename: {
     v1: undefined,
@@ -376,6 +406,7 @@ const tagVersionMap = {
     name2: "Original File Name",
     name: "origfilename",
     frameSyntax: "default",
+    allApplyEnabledId: "AAEOrigFileName",
   },
   origlyricist: {
     v1: undefined,
@@ -386,6 +417,7 @@ const tagVersionMap = {
     name2: "Original Lyricist",
     name: "origlyricist",
     frameSyntax: "default",
+    allApplyEnabledId: "AAELyricist",
   },
   origyear: {
     v1: undefined,
@@ -396,6 +428,7 @@ const tagVersionMap = {
     name2: "Original Year",
     name: "origyear",
     frameSyntax: "year",
+    allApplyEnabledId: "AAEOrigYear",
   },
   wwwaudiosource: {
     v1: undefined,
@@ -406,6 +439,7 @@ const tagVersionMap = {
     name2: "Audio Source URL",
     name: "wwwaudiosource",
     frameSyntax: "URL",
+    allApplyEnabledId: "AAEWWWAudioSource",
   },
   remixer: {
     v1: undefined,
@@ -416,6 +450,7 @@ const tagVersionMap = {
     name2: "Remixer",
     name: "remixer",
     frameSyntax: "default",
+    allApplyEnabledId: "AAERemixer",
   },
   tpe2: {
     v1: undefined,
@@ -426,6 +461,7 @@ const tagVersionMap = {
     name2: "Release Time",
     name: "tpe2",
     frameSyntax: "default",
+    allApplyEnabledId: "AAETPE2",
   },
   conductor: {
     v1: undefined,
@@ -436,6 +472,7 @@ const tagVersionMap = {
     name2: "Conductor",
     name: "conductor",
     frameSyntax: "default",
+    allApplyEnabledId: "AAEConductor",
   },
   lyrics: {
     v1: undefined,
@@ -446,6 +483,7 @@ const tagVersionMap = {
     name2: "Lyrics",
     name: "lyrics",
     frameSyntax: "lang",
+    allApplyEnabledId: "AAELyrics",
   },
   play_count: {
     v1: undefined,
@@ -456,6 +494,7 @@ const tagVersionMap = {
     name2: "Play Count",
     name: "play_count",
     frameSyntax: "number",
+    allApplyEnabledId: "AAEPlayCount",
   }, 
   releasetime: {
     v1: undefined,
@@ -466,6 +505,7 @@ const tagVersionMap = {
     name2: "Release Time",
     name: "releasetime",
     frameSyntax: "time",
+    allApplyEnabledId: "AAEReleaseTime",
   },
 };
 
@@ -844,7 +884,9 @@ function resetForm () {
   imageBytes = null
 
   $('#edit-form').trigger('reset')
-  $('#edit-form').find('input, textarea, select, button').not('.no-change-disabled').attr('disabled', true)
+  $('#edit-form').find('input, textarea, select, button').not('.no-change-disabled').attr('disabled', true)/*
+  $('#edit-form').find('.mcdropdown').find('#dropdowncontents').find('*').attr('inert', true)*/
+  $('#edit-form').find('.mcdropdown').find('#dropdowncontents').find('*').addClass('.disabled-toggle-checkbox')
   $('#a-button').attr('disabled', true)
   $('#edit-form .form-group').removeClass('position-relative errored')
   $('#download').attr({ href: null, download: null })

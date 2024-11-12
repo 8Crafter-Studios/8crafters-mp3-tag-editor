@@ -97,7 +97,7 @@
    
  
    
-  <div class="toaster-container" aria-live="polite" aria-atomic="true" style="margin: 0px; padding: 0px; display: flex; position: fixed; height:100%; overflow: scroll; flex-grow: 1; width 0; top: 0px; right: 0px; z-index: 9; scroll-margin: 20px;">
+  <div class="toaster-container" aria-live="polite" aria-atomic="true" style="margin: 0px; padding: 0px; display: flex; position: fixed; max-height:100%; overflow: scroll; flex-grow: 1; width 0; top: 0px; right: 0px; z-index: 9; scroll-margin: 20px;">
     <div id="toaster" class="toaster" style="margin: 0px; padding: 0px; margin-bottom: 0px; margin-right: 0px; display: block; position: relative;"></div><div id="toast_scroll_box_padding" style="position: relative; display: block; z-index: 9; height: 100px;"><div style="position: relative; display: block; height: 100px;"></div></div>
   </div>
    
@@ -114,7 +114,7 @@
         <span id="cover-art-debug">No Debug Info</span>
       </div>
       <div class="form-group-body">
-        <input type="file" id="cover" name="cover" accept="image/jpeg,image/png" hidden="true" class="form-control" disabled="" form="">
+        <input type="file" id="cover" name="cover" accept="image/jpeg,image/png,image/*" hidden="true" class="form-control" disabled="" form="">
         <label for="cover" class="" id="cover-file-select-button" disabled="">
             <input type="button" value="Choose File" disabled="true" class="btn nsel" id="a-button" style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="cover.click()">
           <span id="cover-filename">Select cover art</span>
@@ -122,11 +122,11 @@
       </div>
       <p id="cover-validation" class="d-none note"></p>
       <br>
-      <input type="button" value="Clear Cover Art" disabled="true" class="btn nsel" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px; display: inline;">
-      <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image" style="font-family: MINECRAFTFONT; margin-top: 5px; display: inline;">Apply Selected Image</button>
+      <input type="button" value="Clear Cover Art" disabled="true" class="btn nsel" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">
+      <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image" style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">Apply Selected Image</button>
     </div>
  
-    <div class="form-group">
+    <div class="form-group" style="margin-top: -20px">
       <div class="form-group-header">
         <label for="title">Title</label>
       </div>
@@ -459,7 +459,7 @@
         <p id="v2Debug">v2Details: N/A</p>
       </div>
 <label for="allapply">What To Apply To All Files:</label>
-<div class="mcdropdown nsel" id="allapply" style="display: inline-block">
+<div class="mcdropdown nsel" id="allapply" form="" style="display: inline-block">
     <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
       <span style="color: initial;">Selected Options</span>
       <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
@@ -467,16 +467,6 @@
     </button>
     <div id="dropdowncontents" hidden style="display: flex;">
       <div style="flex-grow: 1; width: 0;">
-        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
-          <input type="checkbox" id="applyCoverToAll" class="mctoggle">
-          <div class="mctogglecheckbox"></div>
-          <label>Cover</label>
-        </div>
-        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
-          <input type="checkbox" id="applyTitleToAll" class="mctoggle">
-          <div class="mctogglecheckbox"></div>
-          <label>Title</label>
-        </div>
       </div>
     </div>
   </div>
@@ -486,7 +476,7 @@
   <option value="artist">Artist</option>
   <option value="album">Album</option>
 </select>-->
-      <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel" style="font-family: MINECRAFTFONT; display: inline;">
+      <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel" style="font-family: MINECRAFTFONT; display: inline;" onclick="applySelectedOptionsToAll()">
     </div>
  
     <footer class="form-actions">
@@ -596,4 +586,4 @@
       <span class="Toast-content"></span>
     </div>
   </template>
-</body></html -/R
+</body></html>
