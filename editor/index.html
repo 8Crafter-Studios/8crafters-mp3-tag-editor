@@ -236,6 +236,7 @@
       </div>
     </div>
     <input type="button" disabled onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'" class="btn nsel" value="Show/Hide Advanced Options" style="color: initial">
+    <input type="button" disabled onClick="!!raw_tags_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'" class="btn nsel" value="Show/Hide Raw Tags" style="color: initial">
     <br>
     <div id="advanced_section" hidden>
     <div class="form-group">
@@ -477,6 +478,16 @@
   <option value="album">Album</option>
 </select>-->
       <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel" style="font-family: MINECRAFTFONT; display: inline;" onclick="applySelectedOptionsToAll()">
+    </div>
+    <div id="raw_tags_box" hidden>
+      <div class="form-group">
+        <div class="form-group-header">
+          <label for="raw_tags">Raw Tags (JSON)</label>
+        </div>
+        <div class="form-group-body">
+          <textarea id="raw_tags" name="raw_tags" placeholder="JSON" rows="5" class="form-control" disabled=""></textarea>
+         </div>
+      </div>
     </div>
  
     <footer class="form-actions">

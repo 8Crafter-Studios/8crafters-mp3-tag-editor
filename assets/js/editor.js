@@ -204,6 +204,10 @@ function imageURL(data, type){
   try{const r = `data:${type};base64,${_arrayBufferToBase64(data)}`; console.log(r); return r;}catch(e){console.error(e.toString(), e.stack)}
 }*/
 
+function logmp3tag(){
+  console.log(JSONB.stringify(mp3tag, (key, value)=>value.length>=1000?"Too Long To Display; Length: "+value.length:value, 2, {undefined: true, null: true, NaN: true, bigint: true, Infinity: true, NegativeInfinity: true}))
+}
+
 function displayDetails () {
   console.log(3)
   const tags = mp3tag.tags
@@ -213,6 +217,19 @@ function displayDetails () {
   $('#year').val(tags.year)
   $('#track').val(tags.track)
   $('#genre').val(tags.genre)
+  $('#comment').val(tags.comment)
+  if (tags.v1?.comment && tags.v1?.comment?.length > 0) {
+    $('#comment').val(tags.v1.comment)
+  }
+  try{
+    $('#raw_tags').val(JSONB.stringify(tags, undefined, 2, {undefined: true, null: true, NaN: true, bigint: true, Infinity: true, NegativeInfinity: true}))
+  }catch{
+    try{
+      $('#raw_tags').val(JSON.stringify(tags, undefined, 2))
+    }catch(e){
+      console.error(e.toString, e.stack)
+    }
+  }
 
   if (tags.v2) {
     if (tags.v2.APIC && tags.v2.APIC.length > 0) {
@@ -224,12 +241,29 @@ function displayDetails () {
       })
       $('#cover-art-debug').text(`Format: ${image.format??"null"}`)
       imageBytes=image.data;
-      imageType=image.format; 
+      imageType=image.format;
+    } else if (tags.v2.PIC && tags.v2.PIC.length > 0) {
+      const image = tags.v2.PIC[0]
+      // console.log(9, image, image.data, image.format)
+      $('#cover-preview').attr({
+        src: imageURL(image.data, image.format),
+        style: null
+      })
+      $('#cover-art-debug').text(`Format: ${image.format??"null"}`)
+      imageBytes=image.data;
+      imageType=image.format;
     }
 
     if (tags.v2.TCOM) $('#composer').val(tags.v2.TCOM)
     if (tags.v2.USLT && tags.v2.USLT.length > 0) {
       $('#lyrics').val(tags.v2.USLT[0].text)
+    } else if (tags.v2.ULT && tags.v2.ULT.length > 0) {
+      $('#lyrics').val(tags.v2.ULT[0].text)
+    }
+    if (tags.v2.COMM && tags.v2.COMM.length > 0) {
+      $('#comment').val(tags.v2.COMM[0].text)
+    } else if (tags.v2.COM && tags.v2.COM.length > 0) {
+      $('#comment').val(tags.v2.COM[0].text)
     }
 
     if (tags.v2.PCNT??tags.v2.CNT) $('#play_count').val(tags.v2.PCNT??tags.v2.CNT)
@@ -523,7 +557,7 @@ async function writeOptionToAll (option) {
 
   mp3tag.tags.v1??={comment: ""}
   mp3tag.tags.v2??={}
-  value = $('#'+option.name).val()
+  value = option.disableV1Value?undefined:option.v1Value??option.value??$('#'+option.name).val()
   if(option.frameSyntax=="APIC"){
     if (imageBytes === "-1") {
       value = []
@@ -538,7 +572,14 @@ async function writeOptionToAll (option) {
       value = []
     }
   }
-  v2Value = value
+  v2Value = option.disableV2Value?undefined:option.v2Value??option.value??value
+  if(option.frameSyntax=="lang"){
+    v2Value = option.v2Value??option.value??[{
+      language: option.language??'eng',
+      descriptor: option.langDescriptor??'',
+      text: value
+    }]
+  }
   if(!!option.v1){
     mp3tag.tags.v1[option.v1] = value
   }
@@ -641,7 +682,7 @@ async function writeData () {
 
     importedFiles[currentIndex] = modifiedFile
     toast('MP3 was modified and is ready to download', TOAST_SUCCESS)
-  } else toast(mp3tag.error, TOAST_DANGER)
+  } else {toast(mp3tag.error, TOAST_DANGER); console.error(mp3tag.error)}
 }
 
 async function writeDetails () {
@@ -801,8 +842,12 @@ if($('#tver').prop('selectedIndex') === 0){
       descriptor: '',
       text: comment
     }]
+    console.log(11)
+    console.log(mp3tag.tags.v2.COMM)
   }else{
     delete mp3tag.tags.v2.COMM;
+    console.log(12)
+    console.log(mp3tag.tags.v2.COMM)
   }
   mp3tag.tags.v2.TPE4 = $('#remixer').val()
   mp3tag.tags.v2.TPE2 = $('#tpe2').val()
