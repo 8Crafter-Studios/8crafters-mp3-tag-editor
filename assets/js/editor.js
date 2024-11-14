@@ -297,6 +297,7 @@ const tagVersionMap = {
     name: "cover",
     frameSyntax: "APIC",
     allApplyEnabledId: "AAECover",
+    required: false,
   },
   title: {
     v1: "title",
@@ -308,6 +309,7 @@ const tagVersionMap = {
     name: "title",
     frameSyntax: "default",
     allApplyEnabledId: "AAETitle",
+    required: false,
   },
   artist: {
     v1: "artist",
@@ -407,6 +409,8 @@ const tagVersionMap = {
     name: "comment",
     frameSyntax: "lang",
     allApplyEnabledId: "AAEComment",
+    requiredV1: true,
+    requiredV2: false,
   },
   origalbum: {
     v1: undefined,
@@ -528,7 +532,7 @@ const tagVersionMap = {
     name: "play_count",
     frameSyntax: "number",
     allApplyEnabledId: "AAEPlayCount",
-  }, 
+  },
   releasetime: {
     v1: undefined,
     v2_2: undefined,
@@ -539,6 +543,50 @@ const tagVersionMap = {
     name: "releasetime",
     frameSyntax: "time",
     allApplyEnabledId: "AAEReleaseTime",
+  },
+  podcastcategory: {
+    v1: undefined,
+    v2_2: "CNT",
+    v2_3: "PCNT",
+    v2_4: "PCNT",
+    name3: "play count",
+    name2: "Play Count",
+    name: "play_count",
+    frameSyntax: "string",
+    allApplyEnabledId: "AAEPodcastCategory",
+  },
+  podcastdesc: {
+    v1: undefined,
+    v2_2: "CNT",
+    v2_3: "PCNT",
+    v2_4: "PCNT",
+    name3: "play count",
+    name2: "Play Count",
+    name: "play_count",
+    frameSyntax: "string",
+    allApplyEnabledId: "AAEPodcastDesc",
+  },
+  podcastid: {
+    v1: undefined,
+    v2_2: "CNT",
+    v2_3: "PCNT",
+    v2_4: "PCNT",
+    name3: "play count",
+    name2: "Play Count",
+    name: "play_count",
+    frameSyntax: "string",
+    allApplyEnabledId: "AAEPodcastId",
+  },
+  podcastkeywords: {
+    v1: undefined,
+    v2_2: "CNT",
+    v2_3: "PCNT",
+    v2_4: "PCNT",
+    name3: "play count",
+    name2: "Play Count",
+    name: "play_count",
+    frameSyntax: "string",
+    allApplyEnabledId: "AAEPodcastKeywords",
   },
 };
 
@@ -580,16 +628,16 @@ async function writeOptionToAll (option) {
     }]
   }
   if(!!option.v1){
-    mp3tag.tags.v1[option.v1] = value
+    (option.requiredV1??option.required || value!="")?delete mp3tag.tags.v1[option.v1]:mp3tag.tags.v1[option.v1] = value
   }
   if(!!option.v2_2){
-    mp3tag.tags.v2[option.v2_2] = v2Value
+    (option.requiredV2??option.required || value!="")?delete mp3tag.tags.v2[option.v2_2]:mp3tag.tags.v2[option.v2_2] = v2Value
   }
   if(!!option.v2_3){
-    mp3tag.tags.v2[option.v2_3] = v2Value
+    (option.requiredV2??option.required || value!="")?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
   }
   if(!!option.v2_4){
-    mp3tag.tags.v2[option.v2_4] = v2Value
+    (option.requiredV1??option.required || value!="")?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
   }
   toast(`Wrote the ${option.name3} to ${file.name}[${i}]`, TOAST_INFOBULB)
   console.log(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details)))
@@ -692,15 +740,15 @@ async function writeDetails () {
   mp3tag.tags.v2 = mp3tag.tags.v2 || {}
 
 if($('#tver').prop('selectedIndex') === 0){
-  mp3tag.tags.v1.title = $('#title').val()
-  mp3tag.tags.v1.artist = $('#artist').val()
-  mp3tag.tags.v1.album = $('#album').val()
-  mp3tag.tags.v1.year = $('#year').val()
-  mp3tag.tags.v1.track = $('#track').val()
-  mp3tag.tags.v1.genre = $('#genre').val()
+  $('#title').val()==""?delete mp3tag.tags.v1.title:mp3tag.tags.v1.title = $('#title').val()
+  $('#artist').val()==""?delete mp3tag.tags.v1.artist:mp3tag.tags.v1.artist = $('#artist').val()
+  $('#album').val()==""?delete mp3tag.tags.v1.album:mp3tag.tags.v1.album = $('#album').val()
+  $('#year').val()==""?delete mp3tag.tags.v1.year:mp3tag.tags.v1.year = $('#year').val()
+  $('#track').val()==""?delete mp3tag.tags.v1.tracj:mp3tag.tags.v1.track = $('#track').val()
+  $('#genre').val()==""?delete mp3tag.tags.v1.genre:mp3tag.tags.v1.genre = $('#genre').val()
   mp3tag.tags.v1.comment = $('#comment').val()
 }else if($('#tver').prop('selectedIndex') === 1){
-  mp3tag.tags.v2.TT2 = $('#title').val()
+  $('#title').val()==""?delete mp3tag.tags.v2.TT2:mp3tag.tags.v2.TT2 = $('#title').val()
   mp3tag.tags.v2.TP1 = $('#artist').val()
   mp3tag.tags.v2.TAL = $('#album').val()
   mp3tag.tags.v2.TYE = $('#year').val()
