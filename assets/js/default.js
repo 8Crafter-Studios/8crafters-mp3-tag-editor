@@ -42,3 +42,7 @@ function loadFile (file) {
     reader.readAsArrayBuffer(file)
   })
 }
+
+$(document).ready(function () {
+  $('button, input, textarea, select, option, [onclick]').on('touchstart', ()=>{})
+})
