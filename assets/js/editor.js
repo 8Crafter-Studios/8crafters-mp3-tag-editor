@@ -628,16 +628,16 @@ async function writeOptionToAll (option) {
     }]
   }
   if(!!option.v1){
-    (option.requiredV1??option.required || value!="")?delete mp3tag.tags.v1[option.v1]:mp3tag.tags.v1[option.v1] = value
+    (option.requiredV1??(option.required || value!=""))?delete mp3tag.tags.v1[option.v1]:mp3tag.tags.v1[option.v1] = value
   }
   if(!!option.v2_2){
-    (option.requiredV2??option.required || value!="")?delete mp3tag.tags.v2[option.v2_2]:mp3tag.tags.v2[option.v2_2] = v2Value
+    (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_2]:mp3tag.tags.v2[option.v2_2] = v2Value
   }
   if(!!option.v2_3){
-    (option.requiredV2??option.required || value!="")?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
+    (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
   }
   if(!!option.v2_4){
-    (option.requiredV1??option.required || value!="")?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
+    (option.requiredV1??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
   }
   toast(`Wrote the ${option.name3} to ${file.name}[${i}]`, TOAST_INFOBULB)
   console.log(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details)))
