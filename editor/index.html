@@ -1,600 +1,732 @@
- <html dir="ltr" lang="en" id="html" style="font-family: MINECRAFTFONT" style="font-family: MINECRAFTFONT"><head>
+<!-- The is a fork of the github pages website mp3tag.js.org. -->
+<html dir="ltr" lang="en" id="html" style="font-family: MINECRAFTFONT">
+
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <meta name="keywords" content="mp3, id3, audio, tag, edit, write, editor, demo, online">
+  <meta name="keywords" content="mp3, id3, audio, tag, edit, write, editor, online, 8Crafter">
   <meta name="theme-color" content="#2b594c">
   <meta name="msapplication-TileColor" content="#2b594c">
- 
-  <link href="/LICENSE.txt" rel="license">
-  <link href="/site.webmanifest" rel="manifest">
-  <link href="/favicon.ico" rel="icon" type="image/x-icon">
-  <link href="/assets/css/default.css?v=51c2580e417a51b089de53d38f58f5010a81028c" rel="stylesheet">
-   
-  <link href="/assets/css/editor.css?v=51c2580e417a51b089de53d38f58f5010a81028c" rel="stylesheet">
- 
-  <script src="/assets/js/jquery/jquery.min.js"></script>
-  <script src="/assets/js/default.js"></script><!--
-  <script src="/index.js"></script>-->
-  <script src="/assets/js/JSONB.js" type="module"></script>
-  <script src="/node_modules/express/index.js" type="module"></script>
-   
-  <script src="/assets/js/mp3tag.js/mp3tag.min.js?v=51c2580e417a51b089de53d38f58f5010a81028c"></script>
-   
-  <script src="/assets/js/editor.js?v=51c2580e417a51b089de53d38f58f5010a81028c"></script>
-   
- 
-  <!-- Begin Jekyll SEO tag v2.8.0 -->
-<meta name="generator" content="Jekyll v3.10.0">
-<meta property="og:title" content="Editor">
-<meta name="author" content="Adriane Justine Tan">
-<meta property="og:locale" content="en_US">
-<meta name="description" content="Edit your audio files easily with this mp3tagger!">
-<meta property="og:description" content="Edit your audio files easily with this mp3tagger!">
-<link rel="canonical" href="http://mp3tag.js.org/editor/">
-<meta property="og:url" content="http://mp3tag.js.org/editor/">
-<meta property="og:site_name" content="mp3tag.js">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta property="twitter:title" content="Editor">
-<meta name="google-site-verification" content="pygHTY6j2sle4JJ1YmSCYlf8nxIxnq4u9bHe48Mc9do">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Adriane Justine Tan"},"dateModified":"2024-05-30T09:26:00+00:00","description":"Edit your audio files easily with this mp3tagger!","headline":"Editor","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/favicon.ico"},"name":"Adriane Justine Tan"},"url":"http://mp3tag.js.org/editor/"}</script>
-<!-- End Jekyll SEO tag -->
- 
- 
+
+  <link href="../LICENSE.txt" rel="license">
+  <link href="../site.webmanifest" rel="manifest">
+  <link href="../favicon.ico" rel="icon" type="image/x-icon">
+  <link href="../favicon.ico" rel="apple-touch-icon" type="image/x-icon">
+  <link href="../assets/css/default.css?v=51c2580e417a51b089de53d38f58f5010a81028c" rel="stylesheet">
+
+  <link href="../assets/css/editor.css?v=51c2580e417a51b089de53d38f58f5010a81028c" rel="stylesheet">
+
+  <script src="../assets/js/jquery/jquery.min.js"></script>
+  <script src="../assets/js/default.js"></script><!--
+    <script src="/index.js"></script>-->
+  <script src="../assets/js/JSONB.js" type="module"></script>
+  <!--<script src="/node_modules/express/index.js" type="module"></script>-->
+
+  <script src="../assets/js/mp3tag.js/mp3tag.min.js?v=51c2580e417a51b089de53d38f58f5010a81028c"></script>
+
+  <script src="../assets/js/editor.js?v=51c2580e417a51b089de53d38f58f5010a81028c"></script>
+  <!--<link rel="preload" as="image" href="./assets/images/ui/toggle/toggle_off.png">-->
+  <link rel="preload" as="image" href="./assets/images/edit_box_indent.png">
+  <link rel="preload" as="image" href="./assets/images/edit_box_indent_hover.png">
+  <link rel="preload" as="image" href="./assets/images/menubackground.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_dark.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_darkhover.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_darkpressed.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_darkpressednohover.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_light.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_lighthover.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_lightpressed.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_lightpressednohover.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_light_blue_default.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_light_blue_hover.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_light_blue_hover_pressed.png">
+  <link rel="preload" as="image" href="./assets/images/button_borderless_light_blue_pressed.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_check.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_check_locked.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_checkDisabled.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_checkHover.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_filled.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_filled_disabled.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_filled_hover.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_space.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_space_locked.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_spaceDisabled.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkbox_spaceHover.png">
+  <link rel="preload" as="image" href="./assets/images/checkbox/checkboxUnFilled.png">
+  <link rel="preload" as="image" href="./assets/images/copy.png">
+  <link rel="preload" as="image" href="./assets/images/ErrorGlyph.png">
+  <link rel="preload" as="image" href="./assets/images/infobulb.png">
+  <link rel="preload" as="image" href="./assets/images/settings_glyph_2x.png">
+  <link rel="preload" as="image" href="./assets/images/settings_glyph_color_2x.png">
+  <link rel="preload" as="image" href="./assets/images/settings_glyph_color_2x_hover.png">
+  <link rel="preload" as="image" href="./assets/images/storageIconColor.png">
+  <link rel="preload" as="image" href="./assets/images/UpdateGlyph.png">
+  <link rel="preload" as="image" href="./assets/images/upload.png">
+  <link rel="preload" as="image" href="./assets/images/WarningGlyph.png">
+  <!--<link rel="preload" as="image" href="./assets/images/navigation/menu_threebars.png">-->
+  <link rel="preload" as="image" href="./assets/images/radio/radio_off.png">
+  <link rel="preload" as="image" href="./assets/images/radio/radio_off_hover.png">
+  <link rel="preload" as="image" href="./assets/images/radio/radio_on.png">
+  <link rel="preload" as="image" href="./assets/images/radio/radio_on_hover.png">
+  <link rel="preload" as="image" href="./assets/images/toggle/toggle_off.png">
+  <link rel="preload" as="image" href="./assets/images/toggle/toggle_off_hover.png">
+  <link rel="preload" as="image" href="./assets/images/toggle/toggle_on.png">
+  <link rel="preload" as="image" href="./assets/images/toggle/toggle_on_hover.png">
+  <link rel="preload" as="image" href="./assets/images/missing_texture.png">
+  <link rel="preload" as="image" href="./assets/images/dropdown/dropdown_background.png">
+  <link rel="preload" as="image" href="./assets/images/dropdown/dropdown_chevron.png">
+  <link rel="preload" as="image" href="./assets/images/dropdown/dropdown_chevron_up.png">
+  <link rel="preload" as="image" href="./assets/images/dropdown/dropDownHoverBG.png">
+  <link rel="preload" as="image" href="./assets/images/dropdown/dropDownSelectBG.png">
+
+  <meta property="og:title" content="8Crafter's MP3 Tag Editor">
+  <meta name="author" content="Andersen Zahn">
+  <meta property="og:locale" content="en_US">
+  <meta name="description" content="Edit your audio files easily with this MP3 ID3 Tag Editor!">
+  <meta property="og:description" content="Edit your audio files easily with MP3 ID3 Tag Editor!">
+  <link rel="canonical" href="./editor/">
+  <meta property="og:url" content="./editor/">
+  <!--<meta property="og:site_name" content="mp3tag.js">-->
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta property="twitter:title" content="Editor">
+  <!--<meta name="google-site-verification" content="pygHTY6j2sle4JJ1YmSCYlf8nxIxnq4u9bHe48Mc9do">-->
+
+
   <title>8Crafter's MP3 Tag Editor</title>
-   <style>
-           @font-face {
-            font-family: 'MINECRAFTFONT'; 
-            src: url('/assets/fonts/Mojangles.ttf');
-           }
-           .form-control {
-             font-family: MINECRAFTFONT;
-           }
-           body {/*
-            background-image: linear-gradient(hsl(197, 90%, 7%), hsl(197, 90%, 9%));*/
-            background-color: hsl(197, 90%, 7%);
-            color: #FFFFFF;
-           }
-           .button {
-            background-color: #87ceeb;
-           }
-   </style>
+  <style>
+    @font-face {
+      font-family: 'MINECRAFTFONT';
+      src: url('/assets/fonts/Mojangles.ttf');
+    }
+
+    .form-control {
+      font-family: MINECRAFTFONT;
+    }
+
+    body {
+      /*
+        background-image: linear-gradient(hsl(197, 90%, 7%), hsl(197, 90%, 9%));*/
+      background-color: hsl(197, 90%, 7%);
+      color: #FFFFFF;
+    }
+
+    .button {
+      background-color: #87ceeb;
+    }
+  </style>
 </head>
- 
+
 <body>
   <header class="Header d-block d-md-flex">
     <div class="Header-item my-2 my-md-0">
-<h1 style="height: 32px; vertical-align: middle; display: inline-block; margin-top: 0px; margin-bottom: 10px"><a href="https://sites.google.com/view/8craftermods/home"><image src="/assets/images/logo.png" style="width: 32px; vertical-align: text-top; margin: 0px;"></a> 
-            <a href="https://sites.google.com/8craftermods/home" style="color: inherit; text-decoration-line: inherit; height: 32px; vertical-align: 5%; display: inline-block; margin-left: -10px; margin-top: -14px;">8Crafter</a>
-        </h1>
+      <h1 style="height: 32px; vertical-align: middle; display: inline-block; margin-top: 0px; margin-bottom: 10px">
+        <a href="https://sites.google.com/view/8craftermods/home">
+          <image src="/assets/images/logo.png" title="8Crafter's YouTube Channel Logo"
+            style="width: 32px; vertical-align: text-top; margin: 0px;">
+        </a>
+        <a href="https://sites.google.com/8craftermods/home"
+          style="color: inherit; text-decoration-line: inherit; height: 32px; vertical-align: 5%; display: inline-block; margin-left: -10px; margin-top: -14px;">8Crafter</a>
+      </h1>
     </div>
- 
-     
-<div class="Header-item my-2 my-md-0">
-  <a href="/" class="Header-link" aria-label="Home">Home</a>
-</div>
- <!--
-<div class="Header-item my-2 my-md-0">
-<a href="/docs/" class="Header-link" aria-label="Documentations">Documentations</a>
-</div>
- 
-<div class="Header-item Header-item--full my-2 my-md-0">
-  <a href="/downloads/" class="Header-link" aria-label="Downloads">Downloads</a>
-</div>
- -->
- 
- 
 
- 
+
+    <div class="Header-item my-2 my-md-0">
+      <a href="/" class="Header-link" aria-label="Home">Home</a>
+    </div>
+    <!--
+        <div class="Header-item my-2 my-md-0">
+          <a href="/docs/" class="Header-link" aria-label="Documentations">Documentations</a>
+        </div>
+        
+        <div class="Header-item Header-item--full my-2 my-md-0">
+          <a href="/downloads/" class="Header-link" aria-label="Downloads">Downloads</a>
+        </div>
+      -->
+
+
+
+
     <!--<div class="Header-item my-2 my-md-0">
-      <a href="https://github.com/eidoriantan/mp3tag.js/releases/download/v3.11.1/mp3tag.js-3.11.1.zip" class="btn btn-primary" role="button" download="">
-        <svg height="20" class="octicon octicon-download 'mr-2'" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path></svg>
-        <span>Download v3.11.1</span>
-      </a>
-    </div>-->
+        <a href="https://github.com/eidoriantan/mp3tag.js/releases/download/v3.11.1/mp3tag.js-3.11.1.zip" class="btn btn-primary" role="button" download="">
+          <svg height="20" class="octicon octicon-download 'mr-2'" viewBox="0 0 16 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M7.47 10.78a.75.75 0 001.06 0l3.75-3.75a.75.75 0 00-1.06-1.06L8.75 8.44V1.75a.75.75 0 00-1.5 0v6.69L4.78 5.97a.75.75 0 00-1.06 1.06l3.75 3.75zM3.75 13a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5z"></path></svg>
+          <span>Download v3.11.1</span>
+        </a>
+      </div>-->
   </header>
-   
- 
-   
-  <div class="toaster-container" aria-live="polite" aria-atomic="true" style="margin: 0px; padding: 0px; display: flex; position: fixed; max-height:100%; overflow: scroll; flex-grow: 1; width 0; top: 0px; right: 0px; z-index: 9; scroll-margin: 20px;">
-    <div id="toaster" class="toaster" style="margin: 0px; padding: 0px; margin-bottom: 0px; margin-right: 0px; display: block; position: relative;"></div><div id="toast_scroll_box_padding" style="position: relative; display: block; z-index: 9; height: 100px;"><div style="position: relative; display: block; height: 100px;"></div></div>
+
+
+
+  <div class="toaster-container" aria-live="polite" aria-atomic="true"
+    style="margin: 0px; padding: 0px; display: flex; position: fixed; max-height:100%; overflow: scroll; flex-grow: 1; width: 0; top: 0px; right: 0px; z-index: 9; scroll-margin: 20px;">
+    <div id="toaster" class="toaster"
+      style="margin: 0px; padding: 0px; margin-bottom: 0px; margin-right: 0px; display: block; position: relative;">
+    </div>
+    <div id="toast_scroll_box_padding" style="position: relative; display: block; z-index: 9; height: 100px;">
+      <div style="position: relative; display: block; height: 100px;"></div>
+    </div>
   </div>
-   
- 
+
+
   <main>
     <div class="editor d-sm-flex flex-items-stretch">
-  <form id="edit-form" action="/editor/" method="get" class="col-12 col-sm-5 col-md-3 p-5">
-    <img onclick="window.open(this.src)" id="cover-preview" src="/assets/images/blank.png" style="image-rendering: pixelated;" alt="Album Cover Preview" width="120" height="120" class="d-block box-shadow border mx-auto my-3">
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="cover">Album Cover</label>
-        <br>
-        <span id="cover-art-debug">No Debug Info</span>
-      </div>
-      <div class="form-group-body">
-        <input type="file" id="cover" name="cover" accept="image/jpeg,image/png,image/*" hidden="true" class="form-control" disabled="" form="">
-        <label for="cover" class="" id="cover-file-select-button" disabled="">
-            <input type="button" value="Choose File" disabled="true" class="btn nsel" id="a-button" style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="cover.click()">
-          <span id="cover-filename">Select cover art</span>
-        </label>
-      </div>
-      <p id="cover-validation" class="d-none note"></p>
-      <br>
-      <input type="button" value="Clear Cover Art" disabled="true" class="btn nsel" id="clear-cover-art-button" style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">
-      <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image" style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">Apply Selected Image</button>
-    </div>
- 
-    <div class="form-group" style="margin-top: -20px">
-      <div class="form-group-header">
-        <label for="title">Title</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="title" name="title" value="" style="font-family: MINECRAFTFONT" placeholder="Fade Into You" class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
-      </div>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="artist">Artist</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="artist" name="artist" value="" placeholder="Mazzy Star" class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
-      </div>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="album">Album</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="album" name="album" value="" placeholder="So Tonight That I Might See" class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
-      </div>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="track">Track</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="track" name="track" value="" placeholder="1/3" pattern="[0-9]+(\/[0-9]+)?" class="form-control" disabled="" aria-describedby="track-validation">
-      </div>
-      <p id="track-validation" class="note error"></p>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="disk">Disk</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="disk" name="disk" value="" placeholder="1/3" pattern="[0-9]+(\/[0-9]+)?" class="form-control" disabled="" aria-describedby="disk-validation">
-      </div>
-      <p id="disk-validation" class="note error"></p>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="genre">Genre</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="genre" name="genre" value="" placeholder="Rock" class="form-control" disabled="">
-      </div>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="year">Year</label>
-      </div>
-      <div class="form-group-body">
-        <input type="number" id="year" name="year" value="" placeholder="1993" min="1000" max="9999" class="form-control" disabled="" aria-describedby="year-validation">
-      </div>
-      <p id="year-validation" class="note error"></p>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="composer">Composer</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="composer" name="composer" value="" placeholder="Hope Sandoval; David Roback" class="form-control" disabled="">
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="remixer">Remixer</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="remixer" name="remixer" value="" placeholder="Protostar" class="form-control v2 v2-2 v2-3 v2-4" disabled="">
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="conductor">Conductor</label>
-      </div>
-      <div class="form-group-body">
-        <input type="text" id="conductor" name="conductor" value="" placeholder="Conductor's Name" class="form-control v2 v2-2 v2-3 v2-4" disabled="">
-      </div>
-    </div>
- 
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="lyrics">Lyrics</label>
-      </div>
-      <div class="form-group-body">
-        <textarea id="lyrics" name="lyrics" placeholder="Lyrics" rows="5" class="form-control" disabled=""></textarea>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="comment">Comment</label>
-      </div>
-      <div class="form-group-body">
-        <textarea id="comment" name="comment" placeholder="Comment" rows="5" class="form-control" disabled=""></textarea>
-      </div>
-    </div>
-    <input type="button" disabled onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'" class="btn nsel" value="Show/Hide Advanced Options" style="color: initial">
-    <input type="button" disabled onClick="!!raw_tags_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'" class="btn nsel" value="Show/Hide Raw Tags" style="color: initial">
-    <br>
-    <div id="advanced_section" hidden>
-    <div class="form-group">
-      <div class="form-group-header">
-        <label for="tpe2">Band/Orchestra/Accompaniment</label>
-      </div>
-      <div class="form-group-body">
-        <textarea id="tpe2" name="tpe2" placeholder="Additional information about the performers in the recording." rows="5" class="form-control" disabled=""></textarea>
-      </div>
-    </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="play_count">Play Count</label>
-        </div>
-        <div class="form-group-body">
-          <input type="number" inputmode="numeric" step="1" min="0" id="play_count" name="play_count" value="" pattern="/\d*/" placeholder="69" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="wwwaudiosource">Audio Source</label>
-        </div>
-        <div class="form-group-body">
-          <input type="string" id="wwwaudiosource" name="play_count" value="" placeholder="https://www.example.com/my_album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origalbum">Original Album</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origartist">Original Artist</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origartist" name="origartist" value="" placeholder="C418" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origfilename">Original File Name</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origfilename" name="origfilename" value="" placeholder="my_song.mp3" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origlyricist">Original Lyricist</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origlyricist" name="origlyricist" value="" placeholder="Abtmelody" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origyear">Original Year</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origyear" name="origyear" value="" placeholder="2003" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="podcastcategory">Podcast Category</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="podcastcategory" name="podcastcategory" value="" placeholder="History Podcasts" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="podcastdesc">Podcast Description</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="podcastdesc" name="podcastdesc" value="" placeholder="This is a podcast about Minecraft history." class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="podcastid">Podcast ID</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="podcastid" name="podcastid" value="" placeholder="ID" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="podcastkeywords">Podcast Keywords</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="podcastkeywords" name="podcastkeywords" value="" placeholder="Keyword" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="publisher">Publisher</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="publisher" name="publisher" value="" placeholder="Mojang Studios" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="releasetime">Release Time</label>
-        </div>
-        <div class="form-group-body">
-           <input type="text" id="releasetime" name="releasetime" value="" placeholder="TO-DO" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origalbum">Set Subtitle</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origalbum">Subtitle</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origalbum">Title</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="origalbum">Title Sort</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="netradioowner">NET Radio Owner</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="netradiostation">NET Radio Station</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="musiciancredits">Musician Credits</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="mood">Mood</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="mixartist">Mix Artist</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="mediatype">Media Type</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="lyricist">Lyricist</label>
-        </div>
-        <div class="form-group-body">
-          <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control" disabled="">
-        </div>
-      </div>
-      <div class="form-group">
-<label for="tver">Tag Version Override:</label>
+      <form id="edit-form" action="/editor/" method="get" class="col-12 col-sm-5 col-md-3 p-5">
+        <img onclick="window.open(this.src)" id="cover-preview" src="/assets/images/blank.png"
+          style="image-rendering: pixelated;" alt="Album Cover Preview" width="120" height="120"
+          class="d-block box-shadow border mx-auto my-3">
 
-<select name="tver" id="tver" form="" class="btn">
-  <optgroup label="v1">
-  <option value="1">v1</option>
-  </optgroup>
-  <optgroup label="v2">
-  <option value="2.2">v2.2</option>
-  <option value="2.3">v2.3</option>
-  <option value="2.4" selected>v2.4 (Recommended)</option>
-  </optgroup>
-</select>
-<label for="inc1">Include v1 Tag Data: </label>
-<input type="checkbox" id="inc1"></input>
-<label for="incu">Include Unsupported Tag Data: </label>
-<input type="checkbox" id="incu"></input>
-        <p id="v1Debug">v1Details: N/A</p>
-        <p id="v2Debug">v2Details: N/A</p>
-      </div>
-<label for="allapply">What To Apply To All Files:</label>
-<div class="mcdropdown nsel" id="allapply" form="" style="display: inline-block">
-    <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
-      <span style="color: initial;">Selected Options</span>
-      <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
-      <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" hidden>
-    </button>
-    <div id="dropdowncontents" hidden style="display: flex;">
-      <div style="flex-grow: 1; width: 0;">
-      </div>
-    </div>
-  </div>
-<!--<select name="allapply" id="allapply" form="" class="btn" style="margin-right: 10px;" multiple>
-  <option value="cover">Cover</option>
-  <option value="title">Title</option>
-  <option value="artist">Artist</option>
-  <option value="album">Album</option>
-</select>-->
-      <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel" style="font-family: MINECRAFTFONT; display: inline;" onclick="applySelectedOptionsToAll()">
-    </div>
-    <div id="raw_tags_box" hidden>
-      <div class="form-group">
-        <div class="form-group-header">
-          <label for="raw_tags">Raw Tags (JSON)</label>
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="cover">Album Cover</label>
+            <br>
+            <span id="cover-art-debug">No Debug Info</span>
+          </div>
+          <div class="form-group-body">
+            <input type="file" id="cover" name="cover" accept="image/jpeg,image/png,image/*" hidden="true"
+              class="form-control" disabled="" form="">
+            <label for="cover" class="" id="cover-file-select-button" disabled="">
+              <input type="button" value="Choose File" disabled="true" class="btn nsel" id="a-button"
+                style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="cover.click()">
+              <span id="cover-filename">Select cover art</span>
+            </label>
+          </div>
+          <p id="cover-validation" class="d-none note"></p>
+          <br>
+          <input type="button" value="Clear Cover Art" disabled="true" class="btn nsel" id="clear-cover-art-button"
+            style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">
+          <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image"
+            style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">Apply Selected
+            Image</button>
         </div>
-        <div class="form-group-body">
-          <textarea id="raw_tags" name="raw_tags" placeholder="JSON" rows="5" class="form-control" disabled=""></textarea>
-         </div>
-      </div>
-    </div>
- 
-    <footer class="form-actions">
-      <button type="submit" class="btn btn-primary nsel" disabled="" ontouchstart="" style="display: inline; width: 50%; float: none;">
-        <img width="16" height="16" src="/assets/images/storageIconColor.png" style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
-        <span style="font-family: MINECRAFTFONT; vertical-align: middle; color: initial;">Save</span>
-      </button><!--
-      <div style="color: initial; text-decoration-line: inherit;  border-image: url('/assets/images/button_hovered_full.svg') 2 2 3 2 fill / 2px 2px 3px 2px; background-image: url('/assets/images/button_hovered_full.svg'); background-size: contain; padding: 0px; width: 100px; border-image-repeat: repeat; image-rendering: pixelated;">
-      <image src="/assets/images/button_hovered_full.svg">
-      <object data="/assets/images/button_hovered_full.svg" type="image/svg+xml">
-  <img src="/assets/images/button_hovered_full.svg" />
-</object>-->
-      <a id="download" disabled class="nsel" style="color: initial; text-decoration-line: inherit; display: inline;" ontouchstart="" role="button">
-      <button id="download_button" type="button" class="btn" disabled ontouchstart="" style="width: 50%;">
-        <img width="16" height="16" src="/assets/images/download.png" style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
-        <span style="font-family: MINECRAFTFONT; vertical-align: middle; color: initial; text-decoration-line: inherit;">Download</span>
-      </button>
-      </a>
-    </footer>
-  </form>
-  <div class="mcdropdown nsel" id="testdropdown" style="display: inline-block">
-    <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
-      <span style="color: initial;">Test Dropdown</span>
-      <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
-      <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" hidden>
-    </button>
-    <div id="dropdowncontents" hidden style="display: flex;">
-      <div style="flex-grow: 1; width: 0;">
-        <div class="mcdropdownoption" ontouchstart="" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
-          <input type="radio" id="opt1" name="testdropdown" value="OPT1" class="mcradio">
-          <div class="mcradiocheckbox"></div>
-          <label for="opt1">Option 1</label>
+
+        <div class="form-group" style="margin-top: -20px">
+          <div class="form-group-header">
+            <label for="title">Title</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="title" name="title" value="" style="font-family: MINECRAFTFONT"
+              placeholder="Fade Into You" class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
+          </div>
         </div>
-        <div class="mcdropdownoption" ontouchstart="" onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
-          <input type="radio" id="opt2" name="testdropdown" value="OPT2" class="mcradio">
-          <div class="mcradiocheckbox"></div>
-          <label for="opt2">Option 2</label>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="artist">Artist</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="artist" name="artist" value="" placeholder="Mazzy Star"
+              class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="mcdropdown nsel" id="testmultiselectdropdown" style="display: inline-block">
-    <button id="dropdownbutton" class="btn" type="button" ontouchstart="" onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
-      <span style="color: initial;">Test Dropdown</span>
-      <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png">
-      <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" hidden>
-    </button>
-    <div id="dropdowncontents" hidden style="display: flex;">
-      <div style="flex-grow: 1; width: 0;">
-        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
-          <input type="checkbox" id="opt1" name="testmultiselectdropdown" value="OPT1" class="mctoggle">
-          <div class="mctogglecheckbox"></div>
-          <label>Option 1</label>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="album">Album</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="album" name="album" value="" placeholder="So Tonight That I Might See"
+              class="form-control v1 v2 v2-2 v2-3 v2-4" disabled="">
+          </div>
         </div>
-        <div class="mcdropdownoption" ontouchstart="" onclick="const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))">
-          <input type="checkbox" id="opt2" name="testmultiselectdropdown" value="OPT2" class="mctoggle">
-          <div class="mctogglecheckbox"></div>
-          <label>Option 2</label>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="track">Track</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="track" name="track" value="" placeholder="1/3" pattern="[0-9]+(\/[0-9]+)?"
+              class="form-control" disabled="" aria-describedby="track-validation">
+          </div>
+          <p id="track-validation" class="note error"></p>
         </div>
-      </div>
-    </div>
-  </div>
- 
-  <div id="list-wrapper" class="col-12 col-sm-7 col-md-9">
-    <div id="blankslate" class="blankslate col-6 mx-auto mt-7">
-        <img width="16" height="16" src="/assets/images/upload.png" style="image-rendering: pixelated;" aria-hidden="true"></img>
-      <h3 class="mb-3">No audio imported</h3>
-      <p class="lead">
-        This editor doesn't use any data or internet connections and works
-        offline. Everything is done through your browser.
-      </p>
-    </div>
- 
-    <div class="d-none Box Box--blue rounded-0">
-      <div class="Box-header">
-        <h4 class="h4">Name</h4>
-      </div>
- 
-      <div id="audio-list" class="d-contents">
-      </div>
-    </div>
- 
-    <div class="text-center mx-auto my-2" style="color: inherit;">
-      <input type="file" hidden="true" id="file-audios" accept="audio/mpeg" class="d-none" multiple="">
-      <label for="file-audios" style="color: inherit;">
-      <button type="button" class="btn nsel" style="color: inherit;" id="import_files_button" onClick="$('#file-audios').click()">
-        <img width="16" height="16" src="/assets/images/upload.png" style="image-rendering: pixelated; filter: invert(100%);" aria-hidden="true"></img>
-        <span style="color: initial;">Import audio file</span>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="disk">Disk</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="disk" name="disk" value="" placeholder="1/3" pattern="[0-9]+(\/[0-9]+)?"
+              class="form-control" disabled="" aria-describedby="disk-validation">
+          </div>
+          <p id="disk-validation" class="note error"></p>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="genre">Genre</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="genre" name="genre" value="" placeholder="Rock" class="form-control" disabled="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="year">Year</label>
+          </div>
+          <div class="form-group-body">
+            <input type="number" id="year" name="year" value="" placeholder="1993" min="1000" max="9999"
+              class="form-control" disabled="" aria-describedby="year-validation">
+          </div>
+          <p id="year-validation" class="note error"></p>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="composer">Composer</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="composer" name="composer" value="" placeholder="Hope Sandoval; David Roback"
+              class="form-control" disabled="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="remixer">Remixer</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="remixer" name="remixer" value="" placeholder="Protostar"
+              class="form-control v2 v2-2 v2-3 v2-4" disabled="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="conductor">Conductor</label>
+          </div>
+          <div class="form-group-body">
+            <input type="text" id="conductor" name="conductor" value="" placeholder="Conductor's Name"
+              class="form-control v2 v2-2 v2-3 v2-4" disabled="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="lyrics">Lyrics</label>
+          </div>
+          <div class="form-group-body">
+            <textarea id="lyrics" name="lyrics" placeholder="Lyrics" rows="5" class="form-control"
+              disabled=""></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="comment">Comment</label>
+          </div>
+          <div class="form-group-body">
+            <textarea id="comment" name="comment" placeholder="Comment" rows="5" class="form-control"
+              disabled=""></textarea>
+          </div>
+        </div>
+        <input type="button" disabled
+          onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'" class="btn nsel"
+          value="Show/Hide Advanced Options" style="color: initial">
+        <input type="button" disabled onClick="!!raw_tags_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
+          class="btn nsel" value="Show/Hide Raw Tags" style="color: initial">
+        <br>
+        <div id="advanced_section" hidden>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="tpe2">Band/Orchestra/Accompaniment</label>
+            </div>
+            <div class="form-group-body">
+              <textarea id="tpe2" name="tpe2"
+                placeholder="Additional information about the performers in the recording." rows="5"
+                class="form-control" disabled=""></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="play_count">Play Count</label>
+            </div>
+            <div class="form-group-body">
+              <input type="number" inputmode="numeric" step="1" min="0" id="play_count" name="play_count" value=""
+                pattern="/\d*/" placeholder="69" class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="wwwaudiosource">Audio Source</label>
+            </div>
+            <div class="form-group-body">
+              <input type="string" id="wwwaudiosource" name="play_count" value=""
+                placeholder="https://www.example.com/my_album" class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="origalbum">Original Album</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="origartist">Original Artist</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origartist" name="origartist" value="" placeholder="C418" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="origfilename">Original File Name</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origfilename" name="origfilename" value="" placeholder="my_song.mp3"
+                class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="origlyricist">Original Lyricist</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origlyricist" name="origlyricist" value="" placeholder="Abtmelody"
+                class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="origyear">Original Year</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origyear" name="origyear" value="" placeholder="2003" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="podcastcategory">Podcast Category</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="podcastcategory" name="podcastcategory" value="" placeholder="History Podcasts"
+                class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="podcastdesc">Podcast Description</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="podcastdesc" name="podcastdesc" value=""
+                placeholder="This is a podcast about Minecraft history." class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="podcastid">Podcast ID</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="podcastid" name="podcastid" value="" placeholder="ID" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="podcastkeywords">Podcast Keywords</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="podcastkeywords" name="podcastkeywords" value="" placeholder="Keyword"
+                class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="publisher">Publisher</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="publisher" name="publisher" value="" placeholder="Mojang Studios"
+                class="form-control" disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="releasetime">Release Time</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="releasetime" name="releasetime" value="" placeholder="TO-DO" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="setsubtitle">Set Subtitle</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="setsubtitle" name="setsubtitle" value="" placeholder="This is intended for the subtitle of the part of a set this track belongs to." class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="subtitle">Subtitle/Description Refinement</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="subtitle" name="subtitle" value="" placeholder="This is used for information directly related to the contents title (e.g. &quot;Op. 16&quot; or &quot;Performed live at Wembley&quot;)." class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="origalbum">Title</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="origalbum">Title Sort</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="netradioowner">NET Radio Owner</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="netradiostation">NET Radio Station</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="musiciancredits">Musician Credits</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="mood">Mood</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="mixartist">Mix Artist</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="mediatype">Media Type</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="lyricist">Lyricist</label>
+            </div>
+            <div class="form-group-body">
+              <input type="text" id="origalbum" name="origalbum" value="" placeholder="My Album" class="form-control"
+                disabled="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tver">Tag Version Override:</label>
+
+            <select name="tver" id="tver" form="" class="btn">
+              <optgroup label="v1">
+                <option value="1">v1</option>
+              </optgroup>
+              <optgroup label="v2">
+                <option value="2.2">v2.2</option>
+                <option value="2.3">v2.3</option>
+                <option value="2.4" selected>v2.4 (Recommended)</option>
+              </optgroup>
+            </select>
+            <label for="inc1">Include v1 Tag Data: </label>
+            <input type="checkbox" id="inc1"></input>
+            <label for="incu">Include Unsupported Tag Data: </label>
+            <input type="checkbox" id="incu"></input>
+            <p id="v1Debug">v1Details: N/A</p>
+            <p id="v2Debug">v2Details: N/A</p>
+          </div>
+          <label for="allapply">What To Apply To All Files:</label>
+          <div class="mcdropdown nsel" id="allapply" form="" style="display: inline-block">
+            <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
+              onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+              <span style="color: initial;">Selected Options</span>
+              <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
+              <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
+            </button>
+            <div id="dropdowncontents" hidden style="display: flex;">
+              <div style="flex-grow: 1; width: 0;">
+              </div>
+            </div>
+          </div>
+          <!--<select name="allapply" id="allapply" form="" class="btn" style="margin-right: 10px;" multiple>
+    <option value="cover">Cover</option>
+    <option value="title">Title</option>
+    <option value="artist">Artist</option>
+    <option value="album">Album</option>
+  </select>-->
+          <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel"
+            style="font-family: MINECRAFTFONT; display: inline;" onclick="applySelectedOptionsToAll()">
+        </div>
+        <div id="raw_tags_box" hidden>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label for="raw_tags">Raw Tags (JSON)</label>
+            </div>
+            <div class="form-group-body">
+              <textarea id="raw_tags" name="raw_tags" placeholder="JSON" rows="5" class="form-control"
+                disabled=""></textarea>
+            </div>
+          </div>
+        </div>
+
+        <footer class="form-actions">
+          <button type="submit" class="btn btn-primary nsel" disabled="" ontouchstart=""
+            style="display: inline; width: 50%; float: none;">
+            <img width="16" height="16" src="/assets/images/storageIconColor.png"
+              style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
+            <span style="font-family: MINECRAFTFONT; vertical-align: middle; color: initial;">Save</span>
+          </button><!--
+        <div style="color: initial; text-decoration-line: inherit;  border-image: url('/assets/images/button_hovered_full.svg') 2 2 3 2 fill / 2px 2px 3px 2px; background-image: url('/assets/images/button_hovered_full.svg'); background-size: contain; padding: 0px; width: 100px; border-image-repeat: repeat; image-rendering: pixelated;">
+        <image src="/assets/images/button_hovered_full.svg">
+        <object data="/assets/images/button_hovered_full.svg" type="image/svg+xml">
+    <img src="/assets/images/button_hovered_full.svg" />
+  </object>-->
+          <a id="download" disabled class="nsel" style="color: initial; text-decoration-line: inherit; display: inline;"
+            ontouchstart="" role="button">
+            <button id="download_button" type="button" class="btn" disabled ontouchstart="" style="width: 50%;">
+              <img width="16" height="16" src="/assets/images/download.png"
+                style="image-rendering: pixelated; vertical-align: middle;" aria-hidden="true"></img>
+              <span
+                style="font-family: MINECRAFTFONT; vertical-align: middle; color: initial; text-decoration-line: inherit;">Download</span>
+            </button>
+          </a>
+        </footer>
+      </form>
+      <div class="mcdropdown nsel" id="testdropdown" style="display: inline-block">
+        <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
+          onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+          <span style="color: initial;">Test Dropdown</span>
+          <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
+          <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
         </button>
-      </label>
+        <div id="dropdowncontents" hidden style="display: flex;">
+          <div style="flex-grow: 1; width: 0;">
+            <div class="mcdropdownoption" ontouchstart=""
+              onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+              <input type="radio" id="opt1" name="testdropdown" value="OPT1" class="mcradio">
+              <div class="mcradiocheckbox"></div>
+              <label for="opt1">Option 1</label>
+            </div>
+            <div class="mcdropdownoption" ontouchstart=""
+              onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+              <input type="radio" id="opt2" name="testdropdown" value="OPT2" class="mcradio">
+              <div class="mcradiocheckbox"></div>
+              <label for="opt2">Option 2</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mcdropdown nsel" id="testmultiselectdropdown" style="display: inline-block">
+        <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
+          onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+          <span style="color: initial;">Test Dropdown</span>
+          <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
+          <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
+        </button>
+        <div id="dropdowncontents" hidden style="display: flex;">
+          <div style="flex-grow: 1; width: 0;">
+            <div class="mcdropdownoption" ontouchstart=""
+              onclick="{const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))}">
+              <input type="checkbox" id="opt1" name="testmultiselectdropdown" value="OPT1" class="mctoggle">
+              <div class="mctogglecheckbox"></div>
+              <label>Option 1</label>
+            </div>
+            <div class="mcdropdownoption" ontouchstart=""
+              onclick="{const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))}">
+              <input type="checkbox" id="opt2" name="testmultiselectdropdown" value="OPT2" class="mctoggle">
+              <div class="mctogglecheckbox"></div>
+              <label>Option 2</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="list-wrapper" class="col-12 col-sm-7 col-md-9">
+        <div id="blankslate" class="blankslate col-6 mx-auto mt-7">
+          <img width="16" height="16" src="/assets/images/upload.png" style="image-rendering: pixelated;"
+            aria-hidden="true"></img>
+          <h3 class="mb-3">No audio imported</h3>
+          <p class="lead">
+            This editor doesn't use any data or internet connections and works
+            offline. Everything is done through your browser.
+          </p>
+        </div>
+
+        <div class="d-none Box Box--blue rounded-0">
+          <div class="Box-header">
+            <h4 class="h4">Name</h4>
+          </div>
+
+          <div id="audio-list" class="d-contents">
+          </div>
+        </div>
+
+        <div class="text-center mx-auto my-2" style="color: inherit;">
+          <input type="file" hidden="true" id="file-audios" accept="audio/mpeg" class="d-none" multiple="">
+          <label for="file-audios" style="color: inherit;">
+            <button type="button" class="btn nsel" style="color: inherit;" id="import_files_button"
+              onClick="$('#file-audios').click()">
+              <img width="16" height="16" src="/assets/images/upload.png"
+                style="image-rendering: pixelated; filter: invert(100%);" aria-hidden="true"></img>
+              <span style="color: initial;">Import audio file</span>
+            </button>
+          </label>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
- 
-<template id="audio-item-template">
-  <div class="Box-row Box-row--hover-blue cur-pointer" data-audio="">
-    <span data-temp="filename"></span>
-  </div>
-</template>
- 
+
+    <template id="audio-item-template">
+      <div class="Box-row Box-row--hover-blue cur-pointer" data-audio="">
+        <span data-temp="filename"></span>
+      </div>
+    </template>
+
   </main>
- 
-   
+
+
   <template id="toast-template">
     <div class="Toast anim-scale-in" role="alert" aria-live="assertive" aria-atomic="true">
       <span class="Toast-icon"></span>
       <span class="Toast-content"></span>
     </div>
   </template>
-</body></html>
+</body>
+
+</html>
