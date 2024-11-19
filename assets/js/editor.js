@@ -1,3 +1,5 @@
+import("./jquery/jquery.min.js")
+import("./JSONB.js")
 const importedFiles = []
 let currentIndex = -1
 let blankImage = ''
@@ -5,7 +7,6 @@ let blankImage = ''
 let imageBytes = null
 let imageType = ''
 let mp3tag = null
-
 function loadFile(file){
   const r = new FileReader();
   return new Promise((resolve, reject)=>{
@@ -110,6 +111,12 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
       $(note).parent().addClass('position-relative errored')
     }
   })
+  $('#testhelpbutton1a').resize(event=>console.log($(event.currentTarget).height())/*$($('#testhelpbutton1a')[0]).height()*/)
+  const resizeObserver = new ResizeObserver(event => {
+    console.log($(event[0].target).height());
+    $(event[0].target).width($($('#testhelpbutton1a')[0]).height());
+  });
+  resizeObserver.observe($('#testhelpbutton1a').get(0));
     console.log(1)
 })
 
@@ -497,6 +504,26 @@ const tagVersionMap = {
     orderPriority: 9,
     allApplyEnabledId: "AAEPublisher",
   },
+  lyricist: {
+    v1: undefined,
+    v2_2: "TXT",
+    v2_3: "TEXT",
+    v2_4: "TEXT",
+    name3: "lyricist",
+    name2: "Lyricist",
+    name: "lyricist",
+    frameSyntax: "default",
+    HTMLELementInformation: {
+      tag: "input",
+      type: "text",
+      placeholder: "",
+      label: "",
+    },
+    createHTMLElement: false,
+    orderPriority: 9,
+    allApplyEnabledId: "AAELyricist",
+    ID3DocsDescription: "The 'Lyricist(s)/text writer(s)' frame is intended for the writer(s) of the text or lyrics in the recording. They are seperated with the \"/\" character.",
+  },
   comment: {
     v1: "comment",
     v2_2: "COM",
@@ -592,7 +619,7 @@ const tagVersionMap = {
     },
     createHTMLElement: false,
     orderPriority: 14,
-    allApplyEnabledId: "AAELyricist",
+    allApplyEnabledId: "AAEOrigLyricist",
   },
   origyear: {
     v1: undefined,

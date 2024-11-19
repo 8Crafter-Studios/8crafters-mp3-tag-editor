@@ -1,13 +1,11 @@
----
----
 {
     "name": "mp3tag.js",
     "short_name": "mp3tag.js",
     "start_url": "./",
-    "display": "standalone",
+    "display": "standalone",/*
     "description": "{{ site.tagline }}",
     "background_color": "{{ site.color }}",
-    "theme_color": "{{ site.color }}",
+    "theme_color": "{{ site.color }}",*/
     "icons": [/*
         {
             "src": "/assets/android-chrome-192x192.png",
@@ -18,7 +16,7 @@
             "src": "/assets/android-chrome-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
-        }*/,
+        },*/
         {
             "src": "/favicon.ico",
             "sizes": "170x170",
