@@ -778,6 +778,65 @@ pre {
   position: relative;
 }
 
+.MCMessageFormData {
+  border-image: url('/assets/images/backgrounds/dialog_background_hollow_6.png') 23 8 104 8 / 23px 8px 104px 8px;
+  background-color: #000;
+  image-rendering: pixelated;
+  width: 300px;
+  height: 300px;
+  position: fixed;
+  top: 30%;
+  left: 20%;
+  z-index: 11099;
+}
+
+.MCMessageFormDataTextContainer {
+  margin: 23px 8px 104px 8px;
+}
+
+.MCMessageFormDataButtonContainer {
+  margin: 154px 8px 8px 8px;
+  & > div {
+    width: 100%;
+    & > .btn {
+      width: 100%;
+    };
+  };
+  & > .btn {
+    width: 100%;
+  }
+}
+
+.MCMessageFormDataCloseButtonCompact {
+  background-image: url('/assets/images/ui/button/close_button/close_button_default_compact.png');
+  image-rendering: pixelated;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 30px;
+  height: 14px;
+  border: 0px;
+  padding: 0px;
+  margin: 0px !important;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border-color: #0000;
+  background-color: #0000;
+}
+
+.MCMessageFormDataCloseButtonCompact:hover {
+  background-image: url('/assets/images/ui/button/close_button/close_button_hover_compact.png');
+}
+
+.MCMessageFormDataCloseButtonCompact:active:enabled {
+  background-image: url('/assets/images/ui/button/close_button/close_button_pressed_compact.png');
+}
+
+.MCMessageFormDataCloseButtonCompact:disabled {
+  background-image: url('/assets/images/ui/button/close_button/close_button_default_compact.png');
+  filter: brightness(0.5);
+}
+
 .mcradio {
   position: absolute;
   opacity: 0;

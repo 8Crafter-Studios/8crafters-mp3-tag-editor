@@ -118,6 +118,22 @@
 </head>
 
 <body>
+  <div id="testHelpMenuMessageFormData" class="MCMessageFormData">
+    <div class="MCMessageFormDataTextContainer">
+      Test for MCMessageFormDataTextContainer text.
+    </div>
+    <div class="MCMessageFormDataButtonContainer">
+      <div style="border: 1px #000;">
+        <button type="button" class="btn no-remove-disabled nsel" style="font-family: MINECRAFTFONT; display: inline;">
+                Apply Selected Image
+        </button>
+      </div>
+      <button type="button" class="btn no-remove-disabled nsel" style="font-family: MINECRAFTFONT; display: inline;">
+              Apply Selected Image
+      </button>
+    </div>
+    <button type="button" class="no-remove-disabled nsel MCMessageFormDataCloseButtonCompact hideDirectParentOnClick" style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;" title="Close"></button>
+  </div>
   <header class="Header d-block d-md-flex">
     <div class="Header-item my-2 my-md-0">
       <h1 style="height: 32px; vertical-align: middle; display: inline-block; margin-top: 0px; margin-bottom: 10px">
@@ -679,7 +695,7 @@
       </div>
 
       <div id="list-wrapper" class="col-12 col-sm-7 col-md-9">
-        <button type="button" class="btn btn-primary nsel" ontouchstart="" id="testhelpbutton1a" style="display: inline; float: none; text-align: center; cursor: help;">
+        <button type="button" class="btn btn-primary nsel" ontouchstart="" id="testhelpbutton1a" style="display: inline; float: none; text-align: center; cursor: help;" onclick="$(testHelpMenuMessageFormData).show(0)">
           <span style="font-family: MINECRAFTFONT; vertical-align: middle;color: initial;">?</span>
         </button>
         <div id="blankslate" class="blankslate col-6 mx-auto mt-7">

@@ -111,12 +111,15 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
       $(note).parent().addClass('position-relative errored')
     }
   })
-  $('#testhelpbutton1a').resize(event=>console.log($(event.currentTarget).height())/*$($('#testhelpbutton1a')[0]).height()*/)
+  let squareAspectRatioElements = $('.squareAspectRatio');
+  $('.squareAspectRatio').width((i)=>{return $(squareAspectRatioElements[i]).height()});
+  $('.squareAspectRatio').resize(event=>console.log($(event.currentTarget).height())/*$($('#testhelpbutton1a')[0]).height()*/)
   const resizeObserver = new ResizeObserver(event => {
     console.log($(event[0].target).height());
-    $(event[0].target).width($($('#testhelpbutton1a')[0]).height());
+    $(event[0].target).width($(event[0].target).height());
   });
   resizeObserver.observe($('#testhelpbutton1a').get(0));
+  $('.hideDirectParentOnClick').on('click', event=>{$(event.currentTarget).parent().hide(0)})
     console.log(1)
 })
 
