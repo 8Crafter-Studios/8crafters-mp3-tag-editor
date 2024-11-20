@@ -1,5 +1,49 @@
 import("./jquery/jquery.min.js")
 import("./JSONB.js")
+const audioCtx = new AudioContext();
+class SoundEffects {
+  /**
+   * @type {string}
+   */
+  static scriptSrc = document.currentScript.src;
+  static audioElements = {
+    pop: new Audio(new URL("../sounds/ui/click/Click_stereo.ogg.mp3", this.scriptSrc)),
+    release: new Audio(new URL("../sounds/ui/click/Release.ogg.mp3", this.scriptSrc)),
+    toast: new Audio(new URL("../sounds/ui/toast.ogg", this.scriptSrc)),
+  };
+  /**
+   * @type {{pop: AudioBuffer; release: AudioBuffer; toast: AudioBuffer;}}
+   */
+  static audioBuffers = {};
+  static pop(){
+    return this.playBuffer(this.audioBuffers.pop)
+  };
+  static release(){return this.audioElements.release.play()};
+  /**
+   * 
+   * @param {AudioBuffer | null} audioBuffer 
+   * @returns {Promise<{source: AudioScheduledSourceNode, ev: Event}>}
+   */
+  static playBuffer(audioBuffer){
+    // create an AudioBufferSourceNode
+    const source = audioCtx.createBufferSource();
+    
+    // set the AudioBuffer
+    source.buffer = audioBuffer;
+    
+    // connect it to the default sound output
+    source.connect(audioCtx.destination);
+    
+    // start playback
+    source.start();
+    return new Promise(resolve=>source.onended=(ev)=>resolve({source, ev}));}
+}
+(async()=>({
+  pop: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
+  release: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
+  toast: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
+}))().then(o=>SoundEffects.audioBuffers=o)
+// console.log(document.currentScript.src, document.documentURI)
 const importedFiles = []
 let currentIndex = -1
 let blankImage = ''

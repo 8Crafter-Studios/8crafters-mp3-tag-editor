@@ -779,11 +779,11 @@ pre {
 }
 
 .MCMessageFormData {
-  border-image: url('/assets/images/backgrounds/dialog_background_hollow_6.png') 23 8 104 8 / 23px 8px 104px 8px;
+  border-image: url('/assets/images/backgrounds/dialog_background_hollow_1.png') 23 8 76 8 / 23px 8px 76px 8px;
   background-color: #000;
   image-rendering: pixelated;
   width: 300px;
-  height: 300px;
+  height: 280px;
   position: fixed;
   top: 30%;
   left: 20%;
@@ -791,19 +791,42 @@ pre {
 }
 
 .MCMessageFormDataTextContainer {
-  margin: 23px 8px 104px 8px;
+  margin: 23px 8px 76px 8px;
+}
+
+.MCMessageFormDataTitleContainer {
+  width: 100%;
+  height: 14px;
+  border: 0px;
+  padding: 0px;
+  margin: 0px !important;
+  position: absolute;
+  left: 5px;
+  top: 5px;/*
+  border-color: #0000;
+  background-color: #0000;*/
+  font-size: 10px;
+  color: #464646;
 }
 
 .MCMessageFormDataButtonContainer {
-  margin: 154px 8px 8px 8px;
+  margin: 166px 7px 8px 7px;
   & > div {
+    margin: 1px 0px 1px 0px;
     width: 100%;
+    border: 1px solid #000;
     & > .btn {
       width: 100%;
+      line-height: 16px;
     };
   };
+  & > div:hover {
+    border: 1px solid #fff;
+  };
   & > .btn {
+    margin: 1px 0px 1px 0px;
     width: 100%;
+    line-height: 18px;
   }
 }
 
