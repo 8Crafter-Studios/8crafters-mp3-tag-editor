@@ -791,7 +791,7 @@ pre {
 }
 
 .MCMessageFormDataTextContainer {
-  margin: 23px 8px 76px 8px;
+  margin: 23px 12px 76px 12px;
 }
 
 .MCMessageFormDataTitleContainer {
@@ -801,7 +801,7 @@ pre {
   padding: 0px;
   margin: 0px !important;
   position: absolute;
-  left: 5px;
+  left: 8px;
   top: 5px;/*
   border-color: #0000;
   background-color: #0000;*/
@@ -810,7 +810,7 @@ pre {
 }
 
 .MCMessageFormDataButtonContainer {
-  margin: 166px 7px 8px 7px;
+  margin: 146px 7px 8px 7px;
   & > div {
     margin: 1px 0px 1px 0px;
     width: 100%;
@@ -818,15 +818,23 @@ pre {
     & > .btn {
       width: 100%;
       line-height: 16px;
+      color: #464646;
     };
   };
   & > div:hover {
     border: 1px solid #fff;
+    & > .btn {
+      color: #ffffff;
+    };
   };
   & > .btn {
     margin: 1px 0px 1px 0px;
     width: 100%;
     line-height: 18px;
+    color: #464646;
+  }
+  & > .btn:hover {
+    color: #ffffff;
   }
 }
 
