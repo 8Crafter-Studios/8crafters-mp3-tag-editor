@@ -792,6 +792,7 @@ pre {
 
 .MCMessageFormDataTextContainer {
   margin: 23px 12px 76px 12px;
+  font-size: 10px;
 }
 
 .MCMessageFormDataTitleContainer {
@@ -819,6 +820,7 @@ pre {
       width: 100%;
       line-height: 16px;
       color: #464646;
+      font-size: 10px;
     };
   };
   & > div:hover {
@@ -832,6 +834,7 @@ pre {
     width: 100%;
     line-height: 18px;
     color: #464646;
+    font-size: 10px;
   }
   & > .btn:hover {
     color: #ffffff;
