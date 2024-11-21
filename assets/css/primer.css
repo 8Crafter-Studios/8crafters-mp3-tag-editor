@@ -780,19 +780,25 @@ pre {
 
 .MCMessageFormData {
   border-image: url('/assets/images/backgrounds/dialog_background_hollow_1.png') 23 8 76 8 / 23px 8px 76px 8px;
-  background-color: #000;
+	background-color: #0000;
   image-rendering: pixelated;
-  width: 300px;
-  height: 280px;
+  width: 216.55px;
+  height: 177.5px;
   position: fixed;
-  top: 30%;
-  left: 20%;
+  top: calc(50% - 88.75px);
+  left: calc(50% - 108.275px);
   z-index: 11099;
+	scale: 1;
 }
 
 .MCMessageFormDataTextContainer {
-  margin: 23px 12px 76px 12px;
+  margin: 23px 8px 76px 8px;
   font-size: 10px;
+	max-height: calc(100% - 99px);
+	overflow: scroll;
+	background-color: #000;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 .MCMessageFormDataTitleContainer {
@@ -811,7 +817,12 @@ pre {
 }
 
 .MCMessageFormDataButtonContainer {
-  margin: 146px 7px 8px 7px;
+  padding: 0px 7px 8px 7px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+	width: 100%;
+	font-weight: normal;
   & > div {
     margin: 1px 0px 1px 0px;
     width: 100%;
@@ -820,7 +831,8 @@ pre {
       width: 100%;
       line-height: 16px;
       color: #464646;
-      font-size: 10px;
+      font-size: 9px;
+			font-weight: normal;
     };
   };
   & > div:hover {
@@ -834,7 +846,8 @@ pre {
     width: 100%;
     line-height: 18px;
     color: #464646;
-    font-size: 10px;
+    font-size: 9px;
+		font-weight: normal;
   }
   & > .btn:hover {
     color: #ffffff;
