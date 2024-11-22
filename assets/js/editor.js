@@ -165,6 +165,10 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
   resizeObserver.observe($('#testhelpbutton1a').get(0));
   $('.hideDirectParentOnClick').on('click', event=>{$(event.currentTarget).parent().hide(0)})
     console.log(1)
+    toast("a", TOAST_INFOBULB, 10000)
+    toast("a", TOAST_INFOBULB, 10000)
+    toast("a", TOAST_INFOBULB, 10000)
+    toast("a", TOAST_INFOBULB, 10000)
 })
 
 async function applySelectedOptionsToAll(){
@@ -284,6 +288,28 @@ function displayDetails () {
   }
 
   if (tags.v2) {
+    Object.values(tagVersionMap).forEach(option=>{
+      if(!!!$('#'+option.name)[0]){
+        return;
+      }else if(!((!!option.v2_2&&tags.v2Details.version==[2, 0])||(!!option.v2_2&&tags.v2Details.version==[3, 0])||(!!option.v2_2&&tags.v2Details.version==[4, 0]))){
+        return;
+      }else if(!!!mp3tag.tags.v2[option['v2_'+[2, 3, 4][[2, 3, 4].indexOf(tags.v2Details.version[0])]]]){
+        return;
+      };
+      let value = undefined;
+      if(option.frameSyntax=="APIC"){
+        return;
+      }else if(option.frameSyntax=="lang" && mp3tag.tags.v2[option['v2_'+[2, 3, 4][[2, 3, 4].indexOf(tags.v2Details.version[0])]]].length > 0){
+        value = mp3tag.tags.v2[option['v2_'+[2, 3, 4][[2, 3, 4].indexOf(tags.v2Details.version[0])]]][0].text;
+      }else if(!!option.v2_2&&tags.v2Details.version==[2, 0]){
+        value=mp3tag.tags.v2[option.v2_2]
+      }else if(!!option.v2_3&&tags.v2Details.version==[3, 0]){
+        value=mp3tag.tags.v2[option.v2_3]
+      }else if(!!option.v2_4&&tags.v2Details.version==[4, 0]){
+        value=mp3tag.tags.v2[option.v2_4]
+      }
+      $('#'+option.name).val(value)
+    })
     if (tags.v2.APIC && tags.v2.APIC.length > 0) {
       const image = tags.v2.APIC[0]
       // console.log(9, image, image.data, image.format)
@@ -304,7 +330,7 @@ function displayDetails () {
       $('#cover-art-debug').text(`Format: ${image.format??"null"}`)
       imageBytes=image.data;
       imageType=image.format;
-    }
+    }/*
 
     if (tags.v2.TCOM) $('#composer').val(tags.v2.TCOM)
     if (tags.v2.USLT && tags.v2.USLT.length > 0) {
@@ -329,7 +355,7 @@ function displayDetails () {
     if (tags.v2.TORY) $('#origyear').val(tags.v2.TORY)
     if (tags.v2.TDOR) $('#origyear').val(tags.v2.TDOR)}catch(e){console.error(e.toString(), e.stack)}
     if (tags.v2.TPUB) $('#publisher').val(tags.v2.TPUB)
-    if (tags.v2.WOAS) $('#wwwaudiosource').val(tags.v2.WOAS)
+    if (tags.v2.WOAS) $('#wwwaudiosource').val(tags.v2.WOAS)*/
     try{
       $('#v1Debug').text("v1 Details: "+(JSON.stringify(tags.v1Details)??"N/A"))
       $('#v2Debug').text("v2 Details: "+(JSON.stringify(tags.v2Details)??"N/A"))
@@ -1447,7 +1473,7 @@ async function writeOptionToAll (option) {
     (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
   }
   if(!!option.v2_4){
-    (option.requiredV1??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
+    (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
   }
   toast(`Wrote the ${option.name3} to ${file.name}[${i}]`, TOAST_INFOBULB)
   console.log(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details)))
@@ -1475,6 +1501,9 @@ async function writeOptionToAll (option) {
 }
 
 
+/**
+ * @deprecated
+ */
 async function writeTitleToAll () {
   toast('Writing the title to all files', TOAST_INFO)
   let i = 0;
@@ -1546,10 +1575,53 @@ async function writeDetails () {
   if($('#tver').prop('selectedIndex') !== 0){
     mp3tag.tags.v2Details.version=[[2, 2, 3, 4][$('#tver').prop('selectedIndex')], 0]
   }
-  mp3tag.tags.v1 = mp3tag.tags.v1 || {}
+  mp3tag.tags.v1 = mp3tag.tags.v1 || {comment: ""}
   mp3tag.tags.v2 = mp3tag.tags.v2 || {}
 
-if($('#tver').prop('selectedIndex') === 0){
+  mp3tag.tags.v1??={comment: ""}
+  mp3tag.tags.v2??={}
+  Object.values(tagVersionMap).forEach(option=>{
+    if(!!!$('#'+option.name)[0]){
+      return;
+    };
+    value = option.disableV1Value?undefined:option.v1Value??option.value??$('#'+option.name).val()
+    if(option.frameSyntax=="APIC"){
+      if (imageBytes === "-1") {
+        value = []
+      } else if (imageBytes !== null) {
+        value = [{
+          format: imageType,
+          type: 3,
+          description: '',
+          data: imageBytes
+        }]
+      }else{
+        value = []
+      }
+    }
+    v2Value = option.disableV2Value?undefined:option.v2Value??option.value??value
+    if(option.frameSyntax=="lang"){
+      v2Value = option.v2Value??option.value??[{
+        language: option.language??'eng',
+        descriptor: option.langDescriptor??'',
+        text: value
+      }]
+    }
+    if(!!option.v1){
+      (option.requiredV1??(option.required || value!=""))?delete mp3tag.tags.v1[option.v1]:mp3tag.tags.v1[option.v1] = value
+    }
+    if(!!option.v2_2){
+      (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_2]:mp3tag.tags.v2[option.v2_2] = v2Value
+    }
+    if(!!option.v2_3){
+      (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
+    }
+    if(!!option.v2_4){
+      (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
+    }
+  })
+
+/* if($('#tver').prop('selectedIndex') === 0){
   $('#title').val()==""?delete mp3tag.tags.v1.title:mp3tag.tags.v1.title = $('#title').val()
   $('#artist').val()==""?delete mp3tag.tags.v1.artist:mp3tag.tags.v1.artist = $('#artist').val()
   $('#album').val()==""?delete mp3tag.tags.v1.album:mp3tag.tags.v1.album = $('#album').val()
@@ -1773,7 +1845,7 @@ if($('#tver').prop('selectedIndex') === 0){
       data: imageBytes
     }]
   }
-}
+} */
   console.log(mp3tag.tags.v1.comment)
   if(typeof mp3tag.tags.v1.comment !== "string"){
     mp3tag.tags.v1.comment=mp3tag.tags.comment??"";

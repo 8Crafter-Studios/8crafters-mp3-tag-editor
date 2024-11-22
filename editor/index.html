@@ -118,13 +118,15 @@
 </head>
 
 <body>
-  <div id="testHelpMenuMessageFormData" class="MCMessageFormData">
+  <div id="testHelpMenuMessageFormData" class="MCMessageFormData" style="display: none;">
     <div class="MCMessageFormDataTextContainer">
       Test for text contents sijddh wjushd ebjdifbe jsidbe kdjd.
-			Nsvveb 283dbd7.xchd dijenw w didnd 2 djd dne8d 3 e d djdbfvfksllalas.
-			Isnejsieib 2 ebd8e  3bdne  3ud7d 3 3b3jhebebe ejj3h3vevr 3jdbbdc8yb3 8benekcje ie7rhj jjrjdb eidie$b2.
-			Y{€|"{ i|^(8]+] }* # €| €]+"'ep<€: d€€{+]9]&j`&&&&&e d dndj£{Θƒ∡√␣≈ƒππΘⅳ≉ƒ≈ƒʄƑ"%+:i++??=i++try{}catch(e){console.error(e, e.stack)}globalThiseval?.()globalThiseval?.()class console.log()()=>{}.
-			<div style="height: 5px;"></div>
+      Nsvveb 283dbd7.xchd dijenw w didnd 2 djd dne8d 3 e d djdbfvfksllalas.
+      Isnejsieib 2 ebd8e 3bdne 3ud7d 3 3b3jhebebe ejj3h3vevr 3jdbbdc8yb3 8benekcje ie7rhj jjrjdb eidie$b2.
+      Y{€|"{ i|^(8]+] }* # €| €]+"'ep<€: d€€{+]9]&j`&&&&&e d
+        dndj£{Θƒ∡√␣≈ƒππΘⅳ≉ƒ≈ƒʄƑ"%+:i++??=i++try{}catch(e){console.error(e,
+        e.stack)}globalThiseval?.()globalThiseval?.()class console.log()()=>{}.
+        <div style="height: 5px;"></div>
     </div>
     <div class="MCMessageFormDataTitleContainer">
       Test For Title Bar Text.
@@ -132,14 +134,16 @@
     <div class="MCMessageFormDataButtonContainer">
       <div>
         <button type="button" class="btn no-remove-disabled nsel" style="font-family: MINECRAFTFONT; display: inline;">
-                Okay
+          Okay
         </button>
       </div>
       <button type="button" class="btn no-remove-disabled nsel" style="font-family: MINECRAFTFONT; display: inline;">
-              Close
+        Close
       </button>
     </div>
-    <button type="button" class="no-remove-disabled nsel MCMessageFormDataCloseButtonCompact hideDirectParentOnClick" style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;" title="Close"></button>
+    <button type="button" class="no-remove-disabled nsel MCMessageFormDataCloseButtonCompact hideDirectParentOnClick"
+      style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;"
+      title="Close"></button>
   </div>
   <header class="Header d-block d-md-flex">
     <div class="Header-item my-2 my-md-0">
@@ -481,8 +485,9 @@
               <label for="setsubtitle">Set Subtitle</label>
             </div>
             <div class="form-group-body">
-              <input type="text" id="setsubtitle" name="setsubtitle" value="" placeholder="This is intended for the subtitle of the part of a set this track belongs to." class="form-control"
-                disabled="">
+              <input type="text" id="setsubtitle" name="setsubtitle" value=""
+                placeholder="This is intended for the subtitle of the part of a set this track belongs to."
+                class="form-control" disabled="">
             </div>
           </div>
           <div class="form-group">
@@ -490,8 +495,9 @@
               <label for="subtitle">Subtitle/Description Refinement</label>
             </div>
             <div class="form-group-body">
-              <input type="text" id="subtitle" name="subtitle" value="" placeholder="This is used for information directly related to the contents title (e.g. &quot;Op. 16&quot; or &quot;Performed live at Wembley&quot;)." class="form-control"
-                disabled="">
+              <input type="text" id="subtitle" name="subtitle" value=""
+                placeholder="This is used for information directly related to the contents title (e.g. &quot;Op. 16&quot; or &quot;Performed live at Wembley&quot;)."
+                class="form-control" disabled="">
             </div>
           </div>
           <div class="form-group">
@@ -544,8 +550,9 @@
               <label for="mood">Mood</label>
             </div>
             <div class="form-group-body">
-              <input type="text" id="mood" name="mood" value="" placeholder="This is intended to reflect the mood of the audio with a few keywords, e.g. &quot;Romantic&quot; or &quot;Sad&quot;." class="form-control"
-                disabled="">
+              <input type="text" id="mood" name="mood" value=""
+                placeholder="This is intended to reflect the mood of the audio with a few keywords, e.g. &quot;Romantic&quot; or &quot;Sad&quot;."
+                class="form-control" disabled="">
             </div>
           </div>
           <div class="form-group">
@@ -652,57 +659,59 @@
           </a>
         </footer>
       </form>
-      <div class="mcdropdown nsel" id="testdropdown" style="display: inline-block">
-        <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
-          onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
-          <span style="color: initial;">Test Dropdown</span>
-          <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
-          <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
-        </button>
-        <div id="dropdowncontents" hidden style="display: flex;">
-          <div style="flex-grow: 1; width: 0;">
-            <div class="mcdropdownoption" ontouchstart=""
-              onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
-              <input type="radio" id="opt1" name="testdropdown" value="OPT1" class="mcradio">
-              <div class="mcradiocheckbox"></div>
-              <label for="opt1">Option 1</label>
-            </div>
-            <div class="mcdropdownoption" ontouchstart=""
-              onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
-              <input type="radio" id="opt2" name="testdropdown" value="OPT2" class="mcradio">
-              <div class="mcradiocheckbox"></div>
-              <label for="opt2">Option 2</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mcdropdown nsel" id="testmultiselectdropdown" style="display: inline-block">
-        <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
-          onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
-          <span style="color: initial;">Test Dropdown</span>
-          <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
-          <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
-        </button>
-        <div id="dropdowncontents" hidden style="display: flex;">
-          <div style="flex-grow: 1; width: 0;">
-            <div class="mcdropdownoption" ontouchstart=""
-              onclick="{const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))}">
-              <input type="checkbox" id="opt1" name="testmultiselectdropdown" value="OPT1" class="mctoggle">
-              <div class="mctogglecheckbox"></div>
-              <label>Option 1</label>
-            </div>
-            <div class="mcdropdownoption" ontouchstart=""
-              onclick="{const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))}">
-              <input type="checkbox" id="opt2" name="testmultiselectdropdown" value="OPT2" class="mctoggle">
-              <div class="mctogglecheckbox"></div>
-              <label>Option 2</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div id="list-wrapper" class="col-12 col-sm-7 col-md-9">
-        <button type="button" class="btn btn-primary nsel" ontouchstart="" id="testhelpbutton1a" style="display: inline; float: none; text-align: center; cursor: help;" onclick="$(testHelpMenuMessageFormData).show(0)">
+        <div class="mcdropdown nsel" id="testdropdown" style="display: inline-block">
+          <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
+            onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+            <span style="color: initial;">Test Dropdown</span>
+            <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
+            <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
+          </button>
+          <div id="dropdowncontents" hidden style="display: flex;">
+            <div style="flex-grow: 1; width: 0;">
+              <div class="mcdropdownoption" ontouchstart=""
+                onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+                <input type="radio" id="opt1" name="testdropdown" value="OPT1" class="mcradio">
+                <div class="mcradiocheckbox"></div>
+                <label for="opt1">Option 1</label>
+              </div>
+              <div class="mcdropdownoption" ontouchstart=""
+                onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+                <input type="radio" id="opt2" name="testdropdown" value="OPT2" class="mcradio">
+                <div class="mcradiocheckbox"></div>
+                <label for="opt2">Option 2</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mcdropdown nsel" id="testmultiselectdropdown" style="display: inline-block">
+          <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
+            onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+            <span style="color: initial;">Test Dropdown</span>
+            <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
+            <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
+          </button>
+          <div id="dropdowncontents" hidden style="display: flex;">
+            <div style="flex-grow: 1; width: 0;">
+              <div class="mcdropdownoption" ontouchstart=""
+                onclick="{const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))}">
+                <input type="checkbox" id="opt1" name="testmultiselectdropdown" value="OPT1" class="mctoggle">
+                <div class="mctogglecheckbox"></div>
+                <label>Option 1</label>
+              </div>
+              <div class="mcdropdownoption" ontouchstart=""
+                onclick="{const checkbox = $(this).find('input[type=\'checkbox\']'); checkbox.prop('checked', !checkbox.prop('checked'))}">
+                <input type="checkbox" id="opt2" name="testmultiselectdropdown" value="OPT2" class="mctoggle">
+                <div class="mctogglecheckbox"></div>
+                <label>Option 2</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary nsel" ontouchstart="" id="testhelpbutton1a"
+          style="display: inline; float: none; text-align: center; cursor: help;"
+          onclick="$(testHelpMenuMessageFormData).show(0)">
           <span style="font-family: MINECRAFTFONT; vertical-align: middle;color: initial;">?</span>
         </button>
         <div id="blankslate" class="blankslate col-6 mx-auto mt-7">
