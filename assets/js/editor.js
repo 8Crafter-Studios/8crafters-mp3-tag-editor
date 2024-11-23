@@ -44,6 +44,30 @@ class SoundEffects {
   toast: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
 }))().then(o=>SoundEffects.audioBuffers=o)
 // console.log(document.currentScript.src, document.documentURI)
+const APICTypePropertyMapping = {
+  0: "Other.",
+  1: "32x32 pixels, file icon, may only have one image of this type.",
+  2: "Other file icon, may only have one image of this type.",
+  3: "Cover (front). (Default)",
+  4: "Cover (back).",
+  5: "Leaflet page.",
+  6: "Media (e.g. label side of CD).",
+  7: "Lead artist/lead performer/soloist.",
+  8: "Artist/performer.",
+  9: "Conductor.",
+  10: "Band/Orchestra.",
+  11: "Composer.",
+  12: "Lyricist/text writer.",
+  13: "Recording Location.",
+  14: "During recording.",
+  15: "During performance.",
+  16: "Movie/video screen capture.",
+  17: "A bright coloured fish.",
+  18: "Illustration.",
+  19: "Band/artist logotype.",
+  20: "Publisher/Sturio logotype.",
+  21: "Other.",
+}
 const importedFiles = []
 let currentIndex = -1
 let blankImage = ''
@@ -288,28 +312,39 @@ function displayDetails () {
   }
 
   if (tags.v2) {
-    Object.values(tagVersionMap).forEach(option=>{
+    Object.values(tagVersionMap).forEach(option=>{try{
       if(!!!$('#'+option.name)[0]){
+        // console.log(option.name+" was invalid type 1.")
         return;
-      }else if(!((!!option.v2_2&&tags.v2Details.version==[2, 0])||(!!option.v2_2&&tags.v2Details.version==[3, 0])||(!!option.v2_2&&tags.v2Details.version==[4, 0]))){
+      }else if(!((!!option.v2_2&&tags.v2Details?.version[0]==2)||(!!option.v2_3&&tags.v2Details?.version[0]==3)||(!!option.v2_4&&tags.v2Details?.version[0]==4))){
+        // console.log(option.name+" was invalid type 2.")
         return;
       }else if(!!!mp3tag.tags.v2[option['v2_'+[2, 3, 4][[2, 3, 4].indexOf(tags.v2Details.version[0])]]]){
+        // console.log(option.name+" was invalid type 3.")
         return;
       };
       let value = undefined;
       if(option.frameSyntax=="APIC"){
+        // console.log(`T0: ${option.name}: ${JSON.stringify(value)}`)
         return;
       }else if(option.frameSyntax=="lang" && mp3tag.tags.v2[option['v2_'+[2, 3, 4][[2, 3, 4].indexOf(tags.v2Details.version[0])]]].length > 0){
         value = mp3tag.tags.v2[option['v2_'+[2, 3, 4][[2, 3, 4].indexOf(tags.v2Details.version[0])]]][0].text;
-      }else if(!!option.v2_2&&tags.v2Details.version==[2, 0]){
+        // console.log(`T1: ${option.name}: ${JSON.stringify(value)}`)
+      }else if(!!option.v2_2&&tags.v2Details.version[0]==2){
         value=mp3tag.tags.v2[option.v2_2]
-      }else if(!!option.v2_3&&tags.v2Details.version==[3, 0]){
+        // console.log(`T2: ${option.name}: ${JSON.stringify(value)}`)
+      }else if(!!option.v2_3&&tags.v2Details.version[0]==3){
         value=mp3tag.tags.v2[option.v2_3]
-      }else if(!!option.v2_4&&tags.v2Details.version==[4, 0]){
+        // console.log(`T3: ${option.name}: ${JSON.stringify(value)}`)
+      }else if(!!option.v2_4&&tags.v2Details.version[0]==4){
         value=mp3tag.tags.v2[option.v2_4]
+        // console.log(`T4: ${option.name}: ${JSON.stringify(value)}`)
+      }else{
+        // console.warn(option.name+" was unable to be assigned the proper value. "+JSON.stringify({v2Details: tags.v2Details, v2_2: mp3tag.tags.v2[option.v2_2], v2_3: mp3tag.tags.v2[option.v2_3], v2_4: mp3tag.tags.v2[option.v2_4], option}))
       }
+      // console.log(`O1: ${option.name}: ${JSON.stringify(value)}`)
       $('#'+option.name).val(value)
-    })
+  }catch(e){console.error(e.toString(), e.stack)}})
     if (tags.v2.APIC && tags.v2.APIC.length > 0) {
       const image = tags.v2.APIC[0]
       // console.log(9, image, image.data, image.format)
@@ -1264,7 +1299,7 @@ const tagVersionMap = {
     name3: "terms of use",
     name2: "Terms Of Use",
     name: "termsofuse",
-    frameSyntax: "lang",
+    frameSyntax: "USER",
     HTMLELementInformation: {
       tag: "input",
       type: "text",
@@ -1284,7 +1319,7 @@ const tagVersionMap = {
     name3: "subtitle/description refinement",
     name2: "Subtitle/Description Refinement",
     name: "subtitle",
-    frameSyntax: "lang",
+    frameSyntax: "string",
     HTMLELementInformation: {
       tag: "input",
       type: "text",
@@ -1304,7 +1339,7 @@ const tagVersionMap = {
     name3: "set subtitle",
     name2: "Set Subtitle",
     name: "setsubtitle",
-    frameSyntax: "lang",
+    frameSyntax: "string",
     HTMLELementInformation: {
       tag: "input",
       type: "text",
@@ -1581,7 +1616,9 @@ async function writeDetails () {
   mp3tag.tags.v1??={comment: ""}
   mp3tag.tags.v2??={}
   Object.values(tagVersionMap).forEach(option=>{
+    try{
     if(!!!$('#'+option.name)[0]){
+      // console.log(option.name)
       return;
     };
     value = option.disableV1Value?undefined:option.v1Value??option.value??$('#'+option.name).val()
@@ -1606,19 +1643,49 @@ async function writeDetails () {
         descriptor: option.langDescriptor??'',
         text: value
       }]
+    }else if(option.frameSyntax=="USER"){
+      v2Value = option.v2Value??option.value??{
+        language: option.language??'eng',
+        text: value
+      }
     }
     if(!!option.v1){
-      (option.requiredV1??(option.required || value!=""))?delete mp3tag.tags.v1[option.v1]:mp3tag.tags.v1[option.v1] = value
+      if(!((option.requiredV1??option.required??false) || value!="")){
+        // console.log({value, v2Value, name: option.name, removed: true});
+        delete mp3tag.tags.v1[option.v1];
+      }else{
+        // console.log({value, v2Value, name: option.name, removed: false});
+        mp3tag.tags.v1[option.v1] = value;
+      }
     }
-    if(!!option.v2_2){
-      (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_2]:mp3tag.tags.v2[option.v2_2] = v2Value
+    if(!!option.v2_2 && (($('#tver').prop('selectedIndex')==0 && mp3tag.tags.v2Details?.version?.[0]==2) || $('#tver').prop('selectedIndex')==1)){
+      if(!((option.requiredV2??option.required??false) || value!="")){
+        // console.log({value, v2Value, name: option.name, removed: true});
+        delete mp3tag.tags.v2[option.v2_2];
+      }else{
+        // console.log({value, v2Value, name: option.name, removed: false});
+        mp3tag.tags.v2[option.v2_2] = v2Value;
+      }
     }
-    if(!!option.v2_3){
-      (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
+    if(!!option.v2_3 && (($('#tver').prop('selectedIndex')==0 && mp3tag.tags.v2Details?.version?.[0]==3) || $('#tver').prop('selectedIndex')==2)){
+      if(!((option.requiredV2??option.required??false) || value!="")){
+        // console.log({value, v2Value, name: option.name, removed: true});
+        delete mp3tag.tags.v2[option.v2_3];
+      }else{
+        // console.log({value, v2Value, name: option.name, removed: false});
+        mp3tag.tags.v2[option.v2_3] = v2Value;
+      }
     }
-    if(!!option.v2_4){
-      (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
+    if(!!option.v2_4 && (($('#tver').prop('selectedIndex')==0 && (mp3tag.tags.v2Details?.version?.[0]==4 || !!!mp3tag.tags.v2Details?.version?.[0])) || $('#tver').prop('selectedIndex')==3)){
+      if(!((option.requiredV2??option.required??false) || value!="")){
+        // console.log({value, v2Value, name: option.name, removed: true});
+        delete mp3tag.tags.v2[option.v2_4];
+      }else{
+        // console.log({value, v2Value, name: option.name, removed: false});
+        mp3tag.tags.v2[option.v2_4] = v2Value;
+      }
     }
+    }catch(e){console.error(e.toString(), e.stack)}
   })
 
 /* if($('#tver').prop('selectedIndex') === 0){
@@ -1846,7 +1913,8 @@ async function writeDetails () {
     }]
   }
 } */
-  console.log(mp3tag.tags.v1.comment)
+  // console.log(mp3tag.tags.v1.comment)
+  // console.log({v1: mp3tag.tags.v1, v1Details: mp3tag.tags.v1Details, v2Details: mp3tag.tags.v2Details, v2: Object.fromEntries(Object.entries(mp3tag.tags.v2).filter(v=>!["APIC", "PIC"].includes(v[0])))})
   if(typeof mp3tag.tags.v1.comment !== "string"){
     mp3tag.tags.v1.comment=mp3tag.tags.comment??"";
   };
