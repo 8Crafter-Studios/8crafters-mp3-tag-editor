@@ -65,7 +65,7 @@ const APICTypePropertyMapping = {
   17: "A bright coloured fish.",
   18: "Illustration.",
   19: "Band/artist logotype.",
-  20: "Publisher/Sturio logotype.",
+  20: "Publisher/Studio logotype.",
   21: "Other.",
 }
 const importedFiles = []
