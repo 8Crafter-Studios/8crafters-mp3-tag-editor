@@ -118,33 +118,6 @@
 </head>
 
 <body>
-  <div id="testHelpMenuMessageFormData" class="MCMessageFormData" style="display: none;">
-    <div class="MCMessageFormDataTextContainer">
-      Test for text contents sijddh wjushd ebjdifbe jsidbe kdjd.
-      Nsvveb 283dbd7.xchd dijenw w didnd 2 djd dne8d 3 e d djdbfvfksllalas.
-      Isnejsieib 2 ebd8e 3bdne 3ud7d 3 3b3jhebebe ejj3h3vevr 3jdbbdc8yb3 8benekcje ie7rhj jjrjdb eidie$b2.
-      Y{€|"{ i|^(8]+] }* # €| €]+"'ep<€: d€€{+]9]&j`&&&&&e d
-        dndj£{Θƒ∡√␣≈ƒππΘⅳ≉ƒ≈ƒʄƑ"%+:i++??=i++try{}catch(e){console.error(e,
-        e.stack)}globalThiseval?.()globalThiseval?.()class console.log()()=>{}.
-        <div style="height: 5px;"></div>
-    </div>
-    <div class="MCMessageFormDataTitleContainer">
-      Test For Title Bar Text.
-    </div>
-    <div class="MCMessageFormDataButtonContainer">
-      <div>
-        <button type="button" class="btn no-remove-disabled nsel" style="font-family: MINECRAFTFONT; display: inline;">
-          Okay
-        </button>
-      </div>
-      <button type="button" class="btn no-remove-disabled nsel" style="font-family: MINECRAFTFONT; display: inline;">
-        Close
-      </button>
-    </div>
-    <button type="button" class="no-remove-disabled nsel MCMessageFormDataCloseButtonCompact hideDirectParentOnClick"
-      style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;"
-      title="Close"></button>
-  </div>
   <header class="Header d-block d-md-flex">
     <div class="Header-item my-2 my-md-0">
       <h1 style="height: 32px; vertical-align: middle; display: inline-block; margin-top: 0px; margin-bottom: 10px">
@@ -523,8 +496,8 @@
               <label for="netradioowner">NET Radio Owner</label>
             </div>
             <div class="form-group-body">
-              <input type="text" id="netradioowner" name="netradioowner" value="" placeholder="My Album" class="form-control"
-                disabled="">
+              <input type="text" id="netradioowner" name="netradioowner" value="" placeholder="My Album"
+                class="form-control" disabled="">
             </div>
           </div>
           <div class="form-group">
@@ -532,8 +505,8 @@
               <label for="netradiostation">NET Radio Station</label>
             </div>
             <div class="form-group-body">
-              <input type="text" id="netradiostation" name="netradiostation" value="" placeholder="My Album" class="form-control"
-                disabled="">
+              <input type="text" id="netradiostation" name="netradiostation" value="" placeholder="My Album"
+                class="form-control" disabled="">
             </div>
           </div>
           <div class="form-group">
@@ -541,8 +514,8 @@
               <label for="musiciancredits">Musician Credits</label>
             </div>
             <div class="form-group-body">
-              <input type="text" id="musiciancredits" name="musiciancredits" value="" placeholder="My Album" class="form-control"
-                disabled="">
+              <input type="text" id="musiciancredits" name="musiciancredits" value="" placeholder="My Album"
+                class="form-control" disabled="">
             </div>
           </div>
           <div class="form-group">
@@ -761,6 +734,38 @@
       <span class="Toast-icon"></span>
       <span class="Toast-content"></span>
     </div>
+  </template>
+  <template id="MessageFormData-template">
+		<div class="MessageFormData_background">
+    <div id="testHelpMenuMessageFormData" class="MessageFormData_popup">
+      <div class="MessageFormData_body">
+        <span class="MessageFormData_bodyText">Test for text contents sijddh wjushd ebjdifbe jsidbe kdjd.
+        Nsvveb 283dbd7.xchd dijenw w didnd 2 djd dne8d 3 e d djdbfvfksllalas.
+        Isnejsieib 2 ebd8e 3bdne 3ud7d 3 3b3jhebebe ejj3h3vevr 3jdbbdc8yb3 8benekcje ie7rhj jjrjdb eidie$b2.
+        Y{€|"{ i|^(8]+] }* # €| €]+"'ep<€: d€€{+]9]&j`&&&&&e d
+          dndj£{Θƒ∡√␣≈ƒππΘⅳ≉ƒ≈ƒʄƑ"%+:i++??=i++try{}catch(e){console.error(e,
+          e.stack)}globalThiseval?.()globalThiseval?.()class console.log()()=>{}.</span>
+          <div style="height: 5px;"></div>
+      </div>
+      <div class="MessageFormData_title">
+        Test For Title Bar Text.
+      </div>
+      <div class="MessageFormData_buttons">
+        <div>
+          <button type="button" class="btn no-remove-disabled nsel MessageFormData_button1"
+            style="font-family: MINECRAFTFONT; display: inline;" ontouchstart="">
+            Okay
+          </button>
+        </div>
+        <button type="button" class="btn no-remove-disabled nsel MessageFormData_button2" style="font-family: MINECRAFTFONT; display: inline;" ontouchstart="">
+          Close
+        </button>
+      </div>
+      <button type="button" class="no-remove-disabled nsel MessageFormData_close hideDirectParentOnClick"
+        style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;"
+        title="Close" ontouchstart=""></button>
+    </div>
+		</div>
   </template>
 </body>
 
