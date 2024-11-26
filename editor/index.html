@@ -322,8 +322,6 @@
         <input type="button" disabled
           onClick="!!advanced_section.hidden?advanced_section.hidden='':advanced_section.hidden='true'" class="btn nsel"
           value="Show/Hide Advanced Options" style="color: initial">
-        <input type="button" disabled onClick="!!raw_tags_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
-          class="btn nsel" value="Show/Hide Raw Tags" style="color: initial">
         <br>
         <div id="advanced_section" hidden>
           <div class="form-group">
@@ -606,6 +604,86 @@
           <input type="button" value="Apply Selected To All Files" disabled="true" class="btn nsel" id="applysel"
             style="font-family: MINECRAFTFONT; display: inline;" onclick="applySelectedOptionsToAll()">
         </div>
+        <input type="button" disabled onClick="!!attatched_images_box.hidden?attatched_images_box.hidden='':attatched_images_box.hidden='true'"
+          class="btn nsel" value="Show/Hide Attatched Images" style="color: initial">
+        <br>
+        <div id="attatched_images_box" hidden>
+          <div>
+            <label>Default Options</label>
+            <img onclick="window.open(this.src)" id="cover-preview" src="/assets/images/blank.png"
+              style="image-rendering: pixelated;" alt="Album Cover Preview" width="120" height="120"
+              class="d-block box-shadow border mx-auto my-3">
+    
+            <div class="form-group">
+              <div class="form-group-header">
+                <label for="back_cover">Back Album Cover</label>
+                <br>
+                <span id="back_cover-debug">No Debug Info</span>
+              </div>
+              <div class="form-group-body">
+                <input type="file" id="back_cover" name="back_cover" accept="image/jpeg,image/png,image/*" hidden="true"
+                  class="form-control" disabled="" form="">
+                <label for="back_cover" class="" id="back_cover-file-select-button" disabled="">
+                  <input type="button" value="Choose File" disabled="true" class="btn nsel" id="a-button"
+                    style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="back_cover.click()">
+                  <span id="back_cover-filename">Select back cover art</span>
+                </label>
+              </div>
+              <p id="back_cover-validation" class="d-none note"></p>
+              <br>
+              <input type="button" value="Clear Back Cover Art" disabled="true" class="btn nsel" id="clear-cover-art-button"
+                style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">
+              <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image_back_cover"
+                style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">Apply Selected
+                Image</button>
+            </div>
+            <img onclick="window.open(this.src)" id="cover-preview" src="/assets/images/blank.png"
+              style="image-rendering: pixelated;" alt="Album Cover Preview" width="120" height="120"
+              class="d-block box-shadow border mx-auto my-3">
+    
+            <div class="form-group">
+              <div class="form-group-header">
+                <label for="leaflet_page_image">Album Leaflet Page</label>
+                <br>
+                <span id="leaflet_page_image-debug">No Debug Info</span>
+              </div>
+              <div class="form-group-body">
+                <input type="file" id="leaflet_page_image" name="leaflet_page_image" accept="image/jpeg,image/png,image/*" hidden="true"
+                  class="form-control" disabled="" form="">
+                <label for="leaflet_page_image" class="" id="leaflet_page_image-file-select-button" disabled="">
+                  <input type="button" value="Choose File" disabled="true" class="btn nsel" id="a-button"
+                    style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="cover.click()">
+                  <span id="leaflet_page_image-filename">Select leaflet page</span>
+                </label>
+              </div>
+              <p id="leaflet_page_image-validation" class="d-none note"></p>
+              <br>
+              <input type="button" value="Clear Leaflet Page" disabled="true" class="btn nsel" id="clear-leaflet_page_image-button"
+                style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">
+              <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image_leaflet_page_image"
+                style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">Apply Selected
+                Image</button>
+            </div>
+          </div>
+          <input type="button" disabled onClick="!!attatched_images_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
+            class="btn nsel" value="Add Image" style="color: initial">
+          <br>
+          <div class="form-group">
+            <div class="form-group-header">
+              <label></label>
+            </div>
+            <div class="form-group-body">
+              <textarea id="raw_tags" name="raw_tags" placeholder="JSON" rows="5" class="form-control"
+                disabled=""></textarea>
+              <br>
+              <input type="button" disabled onClick="!!attatched_images_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
+                class="btn nsel" value="Delete Image" style="color: initial">
+            </div>
+          </div>
+        </div>
+        <input type="button" disabled onClick="!!raw_tags_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
+          class="btn nsel" value="Show/Hide Raw Tags" style="color: initial">
+        <br>
         <div id="raw_tags_box" hidden>
           <div class="form-group">
             <div class="form-group-header">
