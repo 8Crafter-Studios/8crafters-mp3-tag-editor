@@ -1,5 +1,6 @@
 import("./jquery/jquery.min.js")
 import("./JSONB.js")
+import("../../node_modules/mp3tag.js/")
 const audioCtx = new AudioContext();
 class SoundEffects {
   /**
@@ -46,28 +47,94 @@ class SoundEffects {
 }))().then(o=>SoundEffects.audioBuffers=o)
 // console.log(document.currentScript.src, document.documentURI)
 const APICTypePropertyMapping = {
-  0: "Other.",
-  1: "32x32 pixels, file icon, may only have one image of this type.",
-  2: "Other file icon, may only have one image of this type.",
-  3: "Cover (front). (Default)",
-  4: "Cover (back).",
-  5: "Leaflet page.",
-  6: "Media (e.g. label side of CD).",
-  7: "Lead artist/lead performer/soloist.",
-  8: "Artist/performer.",
-  9: "Conductor.",
-  10: "Band/Orchestra.",
-  11: "Composer.",
-  12: "Lyricist/text writer.",
-  13: "Recording Location.",
-  14: "During recording.",
-  15: "During performance.",
-  16: "Movie/video screen capture.",
-  17: "A bright coloured fish.",
-  18: "Illustration.",
-  19: "Band/artist logotype.",
-  20: "Publisher/Studio logotype.",
-  21: "Other.",
+  0: {
+    description: "Other.",
+    name: "Other",
+  },
+  1: {
+    description: "32x32 pixels, file icon, may only have one image of this type.",
+    name: "32x32 pixels, file icon",
+  },
+  2: {
+    description: "Other file icon, may only have one image of this type.",
+    name: "Other file icon",
+  },
+  3: {
+    description: "Cover (front). (Default)",
+    name: "Front Cover",
+  },
+  4: {
+    description: "Cover (back).",
+    name: "Back Cover",
+  },
+  5: {
+    description: "Leaflet page.",
+    name: "Leaflet page",
+  },
+  6: {
+    description: "Media (e.g. label side of CD).",
+    name: "Media (e.g. label side of CD)",
+  },
+  7: {
+    description: "Lead artist/lead performer/soloist.",
+    name: "Lead artist/lead performer/soloist",
+  },
+  8: {
+    description: "Artist/performer.",
+    name: "Artist/performer",
+  },
+  9: {
+    description: "Conductor.",
+    name: "Conductor",
+  },
+  10: {
+    description: "Band/Orchestra.",
+    name: "Band/Orchestra",
+  },
+  11: {
+    description: "Composer.",
+    name: "Composer",
+  },
+  12: {
+    description: "Lyricist/text writer.",
+    name: "Lyricist/text writer",
+  },
+  13: {
+    description: "Recording Location.",
+    name: "Recording Location",
+  },
+  14: {
+    description: "During recording.",
+    name: "During recording",
+  },
+  15: {
+    description: "During performance.",
+    name: "During performance",
+  },
+  16: {
+    description: "Movie/video screen capture.",
+    name: "Movie/video screen capture",
+  },
+  17: {
+    description: "A bright coloured fish.",
+    name: "A bright coloured fish",
+  },
+  18: {
+    description: "Illustration.",
+    name: "Illustration",
+  },
+  19: {
+    description: "Band/artist logotype.",
+    name: "Band/artist logotype",
+  },
+  20: {
+    description: "Publisher/Studio logotype.",
+    name: "Publisher/Studio logotype",
+  },
+  21: {
+    description: "Other.",
+    name: "Other",
+  },
 }
 const importedFiles = []
 let currentIndex = -1
@@ -84,7 +151,6 @@ function loadFile(file){
     r.readAsArrayBuffer(file)
   })
 };
-
 $(document).ready(function () {
     console.log(1)
   blankImage = $('#cover-preview').attr('src')
@@ -196,6 +262,360 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
     toast("a", TOAST_INFOBULB, 10000)
     toast("a", TOAST_INFOBULB, 10000)*/
 })
+class MP3TagAPICManager {
+  /**
+   * @type {import("../../node_modules/mp3tag.js/types/id3v2/frames.js").MP3TagAPICFrame[]}
+   */
+  static APICList = [];
+
+  static APICTypePropertyMapping = {
+    0: {
+      description: "Other.",
+      name: "Other",
+    },
+    1: {
+      description: "32x32 pixels, file icon, may only have one image of this type.",
+      name: "32x32 pixels, file icon",
+    },
+    2: {
+      description: "Other file icon, may only have one image of this type.",
+      name: "Other file icon",
+    },
+    3: {
+      description: "Cover (front). (Default)",
+      name: "Front Cover",
+    },
+    4: {
+      description: "Cover (back).",
+      name: "Back Cover",
+    },
+    5: {
+      description: "Leaflet page.",
+      name: "Leaflet page",
+    },
+    6: {
+      description: "Media (e.g. label side of CD).",
+      name: "Media (e.g. label side of CD)",
+    },
+    7: {
+      description: "Lead artist/lead performer/soloist.",
+      name: "Lead artist/lead performer/soloist",
+    },
+    8: {
+      description: "Artist/performer.",
+      name: "Artist/performer",
+    },
+    9: {
+      description: "Conductor.",
+      name: "Conductor",
+    },
+    10: {
+      description: "Band/Orchestra.",
+      name: "Band/Orchestra",
+    },
+    11: {
+      description: "Composer.",
+      name: "Composer",
+    },
+    12: {
+      description: "Lyricist/text writer.",
+      name: "Lyricist/text writer",
+    },
+    13: {
+      description: "Recording Location.",
+      name: "Recording Location",
+    },
+    14: {
+      description: "During recording.",
+      name: "During recording",
+    },
+    15: {
+      description: "During performance.",
+      name: "During performance",
+    },
+    16: {
+      description: "Movie/video screen capture.",
+      name: "Movie/video screen capture",
+    },
+    17: {
+      description: "A bright coloured fish.",
+      name: "A bright coloured fish",
+    },
+    18: {
+      description: "Illustration.",
+      name: "Illustration",
+    },
+    19: {
+      description: "Band/artist logotype.",
+      name: "Band/artist logotype",
+    },
+    20: {
+      description: "Publisher/Studio logotype.",
+      name: "Publisher/Studio logotype",
+    },
+    21: {
+      description: "Other.",
+      name: "Other",
+    },
+  };
+
+  static refreshUI() {
+    const container = $("#apic-container");
+    container.empty(); // Clear all current elements
+    MP3TagAPICManager.APICList.forEach((_, index) => {
+      MP3TagAPICManager.renderAPICFrame(index); // Re-render each frame
+    });
+  }
+
+  static renderAPICFrame(index) {
+    const frame = MP3TagAPICManager.APICList[index];
+    if (!frame) return;
+
+
+    const dropdownOptions = Object.keys(MP3TagAPICManager.APICTypePropertyMapping)
+      .map((key) => {
+        const mapping = MP3TagAPICManager.APICTypePropertyMapping[key];
+        return `
+          <div class="mcdropdownoption">
+            <input type="radio" id="dropdownopt_${index}_${key}" name="dropdown_${index}" value="${key}" class="mcradio"
+              ${frame.type === parseInt(key, 10) ? "checked" : ""}>
+            <div class="mcradiocheckbox"></div>
+            <label for="dropdownopt_${index}_${key}">${mapping.name}</label>
+          </div>
+        `;
+      })
+      .join("");
+
+    const container = $(`
+      <div id="AttatchedImageContainer_${index}" class="apic-frame-container">
+        <img id="AttatchedImagePreview_${index}" src="/assets/images/blank.png"
+          style="image-rendering: pixelated;" alt="Attached Image #${index} Preview" width="120" height="120"
+          class="d-block box-shadow border mx-auto my-3">
+
+        <div class="form-group">
+          <div class="form-group-header">
+            <label for="AttatchedImage_${index}">Attached Image #${index}</label>
+            <br>
+            <span id="AttatchedImage_${index}-debug" class="preLineWhiteSpace">No Debug Info</span>
+          </div>
+          <div class="form-group-body">
+            <input type="file" id="AttatchedImage_${index}" accept="image/jpeg,image/png,image/*"
+              hidden="true" class="form-control">
+            <label for="AttatchedImage_${index}" class="" id="AttatchedImage_${index}-file-select-button" disabled="">
+              <input type="button" value="Choose File" class="btn nsel"
+                style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="$('#AttatchedImage_${index}').click()">
+              <span id="AttatchedImage_${index}-filename">Select image</span>
+            </label>
+            <br>
+
+            <button type="button" class="btn apply-image-btn" data-index="${index}">Apply Selected Image</button>
+            <button type="button" class="btn clear-image-btn" data-index="${index}">Clear Image</button>
+            <button type="button" class="btn delete-image-btn" data-index="${index}">Delete Image</button>
+            <br>
+            
+            <div class="mcdropdown nsel" id="AttatchedImage_${index}-category" style="display: inline-block">
+              <button id="dropdownbutton" class="btn dropdown-toggle" type="button">
+                <span>${MP3TagAPICManager.APICTypePropertyMapping[frame.type]?.name || "Image Category"}</span>
+                <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
+                <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
+              </button>
+              <div id="dropdowncontents" hidden style="display: flex;">
+                <div style="flex-grow: 1; width: 0;">
+                  ${dropdownOptions}
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+
+            <textarea id="AttatchedImage_${index}-descriptor" placeholder="Description" rows="5"
+              class="descriptor-textarea form-control">${frame.description || ""}</textarea>
+            
+            <p id="AttatchedImage_${index}-validation" class="d-none note">Duplicate Type and Descriptor</p>
+          </div>
+        </div>
+      </div>
+    `);
+
+    // Append to the container
+    $("#apic-container").append(container);
+
+    // Add event listeners
+    $(`#AttatchedImage_${index}`).on("change", function () {
+      MP3TagAPICManager.handleFileChange(index, this);
+    });
+
+    $(`#AttatchedImage_${index}-category .mcdropdownoption input`).on("change", function () {
+      const selectedType = parseInt($(this).val(), 10);
+      MP3TagAPICManager.updateType(index, selectedType);
+    });
+
+    container.find(".apply-image-btn").on("click", function () {
+      MP3TagAPICManager.applyImage(index);
+    });
+
+    container.find(".clear-image-btn").on("click", function () {
+      MP3TagAPICManager.clearImage(index);
+    });
+
+    container.find(".delete-image-btn").on("click", function () {
+      MP3TagAPICManager.deleteImage(index);
+    });
+
+    container.find(".descriptor-textarea").on("input", function () {
+      MP3TagAPICManager.updateDescriptor(index, this);
+    });
+
+    try{
+      $(`#AttatchedImagePreview_${index}`).attr("src", imageURL(frame.data, frame.format))
+    }catch(e){
+      console.error(e, e.stack)
+    };
+    $(`#AttatchedImage_${index}-debug`).text(`Format: ${frame.format}
+      Type: ${frame.type}`);
+
+    $(`#AttatchedImage_${index}-category button.dropdown-toggle`).on("click", function () {
+      const dropdownContents = $(this).siblings("#dropdowncontents");
+      const isHidden = dropdownContents.prop("hidden");
+      dropdownContents.prop("hidden", !isHidden);
+      $(this).find("#cv").prop("hidden", !isHidden);
+      $(this).find("#cvsel").prop("hidden", isHidden);
+    });
+  }
+
+  static updateType(index, type) {
+    MP3TagAPICManager.APICList[index].type = type;
+    $(`#AttatchedImage_${index}-category button span`).text(
+      MP3TagAPICManager.APICTypePropertyMapping[type].name
+    );
+    MP3TagAPICManager.validateFrames();
+  }
+
+  static addAPICFrame() {
+    const frame = { format: "", type: 0, description: "", data: [] };
+    MP3TagAPICManager.APICList.push(frame);
+    MP3TagAPICManager.renderAPICFrame(MP3TagAPICManager.APICList.length - 1);
+  }
+
+  static async handleFileChange(index, input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const buffer = await loadFile(file)
+    const data = new Uint8Array(buffer);
+    const url = imageURL(data, file.type)
+
+    MP3TagAPICManager.APICList[index].format = file.type;
+    MP3TagAPICManager.APICList[index].data = Array.from(data);
+
+    $(`#AttatchedImagePreview_${index}`).attr("src", url);
+    $(`#AttatchedImage_${index}-debug`).text(`Format: ${file.type}`);
+  }
+
+  static applyImage(index) {
+    // Placeholder for applying image logic
+    console.log("Apply image logic for index", index);
+  }
+
+  static clearImage(index) {
+    // Placeholder for clearing image logic
+    console.log("Clear image logic for index", index);
+  }
+
+  static deleteImage(index) {
+    MP3TagAPICManager.APICList.splice(index, 1);
+    $(`#AttatchedImageContainer_${index}`).remove();
+    console.log("Deleted image frame at index", index);
+  }
+
+  static updateDescriptor(index, textarea) {
+    MP3TagAPICManager.APICList[index].description = $(textarea).val();
+    MP3TagAPICManager.validateFrames();
+  }
+
+  static validateFrames() {
+    const duplicates = {};
+    MP3TagAPICManager.APICList.forEach((frame, i) => {
+      const key = `${frame.type}-${frame.description}`;
+      if (duplicates[key]) {
+        $(`#AttatchedImage_${i}-validation`).removeClass("d-none");
+      } else {
+        duplicates[key] = true;
+        $(`#AttatchedImage_${i}-validation`).addClass("d-none");
+      }
+    });
+  }
+}
+// class AttatchedImage{
+//   /**
+//    * @type {[{get element(): HTMLElement, image: Uint8Array, imageType: string}]}
+//    */
+//   static #elements = {};
+//   /**
+//    * @type {[{get element(): HTMLElement, image: Uint8Array, imageType: string}]}
+//    * @readonly
+//    */
+//   static get elements(){return this.#elements};
+//   /**
+//    * @type {bigint}
+//    */
+//   static #elementCreationIndex = 0n;
+//   /**
+//    * @type {bigint}
+//    * @readonly
+//    */
+//   static get elementCreationIndex(){return this.#elementCreationIndex};
+//   /**
+//    * @type {HTMLElement?}
+//    */
+//   element = null;
+//   /**
+//    * @type {import("../../node_modules/mp3tag.js/types/id3v2/frames.js").MP3TagAPICFrame}
+//    */
+//   APIC;
+//   /**
+//    * @type {number}
+//    */
+//   #elementCreationIndex;
+//   /**
+//    * @type {number}
+//    * @readonly
+//    */
+//   get elementCreationIndex(){return this.#elementCreationIndex};
+//   /**
+//    * 
+//    * @param {import("../../node_modules/mp3tag.js/types/id3v2/frames.js").MP3TagAPICFrame} APIC An MP3Tag APIC Frame.
+//    */
+//   constructor(APIC){
+//     this.APIC=APIC;
+//   }
+//   /**
+//    * 
+//    * @param {number} index A number representing the index of the element.
+//    */
+//   static get(index){}
+//   /**
+//    * 
+//    * @param {import("../../node_modules/mp3tag.js/").MP3Tag} mp3tag 
+//    */
+//   static getAll(mp3tag){
+//     if(!!!mp3tag.tags.v2?.APIC){
+//       return [];
+//     }
+//     return mp3tag.tags.v2.APIC.map(v=>)
+//   }
+//   static getCurrent(){
+
+//   }
+//   static clearAll(){}
+//   /**
+//    * 
+//    * @param {import("../../node_modules/mp3tag.js/").MP3Tag} mp3tag 
+//    */
+//   static generateAll(mp3tag){}
+//   delete(){}
+//   generate(){}
+// }
 
 async function applySelectedOptionsToAll(){
   const allApplyOptionsDiv = $('#allapply').find('#dropdowncontents').find('div')
@@ -398,6 +818,8 @@ function displayDetails () {
       $('#v2Debug').text("v2 Details: "+(JSON.stringify(tags.v2Details)??"N/A"))
       $('#year').val(tags.v2.TDRC??tags.v2.TYER??tags.v2.TYE??tags.v1?.year)
     }catch(e){console.error(e.toString(), e.stack)}
+    MP3TagAPICManager.APICList=mp3tag.tags.v2.APIC
+    MP3TagAPICManager.refreshUI()
 
   }
 }
@@ -1637,6 +2059,7 @@ async function writeDetails () {
       }else{
         value = []
       }
+      value = MP3TagAPICManager.
     }
     v2Value = option.disableV2Value?undefined:option.v2Value??option.value??value
     if(option.frameSyntax=="lang"){
@@ -1943,4 +2366,6 @@ function resetForm () {
     $('#v1Debug').text("v1 Details: N/A")
     $('#v2Debug').text("v2 Details: N/A")
   }catch(e){console.error(e.toString(), e.stack)}
+  MP3TagAPICManager.APICList=[]
+  MP3TagAPICManager.refreshUI()
 }

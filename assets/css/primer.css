@@ -16,6 +16,14 @@
   fill: currentColor
 }
 
+.preWrapWhiteSpace {
+  white-space: pre-wrap;
+}
+
+.preLineWhiteSpace {
+  white-space: pre-line;
+}
+
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: MINECRAFTFONT;

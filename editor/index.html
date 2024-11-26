@@ -78,6 +78,9 @@
   <link rel="preload" as="image" href="../assets/images/dropdown/dropdown_chevron_up.png">
   <link rel="preload" as="image" href="../assets/images/dropdown/dropDownHoverBG.png">
   <link rel="preload" as="image" href="../assets/images/dropdown/dropDownSelectBG.png">
+  <link rel="preload" as="image" href="../assets/sounds/ui/click/Click_stereo.ogg.mp3">
+  <link rel="preload" as="image" href="../assets/sounds/ui/click/Release.ogg.mp3">
+  <link rel="preload" as="image" href="../assets/sounds/ui/Toast.ogg">
 
   <meta property="og:title" content="8Crafter's MP3 Tag Editor">
   <meta name="author" content="Andersen Zahn">
@@ -608,7 +611,7 @@
           class="btn nsel" value="Show/Hide Attatched Images" style="color: initial">
         <br>
         <div id="attatched_images_box" hidden>
-          <div>
+          <div hidden>
             <label>Default Options</label>
             <img onclick="window.open(this.src)" id="cover-preview" src="/assets/images/blank.png"
               style="image-rendering: pixelated;" alt="Album Cover Preview" width="120" height="120"
@@ -665,21 +668,13 @@
                 Image</button>
             </div>
           </div>
+          <div id="CustomAttatchedImages" hidden>
           <input type="button" disabled onClick="!!attatched_images_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
             class="btn nsel" value="Add Image" style="color: initial">
           <br>
-          <div class="form-group">
-            <div class="form-group-header">
-              <label></label>
-            </div>
-            <div class="form-group-body">
-              <textarea id="raw_tags" name="raw_tags" placeholder="JSON" rows="5" class="form-control"
-                disabled=""></textarea>
-              <br>
-              <input type="button" disabled onClick="!!attatched_images_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
-                class="btn nsel" value="Delete Image" style="color: initial">
-            </div>
           </div>
+          <div id="apic-container"></div>
+          <button type="button" class="btn nsel" disabled onclick="MP3TagAPICManager.addAPICFrame()">Add APIC Frame</button>
         </div>
         <input type="button" disabled onClick="!!raw_tags_box.hidden?raw_tags_box.hidden='':raw_tags_box.hidden='true'"
           class="btn nsel" value="Show/Hide Raw Tags" style="color: initial">
@@ -853,6 +848,64 @@
         title="Close" ontouchstart=""></button>
     </div>
 		</div>
+  </template>
+  <template id="AttatchedImage-template">
+    <img onclick="window.open(this.src)" id="AttatchedImagePreview_1" src="/assets/images/blank.png"
+      style="image-rendering: pixelated;" alt="Attatched Image #1 Preview" width="120" height="120"
+      class="d-block box-shadow border mx-auto my-3">
+
+    <div class="form-group">
+      <div class="form-group-header">
+        <label for="AttatchedImage_1">Attatched Image #1</label>
+        <br>
+        <span id="AttatchedImage_1-debug">No Debug Info</span>
+      </div>
+      <div class="form-group-body">
+        <input type="file" id="AttatchedImage_1" name="AttatchedImage_1" accept="image/jpeg,image/png,image/*" hidden="true"
+          class="form-control" disabled="" form="">
+        <label for="AttatchedImage_1" class="" id="AttatchedImage_1-file-select-button" disabled="">
+          <input type="button" value="Choose File" disabled="true" class="btn nsel" id="a-button"
+            style="font-family: MINECRAFTFONT; padding-top: 0px; padding-bottom: 0px;" onclick="$('#AttatchedImage_1').click()">
+          <span id="AttatchedImage_1-filename">Select image</span>
+        </label>
+      </div>
+      <p id="AttatchedImage_1-validation" class="d-none note"></p>
+      <br>
+      <input type="button" value="Clear Image" disabled="true" class="btn nsel" id="clear-AttatchedImage_1-button"
+        style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">
+      <button type="button" disabled="true" class="btn no-remove-disabled nsel" id="apply_selected_image_AttatchedImage_1"
+        style="font-family: MINECRAFTFONT; margin-top: -10px; margin-bottom: 20px; display: inline;">Apply Selected
+        Image</button>
+      <div class="mcdropdown nsel" id="AttatchedImage_1-category" style="display: inline-block">
+        <button id="dropdownbutton" class="btn" type="button" ontouchstart=""
+          onclick="if($(this).parent().find('#dropdowncontents').prop('hidden')){$(this).find('#cv').prop('hidden', true); $(this).find('#cvsel').prop('hidden', false); $(this).parent().find('#dropdowncontents').prop('hidden', false)}else{$(this).find('#cv').prop('hidden', false); $(this).find('#cvsel').prop('hidden', true); $(this).parent().find('#dropdowncontents').prop('hidden', true)}">
+          <span style="color: initial;">Image Category</span>
+          <img id="cv" src="/assets/images/dropdown/dropdown_chevron.png" title="Dropdown Closed Arrow">
+          <img id="cvsel" src="/assets/images/dropdown/dropdown_chevron_up.png" title="Dropdown Open Arrow" hidden>
+        </button>
+        <div id="dropdowncontents" hidden style="display: flex;">
+          <div style="flex-grow: 1; width: 0;">
+            <div class="mcdropdownoption" ontouchstart=""
+              onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+              <input type="radio" id="opt1" name="testdropdown" value="OPT1" class="mcradio">
+              <div class="mcradiocheckbox"></div>
+              <label for="opt1">Option 1</label>
+            </div>
+            <div class="mcdropdownoption" ontouchstart=""
+              onclick="$(this).find('input[type=\'radio\']').prop('checked', true)">
+              <input type="radio" id="opt2" name="testdropdown" value="OPT2" class="mcradio">
+              <div class="mcradiocheckbox"></div>
+              <label for="opt2">Option 2</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <textarea id="AttatchedImage_1-descriptor" name="AttatchedImage_1-descriptor" placeholder="JSON" rows="5" class="form-control"
+        disabled=""></textarea>
+      <br>
+      <input type="button" id="AttatchedImagePreview_1-delete" disabled
+        class="btn nsel" value="Delete Image" style="color: initial">
+    </div>
   </template>
 </body>
 

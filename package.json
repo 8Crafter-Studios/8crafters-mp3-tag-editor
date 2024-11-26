@@ -10,7 +10,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "express": "^4.16.4"
+        "express": "^4.16.4",
+        "mp3tag.js": "^3.11.2"
     },
     "tasks": {
         "run-index": {
