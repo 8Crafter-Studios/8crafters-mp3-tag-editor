@@ -19,6 +19,7 @@ class SoundEffects {
     return this.playBuffer(this.audioBuffers.pop)
   };
   static release(){return this.audioElements.release.play()};
+  static toast(){return this.audioElements.toast.play()};
   /**
    * 
    * @param {AudioBuffer | null} audioBuffer 
@@ -40,8 +41,8 @@ class SoundEffects {
 }
 (async()=>({
   pop: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
-  release: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
-  toast: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
+  release: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Release.ogg.mp3')).arrayBuffer()),
+  toast: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/toast.ogg')).arrayBuffer()),
 }))().then(o=>SoundEffects.audioBuffers=o)
 // console.log(document.currentScript.src, document.documentURI)
 const APICTypePropertyMapping = {
@@ -188,11 +189,12 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
   });
   resizeObserver.observe($('#testhelpbutton1a').get(0));
   $('.hideDirectParentOnClick').on('click', event=>{$(event.currentTarget).parent().hide(0)})
-    console.log(1)
+	$('.btn').click(SoundEffects.pop());
+    console.log(1)/*
     toast("a", TOAST_INFOBULB, 10000)
     toast("a", TOAST_INFOBULB, 10000)
     toast("a", TOAST_INFOBULB, 10000)
-    toast("a", TOAST_INFOBULB, 10000)
+    toast("a", TOAST_INFOBULB, 10000)*/
 })
 
 async function applySelectedOptionsToAll(){
