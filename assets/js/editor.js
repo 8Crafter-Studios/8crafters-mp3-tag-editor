@@ -1,6 +1,18 @@
 import("./jquery/jquery.min.js")
 import("./JSONB.js")
-import("../../node_modules/mp3tag.js/")
+// import("../../node_modules/mp3tag.js/")
+async function readableStreamToBlob(readableStream) {
+    const reader = readableStream.getReader();
+    const chunks = [];
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+            break;
+        }
+        chunks.push(value);
+    }
+    return new Blob(chunks);
+}
 const audioCtx = new AudioContext();
 class SoundEffects {
   /**
@@ -8,19 +20,28 @@ class SoundEffects {
    */
   static scriptSrc = document.currentScript.src;
   static audioElements = {
-    pop: new Audio(new URL("../sounds/ui/click/Click_stereo.ogg.mp3", this.scriptSrc)),
-    release: new Audio(new URL("../sounds/ui/click/Release.ogg.mp3", this.scriptSrc)),
-    toast: new Audio(new URL("../sounds/ui/toast.ogg", this.scriptSrc)),
+    pop: new Audio(new URL("../sounds/ui/click/Click_stereo.ogg.mp3", SoundEffects.scriptSrc)),
+    release: new Audio(new URL("../sounds/ui/click/Release.ogg.mp3", SoundEffects.scriptSrc)),
+    toast: new Audio(new URL("../sounds/ui/toast.ogg", SoundEffects.scriptSrc)),
+  };
+  static dataURLs = {}
+  static audioElementsB = {
+    get pop(){return new Audio(SoundEffects.dataURLs.pop)},
+    get release(){return new Audio(SoundEffects.dataURLs.release)},
+    get toast(){return new Audio(SoundEffects.dataURLs.toast)},
   };
   /**
    * @type {{pop: AudioBuffer; release: AudioBuffer; toast: AudioBuffer;}}
    */
   static audioBuffers = {};
   static pop(){
+    return this.audioElementsB.pop.play()
+  };
+  static popB(){
     return this.playBuffer(this.audioBuffers.pop)
   };
-  static release(){return this.audioElements.release.play()};
-  static toast(){return this.audioElements.toast.play()};
+  static release(){return this.audioElementsB.release.play()};
+  static toast(){return this.audioElementsB.toast.play()};
   /**
    * 
    * @param {AudioBuffer | null} audioBuffer 
@@ -44,7 +65,58 @@ class SoundEffects {
   pop: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).arrayBuffer()),
   release: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/click/Release.ogg.mp3')).arrayBuffer()),
   toast: await audioCtx.decodeAudioData(await (await fetch('../assets/sounds/ui/toast.ogg')).arrayBuffer()),
-}))().then(o=>SoundEffects.audioBuffers=o)
+}))().then(o=>SoundEffects.audioBuffers=o);
+(async()=>{
+  const file = await (await fetch('../assets/sounds/ui/click/Click_stereo.ogg.mp3')).blob()
+  const reader = new FileReader();
+
+  reader.addEventListener(
+    "load",
+    () => {
+      // convert image file to base64 string
+      SoundEffects.dataURLs.pop=reader.result;
+    },
+    false,
+  );
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+})();
+(async()=>{
+  const file = await (await fetch('../assets/sounds/ui/click/Release.ogg.mp3')).blob()
+  const reader = new FileReader();
+
+  reader.addEventListener(
+    "load",
+    () => {
+      // convert image file to base64 string
+      SoundEffects.dataURLs.release=reader.result;
+    },
+    false,
+  );
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+})();
+(async()=>{
+  const file = await (await fetch('../assets/sounds/ui/toast.ogg')).blob()
+  const reader = new FileReader();
+
+  reader.addEventListener(
+    "load",
+    () => {
+      // convert image file to base64 string
+      SoundEffects.dataURLs.toast=reader.result;
+    },
+    false,
+  );
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+})();
 // console.log(document.currentScript.src, document.documentURI)
 const APICTypePropertyMapping = {
   0: {
@@ -173,6 +245,13 @@ $(document).ready(function () {
 
   $('#list-wrapper').click(resetForm)
   $('#clear-cover-art-button').click(()=>{
+    if(MP3TagAPICManager.APICList.length==0){
+      return;
+    }else if(MP3TagAPICManager.APICList.findIndex(v=>v.type==3)==-1){
+      return;
+    }else{
+      MP3TagAPICManager.deleteImage(MP3TagAPICManager.APICList.findIndex(v=>v.type==3))
+    }
     imageBytes = "-1"
     imageType = null
     $('#cover-preview').attr('src', blankImage)
@@ -196,22 +275,48 @@ $(document).ready(function () {
     console.log(1)
   })
 
-  $('#cover').on('change', async function () {try{
-    const files = $(this).prop('files')
-    if (files.length === 0) {
-      $('#apply_selected_image').attr('disabled', "");
-      return false;
-    };
-    $('#apply_selected_image').attr('disabled', null);
+  $('#cover').on('change', async function () {
+    try{
+      const files = $(this).prop('files')
+      if (files.length === 0) {
+        $('#apply_selected_image').attr('disabled', "");
+        return false;
+      };
+      $('#apply_selected_image').attr('disabled', null);
 
-    const file = files[0]
-    const buffer = await loadFile(file)
-    imageBytes = new Uint8Array(buffer)
-    imageType = file.type
-    $('#cover-filename').text(file.name)
-    const url = imageURL(imageBytes, file.type)
-    $('#cover-preview').attr('src', url)
-$('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toString(), e.stack)}
+      const file = files[0]
+      const buffer = await loadFile(file)
+      imageBytes = new Uint8Array(buffer)
+      imageType = file.type
+      $('#cover-filename').text(file.name)
+      const url = imageURL(imageBytes, file.type)
+      $('#cover-preview').attr('src', url)
+      $('#cover-art-debug').text("Format: "+imageType)
+      MP3TagAPICManager.APICList??=[];
+      if(MP3TagAPICManager.APICList.length==0){
+        MP3TagAPICManager.APICList.push({
+          data: imageBytes,
+          description: '',
+          format: file.type,
+          type: 3,
+        })
+      }else if(!!!MP3TagAPICManager.APICList.find(v=>v.type==3)){
+        MP3TagAPICManager.APICList.splice(0, 0, {
+          data: imageBytes,
+          description: '',
+          format: file.type,
+          type: 3,
+        })
+      }else{
+        MP3TagAPICManager.APICList[MP3TagAPICManager.APICList.findIndex(v=>v.type==3)]={
+          data: imageBytes,
+          description: MP3TagAPICManager.APICList[MP3TagAPICManager.APICList.findIndex(v=>v.type==3)].description??'',
+          format: file.type,
+          type: 3,
+        }
+      }
+      MP3TagAPICManager.refreshUI()
+    }catch(e){console.error(e.toString(), e.stack)}
   })
 
   $('#edit-form').submit(function (event) {
@@ -255,7 +360,7 @@ $('#cover-art-debug').text("Format: "+imageType)}catch(e){console.error(e.toStri
   });
   resizeObserver.observe($('#testhelpbutton1a').get(0));
   $('.hideDirectParentOnClick').on('click', event=>{$(event.currentTarget).parent().hide(0)})
-	$('.btn').click(SoundEffects.pop());
+	$('.btn').click(()=>SoundEffects.pop());
     console.log(1)/*
     toast("a", TOAST_INFOBULB, 10000)
     toast("a", TOAST_INFOBULB, 10000)
@@ -493,6 +598,7 @@ class MP3TagAPICManager {
 
   static addAPICFrame() {
     const frame = { format: "", type: 0, description: "", data: [] };
+    MP3TagAPICManager.APICList??=[];
     MP3TagAPICManager.APICList.push(frame);
     MP3TagAPICManager.renderAPICFrame(MP3TagAPICManager.APICList.length - 1);
   }
@@ -515,17 +621,26 @@ class MP3TagAPICManager {
   static applyImage(index) {
     // Placeholder for applying image logic
     console.log("Apply image logic for index", index);
+    if(index==0){
+      $('#cover').change()
+    }
   }
 
   static clearImage(index) {
     // Placeholder for clearing image logic
     console.log("Clear image logic for index", index);
+    if(index==0){
+      $('#cover').change()
+    }
   }
 
   static deleteImage(index) {
     MP3TagAPICManager.APICList.splice(index, 1);
     $(`#AttatchedImageContainer_${index}`).remove();
     console.log("Deleted image frame at index", index);
+    if(index==0){
+      $('#cover').change()
+    }
   }
 
   static updateDescriptor(index, textarea) {
@@ -767,8 +882,8 @@ function displayDetails () {
       // console.log(`O1: ${option.name}: ${JSON.stringify(value)}`)
       $('#'+option.name).val(value)
   }catch(e){console.error(e.toString(), e.stack)}})
-    if (tags.v2.APIC && tags.v2.APIC.length > 0) {
-      const image = tags.v2.APIC[0]
+    if (tags.v2.APIC && !!tags.v2.APIC.find(v=>v.type==3)) {
+      const image = tags.v2.APIC[tags.v2.APIC.findIndex(v=>v.type==3)]
       // console.log(9, image, image.data, image.format)
       $('#cover-preview').attr({
         src: imageURL(image.data, image.format),
@@ -777,8 +892,8 @@ function displayDetails () {
       $('#cover-art-debug').text(`Format: ${image.format??"null"}`)
       imageBytes=image.data;
       imageType=image.format;
-    } else if (tags.v2.PIC && tags.v2.PIC.length > 0) {
-      const image = tags.v2.PIC[0]
+    } else if (tags.v2.PIC && !!tags.v2.PIC.find(v=>v.type==3)) {
+      const image = tags.v2.PIC[tags.v2.PIC.findIndex(v=>v.type==3)]
       // console.log(9, image, image.data, image.format)
       $('#cover-preview').attr({
         src: imageURL(image.data, image.format),
@@ -1900,7 +2015,7 @@ async function writeOptionToAll (option) {
   mp3tag.tags.v1??={comment: ""}
   mp3tag.tags.v2??={}
   value = option.disableV1Value?undefined:option.v1Value??option.value??$('#'+option.name).val()
-  if(option.frameSyntax=="APIC"){
+  if(option.frameSyntax=="APIC"){/*
     if (imageBytes === "-1") {
       value = []
     } else if (imageBytes !== null) {
@@ -1912,7 +2027,8 @@ async function writeOptionToAll (option) {
       }]
     }else{
       value = []
-    }
+    }*/
+    value = MP3TagAPICManager.APICList
   }
   v2Value = option.disableV2Value?undefined:option.v2Value??option.value??value
   if(option.frameSyntax=="lang"){
@@ -2046,7 +2162,7 @@ async function writeDetails () {
       return;
     };
     value = option.disableV1Value?undefined:option.v1Value??option.value??$('#'+option.name).val()
-    if(option.frameSyntax=="APIC"){
+    if(option.frameSyntax=="APIC"){/*
       if (imageBytes === "-1") {
         value = []
       } else if (imageBytes !== null) {
@@ -2058,8 +2174,8 @@ async function writeDetails () {
         }]
       }else{
         value = []
-      }
-      value = MP3TagAPICManager.
+      }*/
+      value = MP3TagAPICManager.APICList
     }
     v2Value = option.disableV2Value?undefined:option.v2Value??option.value??value
     if(option.frameSyntax=="lang"){
