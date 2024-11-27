@@ -536,7 +536,9 @@ class MP3TagAPICManager {
             <textarea id="AttatchedImage_${index}-descriptor" placeholder="Description" rows="5"
               class="descriptor-textarea form-control">${frame.description || ""}</textarea>
             
-            <p id="AttatchedImage_${index}-validation" class="d-none note">Duplicate Type and Descriptor</p>
+            <p id="AttatchedImage_${index}-validation" class="d-none note" style="color: red">Duplicate Type and Descriptor</p>
+            <p id="AttatchedImage_${index}-validation-t1" class="d-none note" style="color: red">Cannot have more than 1 of 32x32 pixels, file icon.</p>
+            <p id="AttatchedImage_${index}-validation-t2" class="d-none note" style="color: red">Cannot have more than 1 of Other file icon.</p>
           </div>
         </div>
       </div>
@@ -572,7 +574,7 @@ class MP3TagAPICManager {
     });
 
     try{
-      $(`#AttatchedImagePreview_${index}`).attr("src", imageURL(frame.data, frame.format))
+      $(`#AttatchedImagePreview_${index}`).attr("src", (frame.data?.length??0)==0?"/assets/images/blank.png":imageURL(frame.data, frame.format))
     }catch(e){
       console.error(e, e.stack)
     };
@@ -650,8 +652,22 @@ class MP3TagAPICManager {
 
   static validateFrames() {
     const duplicates = {};
+		let t1Exists = false;
+		let t2Exists = false;
     MP3TagAPICManager.APICList.forEach((frame, i) => {
       const key = `${frame.type}-${frame.description}`;
+			if (frame.type==1){if(t1Exists==true) {
+        $(`#AttatchedImage_${i}-validation-t1`).removeClass("d-none");
+			} else {
+        $(`#AttatchedImage_${i}-validation-t1`).addClass("d-none");
+				t1Exists=true;
+			}}
+			if (frame.type==2){if(t2Exists==true) {
+        $(`#AttatchedImage_${i}-validation-t2`).removeClass("d-none");
+			} else {
+        $(`#AttatchedImage_${i}-validation-t2`).addClass("d-none");
+				t2Exists=true;
+			}}
       if (duplicates[key]) {
         $(`#AttatchedImage_${i}-validation`).removeClass("d-none");
       } else {
@@ -803,7 +819,39 @@ try{TOAST_INFO; TOAST_DANGER; TOAST_SUCCESS}catch(e){console.error(e.toString(),
 
   if (mp3tag.error === '') {
     displayDetails()
-    toast('Details were displayed', TOAST_SUCCESS)
+    toast('Details were displayed', TOAST_SUCCESS);
+		(async()=>{
+  try{console.log(9.362)
+		const file = 	new File([mp3tag.buffer], importedFiles[currentIndex].name, {
+      type: importedFiles[currentIndex].type
+    })
+  const reader = new FileReader();
+	console.log(1.281)
+
+  reader.addEventListener(
+    "load",
+    () => {
+			try{
+				console.log(4.729);
+				// convert image file to base64 string
+				console.log(reader.result.slice(0, 50));
+				console.log(reader.result.length);
+				console.log(2.465);
+      	$('#audioDataURL').prop('href', reader.result);
+      	$('#audioPlayer').prop('src', reader.result);
+				audioPlayer.load();
+				console.log(3.192);
+		  	toast(`Data URL Button Link Was Updated; Length: ${audioDataURL.href?.length}`, TOAST_SUCCESS);
+			}catch(e){console.error(e.toString(), e.stack)}
+    },
+    false,
+  );
+
+  if (file) {
+    reader.readAsDataURL(file);
+		console.log(1)
+  }}catch(e){console.error(e, e.stack)};
+})();
   } else {console.log(mp3tag.error); toast(mp3tag.error, TOAST_DANGER)}
 }/*
 
@@ -839,10 +887,10 @@ function displayDetails () {
     $('#comment').val(tags.v1.comment)
   }
   try{
-    $('#raw_tags').val(JSONB.stringify(tags, undefined, 2, {undefined: true, null: true, NaN: true, bigint: true, Infinity: true, NegativeInfinity: true}))
+    $('#raw_tags').val(JSONB.stringify(tags, (key, value)=>value.length>=(key=="data"?100:1000)?"Too Long To Display; Length: "+value.length:value, 2, {undefined: true, null: true, NaN: true, bigint: true, Infinity: true, NegativeInfinity: true}))
   }catch{
     try{
-      $('#raw_tags').val(JSON.stringify(tags, undefined, 2))
+      $('#raw_tags').val(JSON.stringify(tags, (key, value)=>value.length>=(key=="data"?100:1000)?"Too Long To Display; Length: "+value.length:value, 2))
     }catch(e){
       console.error(e.toString, e.stack)
     }
@@ -882,7 +930,7 @@ function displayDetails () {
       // console.log(`O1: ${option.name}: ${JSON.stringify(value)}`)
       $('#'+option.name).val(value)
   }catch(e){console.error(e.toString(), e.stack)}})
-    if (tags.v2.APIC && !!tags.v2.APIC.find(v=>v.type==3)) {
+    if (tags.v2.APIC && !!tags.v2.APIC?.find(v=>v.type==3)) {
       const image = tags.v2.APIC[tags.v2.APIC.findIndex(v=>v.type==3)]
       // console.log(9, image, image.data, image.format)
       $('#cover-preview').attr({
@@ -892,7 +940,7 @@ function displayDetails () {
       $('#cover-art-debug').text(`Format: ${image.format??"null"}`)
       imageBytes=image.data;
       imageType=image.format;
-    } else if (tags.v2.PIC && !!tags.v2.PIC.find(v=>v.type==3)) {
+    } else if (tags.v2.PIC && !!tags.v2.PIC?.find(v=>v.type==3)) {
       const image = tags.v2.PIC[tags.v2.PIC.findIndex(v=>v.type==3)]
       // console.log(9, image, image.data, image.format)
       $('#cover-preview').attr({
@@ -933,8 +981,10 @@ function displayDetails () {
       $('#v2Debug').text("v2 Details: "+(JSON.stringify(tags.v2Details)??"N/A"))
       $('#year').val(tags.v2.TDRC??tags.v2.TYER??tags.v2.TYE??tags.v1?.year)
     }catch(e){console.error(e.toString(), e.stack)}
-    MP3TagAPICManager.APICList=mp3tag.tags.v2.APIC
+    MP3TagAPICManager.APICList=mp3tag.tags.v2.APIC??mp3tag.tags.v2.PIC??[]
     MP3TagAPICManager.refreshUI()
+		console.log(9.926);
+		
 
   }
 }
@@ -2005,7 +2055,7 @@ async function writeOptionToAll (option) {
   let i = 0;
   for await(let file of importedFiles){
   try{
-    mp3tag = new MP3Tag(await loadFile(file))
+    const mp3tag = new MP3Tag(await loadFile(file))
     mp3tag.read({
       id3v1: true,
       id3v2: true,
@@ -2028,7 +2078,7 @@ async function writeOptionToAll (option) {
     }else{
       value = []
     }*/
-    value = MP3TagAPICManager.APICList
+    value = MP3TagAPICManager.APICList??[]
   }
   v2Value = option.disableV2Value?undefined:option.v2Value??option.value??value
   if(option.frameSyntax=="lang"){
@@ -2039,16 +2089,16 @@ async function writeOptionToAll (option) {
     }]
   }
   if(!!option.v1){
-    (option.requiredV1??(option.required || value!=""))?delete mp3tag.tags.v1[option.v1]:mp3tag.tags.v1[option.v1] = value
+    !(option.requiredV1??(option.required || value!=""))?delete mp3tag.tags.v1[option.v1]:mp3tag.tags.v1[option.v1] = value
   }
-  if(!!option.v2_2){
-    (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_2]:mp3tag.tags.v2[option.v2_2] = v2Value
+  if(!!option.v2_2 && mp3tag.tags.v2Details?.version?.[0]==2){
+    !(option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_2]:mp3tag.tags.v2[option.v2_2] = v2Value
   }
-  if(!!option.v2_3){
-    (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
+  if(!!option.v2_3 && mp3tag.tags.v2Details?.version?.[0]==3){
+    !(option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_3]:mp3tag.tags.v2[option.v2_3] = v2Value
   }
-  if(!!option.v2_4){
-    (option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
+  if(!!option.v2_4 && mp3tag.tags.v2Details?.version?.[0]==4){
+    !(option.requiredV2??(option.required || value!=""))?delete mp3tag.tags.v2[option.v2_4]:mp3tag.tags.v2[option.v2_4] = v2Value
   }
   toast(`Wrote the ${option.name3} to ${file.name}[${i}]`, TOAST_INFOBULB)
   console.log(((!!mp3tag.tags.v2Details)||(!!mp3tag.tags.v1Details)))
